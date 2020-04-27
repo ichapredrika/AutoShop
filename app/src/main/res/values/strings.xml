@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">AutoShop</string>
+    <string name="autoshop">AutoShop</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="new_user_register_now">New User? Register here</string>
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="msg_connection_error">Failed to connect to server!</string>
+    <string name="msg_something_wrong">Something is wrong!</string>
+    <string name="register">Register</string>
+    <string name="booking_service">Booking Service</string>
+    <string name="sos">SOS</string>
+    <string name="on_going_service">On Going Service</string>
+    <string name="service_history">Service History</string>
+</resources>
