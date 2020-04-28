@@ -16,4 +16,11 @@
     <string name="sos">SOS</string>
     <string name="on_going_service">On Going Service</string>
     <string name="service_history">Service History</string>
+    <string name="booking">Booking</string>
+    <string name="ongoing">OnGoing</string>
+    <string name="history">History</string>
+    <string name="profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
