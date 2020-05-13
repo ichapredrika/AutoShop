@@ -1,7 +1,5 @@
 package com.junior.autoshop;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvUsername, tvPassword;
     private User userModel;
     ProgressDialog loading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,11 +126,11 @@ public class LoginActivity extends AppCompatActivity {
                         String userAddress = jo.getString("ADDRESS");
                         String userRole = jo.getString("ROLE");
                         saveUser(userId, userPass, userName, userEmail, userAddress, userPhone, userNik, userRole);
-                        if(userRole.equals("ADMIN")){
+                        if (userRole.equals("ADMIN")) {
                             Intent intentAdmin = new Intent(LoginActivity.this, MainAdminActivity.class);
                             startActivity(intentAdmin);
                             finish();
-                        }else{
+                        } else {
                             Intent intentCustomer = new Intent(LoginActivity.this, MainCustomerActivity.class);
                             startActivity(intentCustomer);
                             finish();
