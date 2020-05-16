@@ -13,38 +13,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class BookingFragment extends Fragment {
 
-    public BookingFragment() {
+public class ChooseAutoshopFragment extends Fragment {
 
+    public ChooseAutoshopFragment() {
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_booking, container, false);
+        return inflater.inflate(R.layout.fragment_choose_autoshop, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         Button btnProceed = view.findViewById(R.id.btn_proceed);
 
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChooseAutoshopFragment chooseAutoshopFragment = new ChooseAutoshopFragment();
-               /* Bundle mBundle = new Bundle();
+                BookingDetailFragment bookingDetailFragment = new BookingDetailFragment();
+              /*  Bundle mBundle = new Bundle();
                 mBundle.putString(DetailCategoryFragment.EXTRA_NAME, "Lifestyle");
                 String description = "Kategori ini akan berisi produk-produk lifestyle";
                 mDetailCategoryFragment.setArguments(mBundle);
                 mDetailCategoryFragment.setDescription(description);*/
                 FragmentManager mFragmentManager = getFragmentManager();
-                if (mFragmentManager != null) {
+                if (mFragmentManager!= null) {
                     FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-                    mFragmentTransaction.replace(R.id.container_layout, chooseAutoshopFragment, ChooseAutoshopFragment.class.getSimpleName());
+                    mFragmentTransaction.replace(R.id.container_layout, bookingDetailFragment, BookingDetailFragment.class.getSimpleName());
                     mFragmentTransaction.addToBackStack(null);
                     mFragmentTransaction.commit();
                 }

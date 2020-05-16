@@ -4,20 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".BookingFragment"
+    android:orientation="vertical"
     android:background="@color/colorBackground"
-    android:orientation="vertical">
+    tools:context=".ChooseAutoshopFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:title="@string/choose_service1"
+        app:title="@string/choose_autoshop"
         app:titleTextColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimaryDark" />
 
+    <fragment
+        android:id="@+id/mapFragment"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_service"
+        android:id="@+id/rv_autoshop"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
