@@ -13,7 +13,6 @@
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-
         android:padding="16dp"
         app:srcCompat="@drawable/ic_automotive"
         tools:ignore="ContentDescription" />

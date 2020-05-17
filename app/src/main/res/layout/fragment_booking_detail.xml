@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="@color/colorBackground"
+    android:orientation="vertical"
     tools:context=".BookingDetailFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:title="@string/booking_detail"
-        app:titleTextColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimaryDark" />
+        android:background="?attr/colorPrimaryDark"
+        app:title="@string/booking_detail"
+        app:titleTextColor="@color/colorWhite" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,61 +25,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_service"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_weight="1"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:layout_margin="16dp"
-                android:background="@drawable/border_card">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="8dp"
-                    android:src="@drawable/ic_profile" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txt_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        tools:text="Autoshop Name"/>
-
-                    <TextView
-                        android:id="@+id/txt_addresss"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="Address"/>
-
-                    <TextView
-                        android:id="@+id/txt_distance"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="Distance"/>
-
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
@@ -99,8 +49,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/colorWhite"
-                    android:text="@string/pick_booking_date" />
+                    android:text="@string/pick_booking_date"
+                    android:textColor="@color/colorWhite" />
             </LinearLayout>
 
             <LinearLayout
@@ -125,9 +75,84 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/colorWhite"
-                    android:text="@string/choose_movement" />
+                    android:text="@string/choose_movement"
+                    android:textColor="@color/colorWhite" />
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/choose_vehicle"
+                android:textColor="@color/colorWhite" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_vehicle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/choose_service1"
+                android:textColor="@color/colorWhite" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_service"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/border_card"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/ic_profile" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        tools:text="Autoshop Name" />
+
+                    <TextView
+                        android:id="@+id/txt_addresss"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Address" />
+
+                    <TextView
+                        android:id="@+id/txt_distance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Distance" />
+
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
@@ -141,7 +166,6 @@
         android:textAlignment="center"
         android:textColor="@color/colorGray4"
         android:textSize="14sp"
-        android:textStyle="bold"/>
-
+        android:textStyle="bold" />
 
 </LinearLayout>
