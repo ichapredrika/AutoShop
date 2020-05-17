@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                             .commit();
                     return true;
                 case R.id.navigation_ongoing:
-                    fragment = new BookingFragment();
+                    fragment = new OnGoingFragment();
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
                             .commit();

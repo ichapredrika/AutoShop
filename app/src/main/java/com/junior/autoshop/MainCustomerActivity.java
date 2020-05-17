@@ -13,6 +13,7 @@ public class MainCustomerActivity extends AppCompatActivity {
     Toolbar toolbar;
     LinearLayout llBookingService;
     LinearLayout llSos;
+    LinearLayout llOnGoing;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +22,7 @@ public class MainCustomerActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         llBookingService = findViewById(R.id.ll_booking_service);
         llSos = findViewById(R.id.ll_sos);
+        llOnGoing = findViewById(R.id.ll_on_going_service);
 
         llBookingService.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +38,15 @@ public class MainCustomerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainCustomerActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_SOS);
+                startActivity(intent);
+            }
+        });
+
+        llOnGoing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainCustomerActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_ONGOING);
                 startActivity(intent);
             }
         });
