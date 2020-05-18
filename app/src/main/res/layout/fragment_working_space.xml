@@ -4,22 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorBackground"
     android:orientation="vertical"
-    tools:context=".OnGoingFragment">
+    android:background="@color/colorBackground"
+    tools:context=".WorkingSpaceFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:title="@string/on_going_service"
+        app:title="@string/working_space"
         app:titleTextColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimaryDark" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_ongoing"
+        android:id="@+id/rv_working_space"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"/>
 
 </LinearLayout>

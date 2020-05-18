@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">AutoShop</string>
     <string name="autoshop">AutoShop</string>
-    <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="new_user_register_now">New User? Register here</string>
-    <string name="full_name">Full Name</string>
     <string name="email">Email</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="phone_number">Phone Number</string>
@@ -52,4 +50,25 @@
     <string name="contact">Contact</string>
     <string name="service_pricing">Service Pricing</string>
     <string name="total">Total</string>
+    <string name="order_history">Order History</string>
+    <string name="full_name">Full Name</string>
+    <string name="username">Username</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="vehicles">Vehicles</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="logout">Logout</string>
+    <string name="autoshop_info">AutoShop Info</string>
+    <string name="name">Name</string>
+    <string name="picker_contact">Picker Contact</string>
+    <string name="admin_contact">Admin Contact</string>
+    <string name="address">Address</string>
+    <string name="latlong">LatLong</string>
+    <string name="space_amount">Space Amount</string>
+    <string name="bank">Bank</string>
+    <string name="acc_number">Acc Number</string>
+    <string name="services">Services</string>
+    <string name="booked">Booked</string>
+    <string name="working_space">Working Space</string>
 </resources>

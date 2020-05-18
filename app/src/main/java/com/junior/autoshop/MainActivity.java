@@ -90,13 +90,13 @@ public class MainActivity extends AppCompatActivity {
                             .commit();
                     return true;
                 case R.id.navigation_history:
-                    fragment = new BookingFragment();
+                    fragment = new HistoryFragment();
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
                             .commit();
                     return true;
                 case R.id.navigation_profile:
-                    fragment = new BookingFragment();
+                    fragment = new ProfileFragment();
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
                             .commit();

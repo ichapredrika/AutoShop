@@ -14,6 +14,8 @@ public class MainCustomerActivity extends AppCompatActivity {
     LinearLayout llBookingService;
     LinearLayout llSos;
     LinearLayout llOnGoing;
+    LinearLayout llHistory;
+    LinearLayout llProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,8 @@ public class MainCustomerActivity extends AppCompatActivity {
         llBookingService = findViewById(R.id.ll_booking_service);
         llSos = findViewById(R.id.ll_sos);
         llOnGoing = findViewById(R.id.ll_on_going_service);
+        llHistory =findViewById(R.id.ll_service_history);
+        llProfile = findViewById(R.id.ll_profile);
 
         llBookingService.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,5 +55,22 @@ public class MainCustomerActivity extends AppCompatActivity {
             }
         });
 
+        llHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainCustomerActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_HISTORY);
+                startActivity(intent);
+            }
+        });
+
+        llProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainCustomerActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_PROFILE);
+                startActivity(intent);
+            }
+        });
     }
 }

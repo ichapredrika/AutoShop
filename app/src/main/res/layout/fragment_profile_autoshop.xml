@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ProfileFragment">
+    tools:context=".ProfileAutoshopFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/personal_info"
+                android:text="@string/autoshop_info"
                 android:textColor="@color/colorWhite" />
 
             <ImageView
@@ -46,12 +46,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/border_card"
             android:orientation="vertical"
             android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/img_autoshop"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                tools:src="@drawable/ic_profile" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,8 +67,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="0.4"
-                    android:text="@string/full_name" />
+                    android:layout_weight="0.5"
+                    android:text="@string/name" />
 
                 <TextView
                     android:id="@+id/txt_fullname"
@@ -71,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-                    tools:text="Junior Mahendra" />
+                    tools:text="Jun's Workshop" />
             </LinearLayout>
 
             <LinearLayout
@@ -83,7 +88,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.5"
                     android:text="@string/username" />
 
                 <TextView
@@ -104,7 +109,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="0.4"
+                    android:layout_weight="0.5"
                     android:text="@string/email" />
 
                 <TextView
@@ -113,7 +118,136 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-                    tools:text="juniormahendra@gmail.com" />
+                    tools:text="juniorworkshop@gmail.com" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:text="@string/picker_contact" />
+
+                <TextView
+                    android:id="@+id/txt_phone_picker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    tools:text="082210107570" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:text="@string/admin_contact" />
+
+                <TextView
+                    android:id="@+id/txt_phone_admin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    tools:text="02110107570" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:text="@string/address" />
+
+                <TextView
+                    android:id="@+id/txt_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    tools:text="Jln Ki Hajar Dewantara, Cikarang" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:text="@string/latlong" />
+
+                <TextView
+                    android:id="@+id/txt_latlong"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    tools:text="0.654444444, 6.235555556" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:text="@string/space_amount" />
+
+                <TextView
+                    android:id="@+id/txt_space"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    tools:text="21" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:text="@string/bank" />
+
+                <TextView
+                    android:id="@+id/txt_bank"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    tools:text="BCA" />
             </LinearLayout>
 
             <LinearLayout
@@ -126,16 +260,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="0.4"
-                    android:text="@string/phone_number" />
+                    android:text="@string/acc_number" />
 
                 <TextView
-                    android:id="@+id/txt_phone"
+                    android:id="@+id/txt_account_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-                    tools:text="082210107570" />
+                    tools:text="86394534524" />
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -151,7 +286,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/vehicles"
+                android:text="@string/services"
                 android:textColor="@color/colorWhite" />
 
             <ImageView
@@ -163,7 +298,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_vehicle"
+            android:id="@+id/rv_services"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
