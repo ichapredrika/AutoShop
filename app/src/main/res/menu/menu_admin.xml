@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_booked"
+        android:icon="@drawable/ic_booking_menu"
+        android:title="@string/booked" />
+
+    <item
+        android:id="@+id/navigation_working_space"
+        android:icon="@drawable/ic_automotive"
+        android:title="@string/working_space" />
+
+    <item
+        android:id="@+id/navigation_payment"
+        android:icon="@drawable/ic_payment"
+        android:title="@string/payment" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_profile_menu"
+        android:title="@string/profile" />
+
+</menu>

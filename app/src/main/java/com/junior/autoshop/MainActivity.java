@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -59,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -74,31 +75,32 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_booking:
                     fragment = new BookingFragment();
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
+                            .replace(R.id.container_layout, fragment)
                             .commit();
                     return true;
                 case R.id.navigation_sos:
                     fragment = new SosFragment();
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
+                            .replace(R.id.container_layout, fragment)
                             .commit();
                     return true;
                 case R.id.navigation_ongoing:
                     fragment = new OnGoingFragment();
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
+                            .replace(R.id.container_layout, fragment)
                             .commit();
+                    Log.d("tag", "junnn");
                     return true;
                 case R.id.navigation_history:
                     fragment = new HistoryFragment();
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
+                            .replace(R.id.container_layout, fragment)
                             .commit();
                     return true;
                 case R.id.navigation_profile:
                     fragment = new ProfileFragment();
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container_layout, fragment, fragment.getClass().getSimpleName())
+                            .replace(R.id.container_layout, fragment)
                             .commit();
                     return true;
             }

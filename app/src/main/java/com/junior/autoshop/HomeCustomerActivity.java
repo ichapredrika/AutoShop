@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class MainCustomerActivity extends AppCompatActivity {
+public class HomeCustomerActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     LinearLayout llBookingService;
@@ -19,7 +19,7 @@ public class MainCustomerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_customer);
+        setContentView(R.layout.activity_home_customer);
 
         toolbar = findViewById(R.id.toolbar);
         llBookingService = findViewById(R.id.ll_booking_service);
@@ -31,7 +31,7 @@ public class MainCustomerActivity extends AppCompatActivity {
         llBookingService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainCustomerActivity.this, MainActivity.class);
+                Intent intent = new Intent(HomeCustomerActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_BOOKING);
                 startActivity(intent);
             }
@@ -40,8 +40,9 @@ public class MainCustomerActivity extends AppCompatActivity {
         llSos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainCustomerActivity.this, MainActivity.class);
+                Intent intent = new Intent(HomeCustomerActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_SOS);
+                intent.putExtra("namaItem", "junior");
                 startActivity(intent);
             }
         });
@@ -49,7 +50,7 @@ public class MainCustomerActivity extends AppCompatActivity {
         llOnGoing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainCustomerActivity.this, MainActivity.class);
+                Intent intent = new Intent(HomeCustomerActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_ONGOING);
                 startActivity(intent);
             }
@@ -58,7 +59,7 @@ public class MainCustomerActivity extends AppCompatActivity {
         llHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainCustomerActivity.this, MainActivity.class);
+                Intent intent = new Intent(HomeCustomerActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_HISTORY);
                 startActivity(intent);
             }
@@ -67,7 +68,7 @@ public class MainCustomerActivity extends AppCompatActivity {
         llProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainCustomerActivity.this, MainActivity.class);
+                Intent intent = new Intent(HomeCustomerActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_PROFILE);
                 startActivity(intent);
             }

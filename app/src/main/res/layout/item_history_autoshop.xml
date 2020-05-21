@@ -39,14 +39,11 @@
                     android:textStyle="bold"
                     tools:text="Customer Name" />
 
-                <Button
-                    android:id="@+id/btn_contact"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:background="@drawable/btn_positive"
-                    android:text="@string/contact"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorWhite" />
+               <ImageView
+                   android:id="@+id/img_info"
+                   android:layout_width="25dp"
+                   android:layout_height="25dp"
+                   android:src="@drawable/ic_info"/>
             </LinearLayout>
 
             <LinearLayout
@@ -76,23 +73,22 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="@string/total"/>
+
+                <TextView
                     android:id="@+id/txt_history"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
+                    android:gravity="end"
                     android:textStyle="bold"
                     tools:text="Rp 500.000" />
-
-                <Button
-                    android:id="@+id/btn_confirm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:background="@drawable/btn_positive"
-                    android:text="@string/confirm"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorWhite" />
             </LinearLayout>
 
         </LinearLayout>

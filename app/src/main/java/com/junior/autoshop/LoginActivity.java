@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView tvUsername, tvPassword;
     private User userModel;
+    private RadioGroup rgRole;
+    private boolean isCustomer=true;
     ProgressDialog loading;
 
     @Override
@@ -48,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
         tvUsername = findViewById(R.id.txt_username);
         tvPassword = findViewById(R.id.txt_password);
+        rgRole = findViewById(R.id.rg_type);
         Button btnLogin = findViewById(R.id.btn_login);
         TextView tvRegister = findViewById(R.id.txt_register);
 
@@ -69,6 +73,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        rgRole.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId){
+                    case R.id.rb_customer:
+                        isCustomer=true;
+                        break;
+                    case R.id.rb_autoshop:
+                        isCustomer=false;
+                        break;
+                }
+            }
+        });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,8 +104,14 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     //hitLogin(userEmail, userPass);
                     //todo
-                    Intent intent = new Intent(LoginActivity.this, MainCustomerActivity.class);
-                    startActivity(intent);
+                    if (isCustomer){
+                        Intent intent = new Intent(LoginActivity.this, HomeCustomerActivity.class);
+                        startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(LoginActivity.this, HomeAdminActivity.class);
+                        startActivity(intent);
+                    }
+
                 }
 
             }
@@ -127,11 +151,11 @@ public class LoginActivity extends AppCompatActivity {
                         String userRole = jo.getString("ROLE");
                         saveUser(userId, userPass, userName, userEmail, userAddress, userPhone, userNik, userRole);
                         if (userRole.equals("ADMIN")) {
-                            Intent intentAdmin = new Intent(LoginActivity.this, MainAdminActivity.class);
+                            Intent intentAdmin = new Intent(LoginActivity.this, HomeAdminActivity.class);
                             startActivity(intentAdmin);
                             finish();
                         } else {
-                            Intent intentCustomer = new Intent(LoginActivity.this, MainCustomerActivity.class);
+                            Intent intentCustomer = new Intent(LoginActivity.this, HomeCustomerActivity.class);
                             startActivity(intentCustomer);
                             finish();
                         }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorBackground"
-    tools:context=".MainCustomerActivity">
+    tools:context=".HomeAdminActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -33,7 +33,7 @@
             app:contentPadding="8dp">
 
             <LinearLayout
-                android:id="@+id/ll_booking_service"
+                android:id="@+id/ll_booked_service"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="@string/booking_service"
+                    android:text="@string/booked_service"
                     />
 
             </LinearLayout>
@@ -61,50 +61,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="8dp"
-            android:layout_gravity="center"
             app:cardCornerRadius="10dp"
             app:contentPadding="8dp">
 
             <LinearLayout
-                android:id="@+id/ll_sos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_sos" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/sos" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="10dp"
-            app:contentPadding="8dp">
-
-            <LinearLayout
-                android:id="@+id/ll_on_going_service"
+                android:id="@+id/ll_working_space"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -121,10 +82,19 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="@string/on_going_service" />
+                    android:text="@string/working_space" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
@@ -136,7 +106,7 @@
             app:contentPadding="8dp">
 
             <LinearLayout
-                android:id="@+id/ll_service_history"
+                android:id="@+id/ll_payment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -146,26 +116,17 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_history_png" />
+                    android:src="@drawable/ic_payment_png" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="@string/service_history" />
+                    android:text="@string/payment" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
@@ -197,6 +158,16 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"

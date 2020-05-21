@@ -71,4 +71,21 @@
     <string name="services">Services</string>
     <string name="booked">Booked</string>
     <string name="working_space">Working Space</string>
+    <string name="service">Service</string>
+    <string name="working_space_detail">Working Space Detail</string>
+    <string name="update">Update</string>
+    <string name="finish">Finish</string>
+    <string name="complaints">Complaints</string>
+    <string name="mark_your_location">Mark your location</string>
+    <string name="pick_autoshop">Pick AutoShop</string>
+    <string name="scan_qr">Scan QR</string>
+    <string name="progress">Progress</string>
+    <string name="search_autoshop">Search AutoShop</string>
+    <string name="add_service">Add Service</string>
+    <string name="price">Price</string>
+    <string name="booked_service">Booked Service</string>
+    <string name="add">Add</string>
+    <string name="add_transaction_cost">Add Transaction Cost</string>
+    <string name="payment">Payment</string>
+    <string name="transaction_cost">Transaction Cost</string>
 </resources>
