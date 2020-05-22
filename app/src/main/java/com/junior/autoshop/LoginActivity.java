@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +20,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.junior.autoshop.models.User;
+import com.junior.autoshop.models.Autoshop;
+import com.junior.autoshop.models.Customer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,10 +40,12 @@ import javax.net.ssl.X509TrustManager;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private final static String EXTRA_ADMIN ="ADMIN";
+    private final static String EXTRA_CUSTOMER ="CUSTOMER";
     private TextView tvUsername, tvPassword;
-    private User userModel;
+    private Customer customerModel;
     private RadioGroup rgRole;
-    private boolean isCustomer=true;
+    private String type;
     ProgressDialog loading;
 
     @Override
@@ -58,12 +62,13 @@ public class LoginActivity extends AppCompatActivity {
         handleSSLHandshake();
 
         UserPreference mUserPreference = new UserPreference(this);
-        userModel = mUserPreference.getUser();
-        Log.d("tag", userModel.getId().toString());
-        if (userModel.getId() != null && !userModel.getId().equals("")) {
-            hitLogin(userModel.getEmail(), userModel.getPassword());
+        customerModel = mUserPreference.getUser();
+        type=EXTRA_CUSTOMER;
+        Log.d("tag", customerModel.getId());
+        if (customerModel.getId() != null && !customerModel.getId().equals("")) {
+            hitLogin(customerModel.getUsername(), customerModel.getPassword(), EXTRA_CUSTOMER);
         }
-        userModel = new User();
+        customerModel = new Customer();
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,10 +83,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch(checkedId){
                     case R.id.rb_customer:
-                        isCustomer=true;
+                        type = EXTRA_CUSTOMER;
                         break;
                     case R.id.rb_autoshop:
-                        isCustomer=false;
+                        type = EXTRA_ADMIN;
                         break;
                 }
             }
@@ -90,27 +95,19 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userEmail = tvUsername.getText().toString();
-                String userPass = tvPassword.getText().toString();
+                String username = tvUsername.getText().toString();
+                String password = tvPassword.getText().toString();
 
-                if (userEmail.isEmpty()) {
+                if (username.isEmpty()) {
                     tvUsername.setError("Username Can't be Empty");
                     tvUsername.requestFocus();
                     Toast.makeText(LoginActivity.this, "Username Can't be Empty", Toast.LENGTH_SHORT).show();
-                } else if (userPass.isEmpty()) {
+                } else if (password.isEmpty()) {
                     tvPassword.setError("Password Can't be Empty");
                     tvPassword.requestFocus();
                     Toast.makeText(LoginActivity.this, "Password Can't be Empty", Toast.LENGTH_SHORT).show();
                 } else {
-                    //hitLogin(userEmail, userPass);
-                    //todo
-                    if (isCustomer){
-                        Intent intent = new Intent(LoginActivity.this, HomeCustomerActivity.class);
-                        startActivity(intent);
-                    }else{
-                        Intent intent = new Intent(LoginActivity.this, HomeAdminActivity.class);
-                        startActivity(intent);
-                    }
+                    hitLogin(username, password, type);
 
                 }
 
@@ -118,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void hitLogin(final String userEmail, final String userPassword) {
+    private void hitLogin(final String username, final String password, final String type) {
         loading = ProgressDialog.show(LoginActivity.this, "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(LoginActivity.this);
 
@@ -133,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                     JSONObject jo = data.getJSONObject(0);
 
                     Log.d("tagJsonObject", jo.toString());
-                    String response = jo.getString("response");
+                    String response = jo.getString("STATUS");
                     String message = jo.getString("message");
 
                     loading.dismiss();
@@ -141,26 +138,23 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
 
                     if (response.equals("1")) {
-                        String userId = jo.getString("ID");
-                        String userName = jo.getString("FULLNAME");
-                        String userNik = jo.getString("NIK");
-                        String userEmail = jo.getString("EMAIL");
-                        String userPass = jo.getString("PASSWORD");
-                        String userPhone = jo.getString("PHONE");
-                        String userAddress = jo.getString("ADDRESS");
-                        String userRole = jo.getString("ROLE");
-                        saveUser(userId, userPass, userName, userEmail, userAddress, userPhone, userNik, userRole);
-                        if (userRole.equals("ADMIN")) {
-                            Intent intentAdmin = new Intent(LoginActivity.this, HomeAdminActivity.class);
-                            startActivity(intentAdmin);
+                        if (type.equals(EXTRA_CUSTOMER)){
+                            Autoshop autoshop = new Autoshop(jo);
+                            Intent intent = new Intent(LoginActivity.this, HomeCustomerActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                             finish();
-                        } else {
-                            Intent intentCustomer = new Intent(LoginActivity.this, HomeCustomerActivity.class);
-                            startActivity(intentCustomer);
+                        }else{
+                            Customer customer = new Customer(jo);
+                            //saveUser(userId, userPass, userName, userEmail, userAddress, userPhone, userNik, userRole);
+
+                            Intent intent = new Intent(LoginActivity.this, HomeAdminActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                             finish();
                         }
 
-                        Toast.makeText(LoginActivity.this, "Welcome, " + userName + " !", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
@@ -179,8 +173,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected java.util.Map<String, String> getParams() {
                 java.util.Map<String, String> params = new HashMap<>();
-                params.put("EMAIL", userEmail);
-                params.put("PASSWORD", userPassword);
+                params.put("USERNAME", username);
+                params.put("PASSWORD", password);
+                params.put("TYPE", type);
 
                 return params;
             }
@@ -188,18 +183,18 @@ public class LoginActivity extends AppCompatActivity {
         mRequestQueue.add(mStringRequest);
     }
 
+
     void saveUser(String userId, String userPassword, String userFullname, String userEmail,
                   String userAddress, String userPhone, String userNik, String userRole) {
         UserPreference userPreference = new UserPreference(this);
-        userModel.setId(userId);
-        userModel.setPassword(userPassword);
-        userModel.setFullname(userFullname);
-        userModel.setUsername(userNik);
-        userModel.setEmail(userEmail);
-        userModel.setPhone(userPhone);
-        userModel.setRole(userRole);
+        customerModel.setId(userId);
+        customerModel.setPassword(userPassword);
+        customerModel.setFullname(userFullname);
+        customerModel.setUsername(userNik);
+        customerModel.setEmail(userEmail);
+        customerModel.setPhone(userPhone);
 
-        userPreference.setUser(userModel);
+        userPreference.setUser(customerModel);
     }
 
     @SuppressLint("TrulyRandom")

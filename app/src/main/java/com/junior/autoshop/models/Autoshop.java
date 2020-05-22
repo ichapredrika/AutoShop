@@ -3,6 +3,8 @@ package com.junior.autoshop.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONObject;
+
 public class Autoshop implements Parcelable {
     private String id;
     private String name;
@@ -21,6 +23,36 @@ public class Autoshop implements Parcelable {
 
     }
 
+    public Autoshop(JSONObject object) {
+        try {
+            this.id = object.getString("AUTOSHOP_ID");
+            this.name = object.getString("NAME");
+            this.username = object.getString("USERNAME");
+            this.email = object.getString("EMAIL");
+            this.phone = object.getString("PHONE");
+            this.password = object.getString("PASSWORD");
+            this.address = object.getString("ADDRESS");
+            this.latlong = object.getString("LATLONG");
+            this.space = object.getInt("SPACE");
+            this.bank = object.getString("BANK");
+            this.accountNumber = object.getInt("ACCOUNT_NUMBER");
+            this.photo = object.getString("PHOTO");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Autoshop(JSONObject object, boolean partial) {
+        try {
+            this.id = object.getString("AUTOSHOP_ID");
+            this.name = object.getString("NAME");
+            this.username = object.getString("USERNAME");
+            this.email = object.getString("EMAIL");
+            this.password = object.getString("PASSWORD");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public Autoshop(String id, String name, String username, String email, String phone, String password, String address, String latlong, int space, String bank, int accountNumber, String photo) {
         this.id = id;
         this.name = name;

@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -22,7 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.junior.autoshop.models.User;
+import com.junior.autoshop.models.Customer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +38,7 @@ public class RegisterCustomerFragment extends Fragment {
     private TextView tvPhone;
     private TextView tvPass1;
     private TextView tvPass2;
-    private User user;
+    private Customer customer;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -77,17 +76,15 @@ public class RegisterCustomerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (isValid()) {
-                    user = new User();
-                    user.setFullname(tvFullname.getText().toString().trim());
-                    user.setUsername(tvUsername.getText().toString().trim());
-                    user.setEmail(tvEmail.getText().toString().trim());
-                    user.setPassword(tvPass1.getText().toString().trim());
-                    user.setPhone(tvPhone.getText().toString().trim());
+                    customer = new Customer();
+                    customer.setFullname(tvFullname.getText().toString().trim());
+                    customer.setUsername(tvUsername.getText().toString().trim());
+                    customer.setEmail(tvEmail.getText().toString().trim());
+                    customer.setPassword(tvPass1.getText().toString().trim());
+                    customer.setPhone(tvPhone.getText().toString().trim());
 
-                    //hitRegist(user);
-                    //todo
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    hitRegist(customer);
+
                 }
             }
         });
@@ -124,10 +121,10 @@ public class RegisterCustomerFragment extends Fragment {
         return isValid;
     }
 
-    private void hitRegist(final User user) {
+    private void hitRegist(final Customer customer) {
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_REGISTER, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_REGISTER_CUSTOMER, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.d(TAG, s);
@@ -147,7 +144,6 @@ public class RegisterCustomerFragment extends Fragment {
                     if (response.equals("1")) {
                         Intent in = new Intent(getContext(), LoginActivity.class);
                         startActivity(in);
-                        //todo differentiate session (admin and user)
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getContext(), getString(R.string.msg_something_wrong), Toast.LENGTH_SHORT).show();
@@ -162,11 +158,11 @@ public class RegisterCustomerFragment extends Fragment {
             @Override
             protected java.util.Map<String, String> getParams() {
                 java.util.Map<String, String> params = new HashMap<>();
-                params.put("EMAIL", user.getEmail());
-                params.put("FULLNAME", user.getFullname());
-                params.put("USERNAME", user.getUsername());
-                params.put("PASSWORD", user.getPassword());
-                params.put("PHONE", user.getPhone());
+                params.put("EMAIL", customer.getEmail());
+                params.put("FULLNAME", customer.getFullname());
+                params.put("USERNAME", customer.getUsername());
+                params.put("PASSWORD", customer.getPassword());
+                params.put("PHONE", customer.getPhone());
                 return params;
             }
         };

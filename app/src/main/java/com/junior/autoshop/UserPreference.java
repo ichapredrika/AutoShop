@@ -3,7 +3,7 @@ package com.junior.autoshop;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.junior.autoshop.models.User;
+import com.junior.autoshop.models.Customer;
 
 public class UserPreference {
 
@@ -23,7 +23,7 @@ public class UserPreference {
         preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    public void setUser(User value) {
+    public void setUser(Customer value) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(USER_ID, value.getId());
         editor.putString(USER_PASSWORD, value.getPassword());
@@ -31,20 +31,18 @@ public class UserPreference {
         editor.putString(USER_EMAIL, value.getEmail());
         editor.putString(USER_NAME, value.getUsername());
         editor.putString(USER_PHONE, value.getPhone());
-        editor.putString(USER_ROLE, value.getRole());
 
         editor.apply();
     }
 
-    public User getUser() {
-        User model = new User();
+    public Customer getUser() {
+        Customer model = new Customer();
         model.setId(preferences.getString(USER_ID, ""));
         model.setPassword(preferences.getString(USER_PASSWORD, ""));
         model.setFullname(preferences.getString(USER_FULLNAME, ""));
         model.setEmail(preferences.getString(USER_EMAIL, ""));
         model.setUsername(preferences.getString(USER_NAME, ""));
         model.setPhone(preferences.getString(USER_PHONE, ""));
-        model.setRole(preferences.getString(USER_ROLE, ""));
 
         return model;
     }

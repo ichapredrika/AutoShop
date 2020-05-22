@@ -21,7 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.junior.autoshop.models.Autoshop;
-import com.junior.autoshop.models.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -69,10 +68,8 @@ public class RegisterAutoshopFragment extends Fragment {
                     autoshop.setEmail(tvEmail.getText().toString().trim());
                     autoshop.setPassword(tvPass1.getText().toString().trim());
 
-                    //hitRegist(user);
-                    //todo
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    hitRegist(autoshop);
+
                 }
             }
         });
@@ -106,10 +103,10 @@ public class RegisterAutoshopFragment extends Fragment {
         return isValid;
     }
 
-    private void hitRegist(final User user) {
+    private void hitRegist(final Autoshop autoshop) {
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_REGISTER, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_REGISTER_ADMIN, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.d(TAG, s);
@@ -144,11 +141,10 @@ public class RegisterAutoshopFragment extends Fragment {
             @Override
             protected java.util.Map<String, String> getParams() {
                 java.util.Map<String, String> params = new HashMap<>();
-                params.put("EMAIL", user.getEmail());
-                params.put("FULLNAME", user.getFullname());
-                params.put("USERNAME", user.getUsername());
-                params.put("PASSWORD", user.getPassword());
-                params.put("PHONE", user.getPhone());
+                params.put("EMAIL", autoshop.getEmail());
+                params.put("NAME", autoshop.getName());
+                params.put("USERNAME", autoshop.getUsername());
+                params.put("PASSWORD", autoshop.getPassword());
                 return params;
             }
         };

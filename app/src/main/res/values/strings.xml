@@ -13,7 +13,6 @@
     <string name="booking_service">Booking Service</string>
     <string name="sos">SOS</string>
     <string name="on_going_service">On Going Service</string>
-    <string name="service_history">Service History</string>
     <string name="booking">Booking</string>
     <string name="ongoing">OnGoing</string>
     <string name="history">History</string>
@@ -88,4 +87,5 @@
     <string name="add_transaction_cost">Add Transaction Cost</string>
     <string name="payment">Payment</string>
     <string name="transaction_cost">Transaction Cost</string>
+    <string name="service_history">Service History</string>
 </resources>
