@@ -1,7 +1,10 @@
 package com.junior.autoshop.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import org.json.JSONObject;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Customer {
     private String id;
     private String fullname;

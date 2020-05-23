@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +42,8 @@ public class LoginActivity extends AppCompatActivity {
     private final static String EXTRA_ADMIN ="ADMIN";
     private final static String EXTRA_CUSTOMER ="CUSTOMER";
     private TextView tvUsername, tvPassword;
-    private Customer customerModel;
+    private Customer customer;
+    private Autoshop autoshop;
     private RadioGroup rgRole;
     private String type;
     ProgressDialog loading;
@@ -62,13 +62,23 @@ public class LoginActivity extends AppCompatActivity {
         handleSSLHandshake();
 
         UserPreference mUserPreference = new UserPreference(this);
-        customerModel = mUserPreference.getUser();
-        type=EXTRA_CUSTOMER;
-        Log.d("tag", customerModel.getId());
-        if (customerModel.getId() != null && !customerModel.getId().equals("")) {
-            hitLogin(customerModel.getUsername(), customerModel.getPassword(), EXTRA_CUSTOMER);
+        type = mUserPreference.getType();
+
+        if(type.equals(EXTRA_CUSTOMER)){
+            customer = mUserPreference.getCustomer();
+            if (customer.getId() != null && !customer.getId().equals("")) {
+                hitLogin(customer.getUsername(), customer.getPassword(), EXTRA_CUSTOMER);
+            }
+        }else if (type.equals(EXTRA_ADMIN)){
+            autoshop = mUserPreference.getAdmin();
+            if (autoshop.getId() != null && !autoshop.getId().equals("")) {
+                hitLogin(autoshop.getUsername(), autoshop.getPassword(), EXTRA_ADMIN);
+            }
+        }else{
+            type=EXTRA_CUSTOMER;
+            customer = new Customer();
         }
-        customerModel = new Customer();
+
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,9 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Password Can't be Empty", Toast.LENGTH_SHORT).show();
                 } else {
                     hitLogin(username, password, type);
-
                 }
-
             }
         });
     }
@@ -139,21 +147,21 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (response.equals("1")) {
                         if (type.equals(EXTRA_CUSTOMER)){
-                            Autoshop autoshop = new Autoshop(jo);
+                            Customer customer = new Customer(jo);
+                            saveCustomer(customer);
                             Intent intent = new Intent(LoginActivity.this, HomeCustomerActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
-                        }else{
-                            Customer customer = new Customer(jo);
-                            //saveUser(userId, userPass, userName, userEmail, userAddress, userPhone, userNik, userRole);
+                        }if (type.equals(EXTRA_ADMIN)){
+                            Autoshop autoshop = new Autoshop(jo);
+                            saveAdmin(autoshop);
 
                             Intent intent = new Intent(LoginActivity.this, HomeAdminActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
                         }
-
                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
 
@@ -184,17 +192,36 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    void saveUser(String userId, String userPassword, String userFullname, String userEmail,
-                  String userAddress, String userPhone, String userNik, String userRole) {
+    void saveCustomer(Customer customer) {
         UserPreference userPreference = new UserPreference(this);
-        customerModel.setId(userId);
-        customerModel.setPassword(userPassword);
-        customerModel.setFullname(userFullname);
-        customerModel.setUsername(userNik);
-        customerModel.setEmail(userEmail);
-        customerModel.setPhone(userPhone);
+        customer.setId(customer.getId());
+        customer.setPassword(customer.getPassword());
+        customer.setFullname(customer.getFullname());
+        customer.setUsername(customer.getUsername());
+        customer.setEmail(customer.getEmail());
+        customer.setPhone(customer.getPhone());
 
-        userPreference.setUser(customerModel);
+        userPreference.setUser(customer);
+        userPreference.setType(EXTRA_CUSTOMER);
+    }
+
+    void saveAdmin(Autoshop autoshop) {
+        UserPreference userPreference = new UserPreference(this);
+        autoshop.setId(autoshop.getId());
+        autoshop.setName(autoshop.getName());
+        autoshop.setPassword(autoshop.getPassword());
+        autoshop.setUsername(autoshop.getUsername());
+        autoshop.setEmail(autoshop.getEmail());
+        autoshop.setPhone(autoshop.getPhone());
+        autoshop.setAddress(autoshop.getAddress());
+        autoshop.setLatlong(autoshop.getLatlong());
+        autoshop.setSpace(autoshop.getSpace());
+        autoshop.setBank(autoshop.getBank());
+        autoshop.setAccountNumber(autoshop.getAccountNumber());
+        autoshop.setPhoto(autoshop.getPhoto());
+
+        userPreference.setAutoshop(autoshop);
+        userPreference.setType(EXTRA_ADMIN);
     }
 
     @SuppressLint("TrulyRandom")

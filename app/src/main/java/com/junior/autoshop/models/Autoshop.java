@@ -3,8 +3,11 @@ package com.junior.autoshop.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import org.json.JSONObject;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Autoshop implements Parcelable {
     private String id;
     private String name;
@@ -14,9 +17,9 @@ public class Autoshop implements Parcelable {
     private String password;
     private String address;
     private String latlong;
-    private int space;
+    private String space;
     private String bank;
-    private int accountNumber;
+    private String accountNumber;
     private String photo;
 
     public Autoshop(){
@@ -28,32 +31,21 @@ public class Autoshop implements Parcelable {
             this.id = object.getString("AUTOSHOP_ID");
             this.name = object.getString("NAME");
             this.username = object.getString("USERNAME");
+            this.password = object.getString("PASSWORD");
             this.email = object.getString("EMAIL");
             this.phone = object.getString("PHONE");
-            this.password = object.getString("PASSWORD");
             this.address = object.getString("ADDRESS");
             this.latlong = object.getString("LATLONG");
-            this.space = object.getInt("SPACE");
+            this.space = object.getString("SPACE");
             this.bank = object.getString("BANK");
-            this.accountNumber = object.getInt("ACCOUNT_NUMBER");
+            this.accountNumber = object.getString("ACCOUNT_NUMBER");
             this.photo = object.getString("PHOTO");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Autoshop(JSONObject object, boolean partial) {
-        try {
-            this.id = object.getString("AUTOSHOP_ID");
-            this.name = object.getString("NAME");
-            this.username = object.getString("USERNAME");
-            this.email = object.getString("EMAIL");
-            this.password = object.getString("PASSWORD");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public Autoshop(String id, String name, String username, String email, String phone, String password, String address, String latlong, int space, String bank, int accountNumber, String photo) {
+    public Autoshop(String id, String name, String username, String email, String phone, String password, String address, String latlong, String space, String bank, String accountNumber, String photo) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -132,11 +124,11 @@ public class Autoshop implements Parcelable {
         this.latlong = latlong;
     }
 
-    public int getSpace() {
+    public String getSpace() {
         return space;
     }
 
-    public void setSpace(int space) {
+    public void setSpace(String space) {
         this.space = space;
     }
 
@@ -148,11 +140,11 @@ public class Autoshop implements Parcelable {
         this.bank = bank;
     }
 
-    public int getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(int accountNumber) {
+    public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
@@ -179,9 +171,9 @@ public class Autoshop implements Parcelable {
         dest.writeString(this.password);
         dest.writeString(this.address);
         dest.writeString(this.latlong);
-        dest.writeInt(this.space);
+        dest.writeString(this.space);
         dest.writeString(this.bank);
-        dest.writeInt(this.accountNumber);
+        dest.writeString(this.accountNumber);
         dest.writeString(this.photo);
     }
 
@@ -194,9 +186,9 @@ public class Autoshop implements Parcelable {
         this.password = in.readString();
         this.address = in.readString();
         this.latlong = in.readString();
-        this.space = in.readInt();
+        this.space = in.readString();
         this.bank = in.readString();
-        this.accountNumber = in.readInt();
+        this.accountNumber = in.readString();
         this.photo = in.readString();
     }
 
