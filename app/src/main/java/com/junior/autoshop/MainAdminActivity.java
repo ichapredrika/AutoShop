@@ -83,7 +83,7 @@ public class MainAdminActivity extends AppCompatActivity {
                             .commit();
                     return true;
                 case R.id.navigation_profile:
-                    fragment = new ProfileFragment();
+                    fragment = new ProfileAutoshopFragment();
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.container_layout, fragment)
                             .commit();

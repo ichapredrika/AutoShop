@@ -7,13 +7,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import org.json.JSONObject;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Autoshop implements Parcelable {
     private String id;
     private String name;
     private String username;
     private String email;
-    private String phone;
+    private String pickerContact;
+    private String adminContact;
     private String password;
     private String address;
     private String latlong;
@@ -28,29 +28,31 @@ public class Autoshop implements Parcelable {
 
     public Autoshop(JSONObject object) {
         try {
-            this.id = object.getString("AUTOSHOP_ID");
-            this.name = object.getString("NAME");
-            this.username = object.getString("USERNAME");
-            this.password = object.getString("PASSWORD");
-            this.email = object.getString("EMAIL");
-            this.phone = object.getString("PHONE");
-            this.address = object.getString("ADDRESS");
-            this.latlong = object.getString("LATLONG");
-            this.space = object.getString("SPACE");
-            this.bank = object.getString("BANK");
-            this.accountNumber = object.getString("ACCOUNT_NUMBER");
-            this.photo = object.getString("PHOTO");
+            this.id = object.optString("AUTOSHOP_ID", "");
+            this.name = object.optString("NAME", "");
+            this.username = object.optString("USERNAME", "");
+            this.password = object.optString("PASSWORD", "");
+            this.email = object.optString("EMAIL", "");
+            this.pickerContact = object.optString("PICKUP_CONTACT", "");
+            this.adminContact = object.optString("ADMIN_CONTACT", "");
+            this.address = object.optString("ADDRESS", "");
+            this.latlong = object.optString("LATLONG", "");
+            this.space = object.optString("SPACE", "");
+            this.bank = object.optString("BANK", "");
+            this.accountNumber = object.optString("ACCOUNT_NUMBER", "");
+            this.photo = object.optString("PHOTO", "");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Autoshop(String id, String name, String username, String email, String phone, String password, String address, String latlong, String space, String bank, String accountNumber, String photo) {
+    public Autoshop(String id, String name, String username, String email, String pickerContact, String adminContact, String password, String address, String latlong, String space, String bank, String accountNumber, String photo) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.email = email;
-        this.phone = phone;
+        this.pickerContact = pickerContact;
+        this.adminContact = adminContact;
         this.password = password;
         this.address = address;
         this.latlong = latlong;
@@ -92,12 +94,20 @@ public class Autoshop implements Parcelable {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPickerContact() {
+        return pickerContact;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPickerContact(String pickerContact) {
+        this.pickerContact = pickerContact;
+    }
+
+    public String getAdminContact() {
+        return adminContact;
+    }
+
+    public void setAdminContact(String adminContact) {
+        this.adminContact = adminContact;
     }
 
     public String getPassword() {
@@ -167,7 +177,8 @@ public class Autoshop implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.username);
         dest.writeString(this.email);
-        dest.writeString(this.phone);
+        dest.writeString(this.pickerContact);
+        dest.writeString(this.adminContact);
         dest.writeString(this.password);
         dest.writeString(this.address);
         dest.writeString(this.latlong);
@@ -182,7 +193,8 @@ public class Autoshop implements Parcelable {
         this.name = in.readString();
         this.username = in.readString();
         this.email = in.readString();
-        this.phone = in.readString();
+        this.pickerContact = in.readString();
+        this.adminContact = in.readString();
         this.password = in.readString();
         this.address = in.readString();
         this.latlong = in.readString();

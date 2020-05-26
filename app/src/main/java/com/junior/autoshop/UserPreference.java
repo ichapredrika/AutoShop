@@ -9,21 +9,20 @@ import com.junior.autoshop.models.Customer;
 public class UserPreference {
 
     private static final String PREFS_NAME = "user_pref";
-    private static final String CUSTOMER = "CUSTOMER";
-    private static final String ADMIN = "ADMIN";
     private static final String ROLE_TYPE = "TYPE";
-    private static final String USER_ID = "USER_ID";
-    private static final String USER_FULLNAME = "FULLNAME";
-    private static final String USER_EMAIL = "EMAIL";
-    private static final String USER_USERNAME = "USERNAME";
-    private static final String USER_PHONE = "PHONE";
-    private static final String USER_PASSWORD = "PASSWORD";
+    private static final String CUSTOMER_ID = "CUSTOMER_ID";
+    private static final String CUSTOMER_FULLNAME = "FULLNAME";
+    private static final String CUSTOMER_EMAIL = "EMAIL";
+    private static final String CUSTOMER_USERNAME = "USERNAME";
+    private static final String CUSTOMER_PHONE = "PHONE";
+    private static final String CUSTOMER_PASSWORD = "PASSWORD";
 
     private static final String AUTOSHOP_ID = "AUTOSHOP_ID";
     private static final String AUTOSHOP_NAME = "NAME";
     private static final String AUTOSHOP_USERNAME = "USERNAME";
     private static final String AUTOSHOP_EMAIL = "EMAIL";
-    private static final String AUTOSHOP_PHONE = "PHONE";
+    private static final String AUTOSHOP_ADMIN_CONTACT = "ADMIN_CONTACT";
+    private static final String AUTOSHOP_PICKER_CONTACT = "PICKER_CONTACT";
     private static final String AUTOSHOP_PASSWORD = "PASSWORD";
     private static final String AUTOSHOP_ADDRESS = "ADDRESS";
     private static final String AUTOSHOP_LATLONG = "LATLONG";
@@ -39,14 +38,14 @@ public class UserPreference {
         preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    public void setUser(Customer value) {
+    public void setCustomer (Customer value) {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(USER_ID, value.getId());
-        editor.putString(USER_PASSWORD, value.getPassword());
-        editor.putString(USER_FULLNAME, value.getFullname());
-        editor.putString(USER_EMAIL, value.getEmail());
-        editor.putString(USER_USERNAME, value.getUsername());
-        editor.putString(USER_PHONE, value.getPhone());
+        editor.putString(CUSTOMER_ID, value.getId());
+        editor.putString(CUSTOMER_PASSWORD, value.getPassword());
+        editor.putString(CUSTOMER_FULLNAME, value.getFullname());
+        editor.putString(CUSTOMER_EMAIL, value.getEmail());
+        editor.putString(CUSTOMER_USERNAME, value.getUsername());
+        editor.putString(CUSTOMER_PHONE, value.getPhone());
 
         editor.apply();
     }
@@ -70,7 +69,8 @@ public class UserPreference {
         editor.putString(AUTOSHOP_PASSWORD, value.getPassword());
         editor.putString(AUTOSHOP_USERNAME, value.getUsername());
         editor.putString(AUTOSHOP_EMAIL, value.getEmail());
-        editor.putString(AUTOSHOP_PHONE, value.getPhone());
+        editor.putString(AUTOSHOP_ADMIN_CONTACT, value.getAdminContact());
+        editor.putString(AUTOSHOP_PICKER_CONTACT, value.getPickerContact());
         editor.putString(AUTOSHOP_ADDRESS, value.getAddress());
         editor.putString(AUTOSHOP_LATLONG, value.getLatlong());
         editor.putString(AUTOSHOP_SPACE, value.getSpace());
@@ -83,24 +83,25 @@ public class UserPreference {
 
     public Customer getCustomer() {
         Customer model = new Customer();
-        model.setId(preferences.getString(USER_ID, ""));
-        model.setPassword(preferences.getString(USER_PASSWORD, ""));
-        model.setFullname(preferences.getString(USER_FULLNAME, ""));
-        model.setEmail(preferences.getString(USER_EMAIL, ""));
-        model.setUsername(preferences.getString(USER_USERNAME, ""));
-        model.setPhone(preferences.getString(USER_PHONE, ""));
+        model.setId(preferences.getString(CUSTOMER_ID, ""));
+        model.setPassword(preferences.getString(CUSTOMER_PASSWORD, ""));
+        model.setFullname(preferences.getString(CUSTOMER_FULLNAME, ""));
+        model.setEmail(preferences.getString(CUSTOMER_EMAIL, ""));
+        model.setUsername(preferences.getString(CUSTOMER_USERNAME, ""));
+        model.setPhone(preferences.getString(CUSTOMER_PHONE, ""));
 
         return model;
     }
 
-    public Autoshop getAdmin() {
+    public Autoshop getAutoshop() {
         Autoshop model = new Autoshop();
         model.setId(preferences.getString(AUTOSHOP_ID, ""));
         model.setName(preferences.getString(AUTOSHOP_NAME, ""));
         model.setPassword(preferences.getString(AUTOSHOP_PASSWORD, ""));
         model.setUsername(preferences.getString(AUTOSHOP_USERNAME, ""));
         model.setEmail(preferences.getString(AUTOSHOP_EMAIL, ""));
-        model.setPhone(preferences.getString(AUTOSHOP_PHONE, ""));
+        model.setAdminContact(preferences.getString(AUTOSHOP_ADMIN_CONTACT, ""));
+        model.setPickerContact(preferences.getString(AUTOSHOP_PICKER_CONTACT, ""));
         model.setAddress(preferences.getString(AUTOSHOP_ADDRESS, ""));
         model.setLatlong(preferences.getString(AUTOSHOP_LATLONG, ""));
         model.setSpace(preferences.getString(AUTOSHOP_SPACE, ""));

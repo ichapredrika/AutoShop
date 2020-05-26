@@ -1,10 +1,7 @@
 package com.junior.autoshop.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import org.json.JSONObject;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Customer {
     private String id;
     private String fullname;
@@ -13,18 +10,18 @@ public class Customer {
     private String username;
     private String password;
 
-    public Customer(){
+    public Customer() {
 
     }
 
     public Customer(JSONObject object) {
         try {
-            this.id = object.getString("USER_ID");
-            this.fullname = object.getString("FULLNAME");
-            this.email = object.getString("EMAIL");
-            this.phone = object.getString("PHONE");
-            this.username = object.getString("USERNAME");
-            this.password = object.getString("PASSWORD");
+            this.id = object.optString("USER_ID", "");
+            this.fullname = object.optString("FULLNAME", "");
+            this.email = object.optString("EMAIL", "");
+            this.phone = object.optString("PHONE", "");
+            this.username = object.optString("USERNAME", "");
+            this.password = object.optString("PASSWORD", "");
         } catch (Exception e) {
             e.printStackTrace();
         }

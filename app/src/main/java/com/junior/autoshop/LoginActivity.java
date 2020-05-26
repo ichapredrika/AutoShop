@@ -39,7 +39,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private final static String EXTRA_ADMIN ="ADMIN";
+    private final static String EXTRA_AUTOSHOP ="AUTOSHOP";
     private final static String EXTRA_CUSTOMER ="CUSTOMER";
     private TextView tvUsername, tvPassword;
     private Customer customer;
@@ -69,10 +69,10 @@ public class LoginActivity extends AppCompatActivity {
             if (customer.getId() != null && !customer.getId().equals("")) {
                 hitLogin(customer.getUsername(), customer.getPassword(), EXTRA_CUSTOMER);
             }
-        }else if (type.equals(EXTRA_ADMIN)){
-            autoshop = mUserPreference.getAdmin();
+        }else if (type.equals(EXTRA_AUTOSHOP)){
+            autoshop = mUserPreference.getAutoshop();
             if (autoshop.getId() != null && !autoshop.getId().equals("")) {
-                hitLogin(autoshop.getUsername(), autoshop.getPassword(), EXTRA_ADMIN);
+                hitLogin(autoshop.getUsername(), autoshop.getPassword(), EXTRA_AUTOSHOP);
             }
         }else{
             type=EXTRA_CUSTOMER;
@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                         type = EXTRA_CUSTOMER;
                         break;
                     case R.id.rb_autoshop:
-                        type = EXTRA_ADMIN;
+                        type = EXTRA_AUTOSHOP;
                         break;
                 }
             }
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
-                        }if (type.equals(EXTRA_ADMIN)){
+                        }if (type.equals(EXTRA_AUTOSHOP)){
                             Autoshop autoshop = new Autoshop(jo);
                             saveAdmin(autoshop);
 
@@ -201,18 +201,19 @@ public class LoginActivity extends AppCompatActivity {
         customer.setEmail(customer.getEmail());
         customer.setPhone(customer.getPhone());
 
-        userPreference.setUser(customer);
+        userPreference.setCustomer(customer);
         userPreference.setType(EXTRA_CUSTOMER);
     }
 
     void saveAdmin(Autoshop autoshop) {
-        UserPreference userPreference = new UserPreference(this);
+        UserPreference userPreference = new UserPreference(LoginActivity.this);
         autoshop.setId(autoshop.getId());
         autoshop.setName(autoshop.getName());
         autoshop.setPassword(autoshop.getPassword());
         autoshop.setUsername(autoshop.getUsername());
         autoshop.setEmail(autoshop.getEmail());
-        autoshop.setPhone(autoshop.getPhone());
+        autoshop.setAdminContact(autoshop.getAdminContact());
+        autoshop.setPickerContact(autoshop.getPickerContact());
         autoshop.setAddress(autoshop.getAddress());
         autoshop.setLatlong(autoshop.getLatlong());
         autoshop.setSpace(autoshop.getSpace());
@@ -221,7 +222,7 @@ public class LoginActivity extends AppCompatActivity {
         autoshop.setPhoto(autoshop.getPhoto());
 
         userPreference.setAutoshop(autoshop);
-        userPreference.setType(EXTRA_ADMIN);
+        userPreference.setType(EXTRA_AUTOSHOP);
     }
 
     @SuppressLint("TrulyRandom")
