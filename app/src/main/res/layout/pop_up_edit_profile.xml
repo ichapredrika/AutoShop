@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
+        android:backgroundTint="@color/colorDark5"
         app:contentPadding="12dp">
 
         <ScrollView
@@ -44,12 +45,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/name" />
 
                     <EditText
                         android:id="@+id/txt_name"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorWhite"
                         android:layout_weight="1" />
                 </LinearLayout>
 
@@ -63,12 +67,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/username" />
 
                     <EditText
                         android:id="@+id/txt_username"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorWhite"
                         android:layout_weight="1" />
                 </LinearLayout>
 
@@ -82,19 +89,21 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/email" />
 
                     <EditText
                         android:id="@+id/txt_email"
                         android:layout_width="0dp"
+                        android:textSize="13sp"
                         android:layout_height="40dp"
+                        android:textColor="@color/colorWhite"
                         android:layout_weight="1"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -102,12 +111,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/picker_contact" />
 
                     <EditText
                         android:id="@+id/txt_phone_picker"
                         android:layout_width="0dp"
+                        android:textColor="@color/colorWhite"
                         android:layout_height="40dp"
+                        android:textSize="13sp"
                         android:layout_weight="1" />
                 </LinearLayout>
 
@@ -121,25 +133,29 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/admin_contact" />
 
                     <EditText
                         android:id="@+id/txt_phone_admin"
                         android:layout_width="0dp"
+                        android:textColor="@color/colorWhite"
                         android:layout_height="40dp"
+                        android:textSize="13sp"
                         android:layout_weight="1"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
                         android:layout_gravity="center"
                         android:text="@string/address" />
 
@@ -147,6 +163,8 @@
                         android:id="@+id/txt_address"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp"
                         android:layout_weight="1"/>
                 </LinearLayout>
 
@@ -160,12 +178,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/latlong" />
 
                     <EditText
                         android:id="@+id/txt_latlong"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp"
                         android:layout_weight="1"/>
                 </LinearLayout>
 
@@ -179,19 +200,22 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/space_amount" />
 
                     <EditText
                         android:id="@+id/txt_space"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorWhite"
                         android:layout_weight="1"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -199,12 +223,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/bank" />
 
                     <EditText
                         android:id="@+id/txt_bank"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp"
                         android:layout_weight="1"/>
                 </LinearLayout>
 
@@ -218,12 +245,71 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/acc_number" />
 
                     <EditText
                         android:id="@+id/txt_account_number"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorWhite"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/cb_24hrs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:drawableTint="@color/colorWhite"
+                    android:buttonTint="@color/colorWhite"
+                    android:text="@string/_24_hours_working_hours"
+                    android:layout_marginTop="16dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
+                        android:text="@string/open_hours" />
+
+                    <EditText
+                        android:id="@+id/txt_open_hours"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:inputType="time"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorWhite"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorWhite"
+                        android:text="@string/close_hours" />
+
+                    <EditText
+                        android:id="@+id/txt_close_hours"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:inputType="time"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorWhite"
                         android:layout_weight="1"/>
                 </LinearLayout>
 

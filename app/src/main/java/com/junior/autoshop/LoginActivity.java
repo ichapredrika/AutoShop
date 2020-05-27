@@ -220,6 +220,8 @@ public class LoginActivity extends AppCompatActivity {
         autoshop.setBank(autoshop.getBank());
         autoshop.setAccountNumber(autoshop.getAccountNumber());
         autoshop.setPhoto(autoshop.getPhoto());
+        autoshop.setOpenHours(autoshop.getOpenHours());
+        autoshop.setCloseHours(autoshop.getCloseHours());
 
         userPreference.setAutoshop(autoshop);
         userPreference.setType(EXTRA_AUTOSHOP);

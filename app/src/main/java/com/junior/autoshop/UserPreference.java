@@ -30,7 +30,8 @@ public class UserPreference {
     private static final String AUTOSHOP_BANK = "BANK";
     private static final String AUTOSHOP_ACCOUNT_NUMBER = "ACCOUNT_NUMBER";
     private static final String AUTOSHOP_PHOTO = "PHOTO";
-
+    private static final String AUTOSHOP_OPEN_HOURS = "OPEN_HOURS";
+    private static final String AUTOSHOP_CLOSE_HOURS = "CLOSE_HOURS";
 
     private final SharedPreferences preferences;
 
@@ -77,6 +78,8 @@ public class UserPreference {
         editor.putString(AUTOSHOP_BANK, value.getBank());
         editor.putString(AUTOSHOP_ACCOUNT_NUMBER, value.getAccountNumber());
         editor.putString(AUTOSHOP_PHOTO, value.getPhoto());
+        editor.putString(AUTOSHOP_OPEN_HOURS, value.getOpenHours());
+        editor.putString(AUTOSHOP_CLOSE_HOURS, value.getCloseHours());
 
         editor.apply();
     }
@@ -108,6 +111,8 @@ public class UserPreference {
         model.setBank(preferences.getString(AUTOSHOP_BANK, ""));
         model.setAccountNumber(preferences.getString(AUTOSHOP_ACCOUNT_NUMBER, ""));
         model.setPhoto(preferences.getString(AUTOSHOP_PHOTO, ""));
+        model.setOpenHours(preferences.getString(AUTOSHOP_OPEN_HOURS, ""));
+        model.setCloseHours(preferences.getString(AUTOSHOP_CLOSE_HOURS, ""));
 
         return model;
     }

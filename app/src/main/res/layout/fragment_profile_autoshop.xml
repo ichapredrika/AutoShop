@@ -44,25 +44,23 @@
                 app:srcCompat="@drawable/ic_edit" />
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="10dp"
-            app:contentPadding="12dp">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_black_gradient"
                 android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/img_autoshop"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_gravity="center"
                     tools:src="@drawable/ic_profile" />
 
@@ -75,6 +73,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/name" />
 
                     <TextView
@@ -83,6 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
                         tools:text="Jun's Workshop" />
                 </LinearLayout>
 
@@ -95,6 +95,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/username" />
 
                     <TextView
@@ -103,6 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
                         tools:text="JunoJune" />
                 </LinearLayout>
 
@@ -115,6 +117,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/email" />
 
                     <TextView
@@ -123,6 +126,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
                         tools:text="juniorworkshop@gmail.com" />
                 </LinearLayout>
 
@@ -136,6 +140,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/picker_contact" />
 
                     <TextView
@@ -144,6 +149,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
                         tools:text="082210107570" />
                 </LinearLayout>
 
@@ -156,6 +162,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/admin_contact" />
 
                     <TextView
@@ -164,6 +171,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
                         tools:text="02110107570" />
                 </LinearLayout>
 
@@ -177,6 +185,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/address" />
 
                     <TextView
@@ -185,6 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
                         tools:text="Jln Ki Hajar Dewantara, Cikarang" />
                 </LinearLayout>
 
@@ -197,6 +207,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/latlong" />
 
                     <TextView
@@ -204,6 +215,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textColor="@color/colorWhite"
                         android:textStyle="bold"
                         tools:text="0.654444444, 6.235555556" />
                 </LinearLayout>
@@ -217,6 +229,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/space_amount" />
 
                     <TextView
@@ -225,6 +238,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
                         tools:text="21" />
                 </LinearLayout>
 
@@ -238,6 +252,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/bank" />
 
                     <TextView
@@ -246,6 +261,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
                         tools:text="BCA" />
                 </LinearLayout>
 
@@ -258,6 +274,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
                         android:text="@string/acc_number" />
 
                     <TextView
@@ -266,17 +283,62 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
+                        tools:text="86394534524" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
+                        android:text="@string/open_hours" />
+
+                    <TextView
+                        android:id="@+id/txt_open_hours"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
+                        tools:text="86394534524" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:textColor="@color/colorWhite"
+                        android:text="@string/close_hours" />
+
+                    <TextView
+                        android:id="@+id/txt_close_hours"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorWhite"
                         tools:text="86394534524" />
                 </LinearLayout>
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:orientation="horizontal">
 
@@ -289,11 +351,11 @@
                 android:textColor="@color/colorWhite" />
 
             <ImageView
-                android:id="@+id/img_add_service"
+                android:id="@+id/img_edit_service"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="end"
-                app:srcCompat="@drawable/ic_add" />
+                app:srcCompat="@drawable/ic_edit" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

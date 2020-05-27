@@ -21,6 +21,8 @@ public class Autoshop implements Parcelable {
     private String bank;
     private String accountNumber;
     private String photo;
+    private String openHours;
+    private String closeHours;
 
     public Autoshop(){
 
@@ -41,12 +43,14 @@ public class Autoshop implements Parcelable {
             this.bank = object.optString("BANK", "");
             this.accountNumber = object.optString("ACCOUNT_NUMBER", "");
             this.photo = object.optString("PHOTO", "");
+            this.openHours = object.optString("OPEN_HOURS", "");
+            this.closeHours = object.optString("CLOSE_HOURS", "");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Autoshop(String id, String name, String username, String email, String pickerContact, String adminContact, String password, String address, String latlong, String space, String bank, String accountNumber, String photo) {
+    public Autoshop(String id, String name, String username, String email, String pickerContact, String adminContact, String password, String address, String latlong, String space, String bank, String accountNumber, String photo, String openHours, String closeHours) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -60,6 +64,8 @@ public class Autoshop implements Parcelable {
         this.bank = bank;
         this.accountNumber = accountNumber;
         this.photo = photo;
+        this.openHours = openHours;
+        this.closeHours = closeHours;
     }
 
     public String getId() {
@@ -166,6 +172,22 @@ public class Autoshop implements Parcelable {
         this.photo = photo;
     }
 
+    public String getOpenHours() {
+        return openHours;
+    }
+
+    public void setOpenHours(String openHours) {
+        this.openHours = openHours;
+    }
+
+    public String getCloseHours() {
+        return closeHours;
+    }
+
+    public void setCloseHours(String closeHours) {
+        this.closeHours = closeHours;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -186,6 +208,8 @@ public class Autoshop implements Parcelable {
         dest.writeString(this.bank);
         dest.writeString(this.accountNumber);
         dest.writeString(this.photo);
+        dest.writeString(this.openHours);
+        dest.writeString(this.closeHours);
     }
 
     protected Autoshop(Parcel in) {
@@ -202,6 +226,8 @@ public class Autoshop implements Parcelable {
         this.bank = in.readString();
         this.accountNumber = in.readString();
         this.photo = in.readString();
+        this.openHours = in.readString();
+        this.closeHours = in.readString();
     }
 
     public static final Parcelable.Creator<Autoshop> CREATOR = new Parcelable.Creator<Autoshop>() {
