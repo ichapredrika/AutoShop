@@ -6,6 +6,7 @@ public class Service {
     private String id;
     private String type;
     private String detail;
+    private String note;
 
     public Service(JSONObject object) {
         try {
@@ -19,10 +20,11 @@ public class Service {
         }
     }
 
-    public Service(String id, String type, String detail) {
+    public Service(String id, String type, String detail, String note) {
         this.id = id;
         this.type = type;
         this.detail = detail;
+        this.note = note;
     }
 
     public String getId() {
@@ -47,5 +49,13 @@ public class Service {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

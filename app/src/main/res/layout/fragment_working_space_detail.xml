@@ -118,8 +118,8 @@
                         android:layout_height="35dp"
                         android:layout_marginTop="5dp"
                         android:progressBackgroundTint="@color/colorGray1"
-                        android:progressTint="@color/colorBlue"
-                        android:thumbTint="@color/colorBlue" />
+                        android:progressTint="@color/colorBlue1"
+                        android:thumbTint="@color/colorBlue1" />
 
                 </LinearLayout>
 

@@ -16,42 +16,53 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimaryDark" />
 
-    <TextView
-        style="@style/Text.Title"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/mark_your_location"
-        android:textColor="@color/colorWhite" />
+        android:layout_weight="1">
 
-    <fragment
-        android:id="@+id/mapFragment"
-        class="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_search_autoshop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:textAllCaps="false"
-        android:text="@string/search_autoshop"
-        style="@style/Button.Neutral" />
+            <TextView
+                style="@style/Text.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/mark_your_location"
+                android:textColor="@color/colorWhite" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_autoshop"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_weight="1"/>
+            <fragment
+                android:id="@+id/mapFragment"
+                class="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btn_search_autoshop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textAllCaps="false"
+                android:text="@string/search_autoshop"
+                style="@style/Button.Neutral" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_autoshop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/btn_proceed"
