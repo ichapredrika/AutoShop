@@ -92,4 +92,8 @@
     <string name="close_hours">Close Hours</string>
     <string name="_24_hours_working_hours">24 Hours - Working Hours</string>
     <string name="available_services">Available Services</string>
+    <string name="available_vehicle_type">Available Vehicle Type</string>
+    <string name="vehicle_name">Vehicle Name</string>
+    <string name="brand_model">Brand-Model</string>
+    <string name="add_vehicle">Add Vehicle</string>
 </resources>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
         android:backgroundTint="@color/colorDark5"
+        app:cardCornerRadius="10dp"
         app:contentPadding="12dp">
 
         <ScrollView
@@ -27,7 +27,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:src="@drawable/ic_close"/>
+                    android:src="@drawable/ic_close" />
+
                 <ImageView
                     android:id="@+id/img_autoshop"
                     android:layout_width="150dp"
@@ -43,18 +44,19 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:text="@string/name" />
+                        android:layout_weight="0.5"
+                        android:text="@string/name"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_name"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:textSize="13sp"
+                        android:layout_weight="1"
+                        android:inputType="textPersonName"
                         android:textColor="@color/colorWhite"
-                        android:layout_weight="1" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -65,18 +67,19 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:text="@string/username" />
+                        android:layout_weight="0.5"
+                        android:text="@string/username"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_username"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:textSize="13sp"
+                        android:layout_weight="1"
+                        android:inputType="textPersonName"
                         android:textColor="@color/colorWhite"
-                        android:layout_weight="1" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -87,18 +90,19 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:text="@string/email" />
+                        android:layout_weight="0.5"
+                        android:text="@string/email"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_email"
                         android:layout_width="0dp"
-                        android:textSize="13sp"
                         android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:inputType="textEmailAddress"
                         android:textColor="@color/colorWhite"
-                        android:layout_weight="1"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -109,18 +113,19 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:text="@string/picker_contact" />
+                        android:layout_weight="0.5"
+                        android:text="@string/picker_contact"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_phone_picker"
                         android:layout_width="0dp"
-                        android:textColor="@color/colorWhite"
                         android:layout_height="40dp"
-                        android:textSize="13sp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -131,18 +136,19 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:text="@string/admin_contact" />
+                        android:layout_weight="0.5"
+                        android:text="@string/admin_contact"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_phone_admin"
                         android:layout_width="0dp"
-                        android:textColor="@color/colorWhite"
                         android:layout_height="40dp"
-                        android:textSize="13sp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -154,18 +160,18 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:textColor="@color/colorWhite"
                         android:layout_gravity="center"
-                        android:text="@string/address" />
+                        android:layout_weight="0.5"
+                        android:text="@string/address"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_address"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:layout_weight="1"
                         android:textColor="@color/colorWhite"
-                        android:textSize="13sp"
-                        android:layout_weight="1"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -176,18 +182,18 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:text="@string/latlong" />
+                        android:layout_weight="0.5"
+                        android:text="@string/latlong"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_latlong"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:layout_weight="1"
                         android:textColor="@color/colorWhite"
-                        android:textSize="13sp"
-                        android:layout_weight="1"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -198,18 +204,19 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:text="@string/space_amount" />
+                        android:layout_weight="0.5"
+                        android:text="@string/space_amount"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_space"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:textSize="13sp"
+                        android:layout_weight="1"
+                        android:inputType="number"
                         android:textColor="@color/colorWhite"
-                        android:layout_weight="1"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -221,18 +228,18 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:text="@string/bank" />
+                        android:layout_weight="0.5"
+                        android:text="@string/bank"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_bank"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:layout_weight="1"
                         android:textColor="@color/colorWhite"
-                        android:textSize="13sp"
-                        android:layout_weight="1"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -243,29 +250,31 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:text="@string/acc_number" />
+                        android:layout_weight="0.5"
+                        android:text="@string/acc_number"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_account_number"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:textSize="13sp"
+                        android:layout_weight="1"
+                        android:inputType="number"
                         android:textColor="@color/colorWhite"
-                        android:layout_weight="1"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <CheckBox
                     android:id="@+id/cb_24hrs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
-                    android:drawableTint="@color/colorWhite"
+                    android:layout_marginTop="16dp"
                     android:buttonTint="@color/colorWhite"
+                    android:drawableTint="@color/colorWhite"
                     android:text="@string/_24_hours_working_hours"
-                    android:layout_marginTop="16dp"/>
+                    android:textColor="@color/colorWhite" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -274,19 +283,19 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:text="@string/open_hours" />
+                        android:layout_weight="0.5"
+                        android:text="@string/open_hours"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_open_hours"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:layout_weight="1"
                         android:inputType="time"
-                        android:textSize="13sp"
                         android:textColor="@color/colorWhite"
-                        android:layout_weight="1"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -298,28 +307,28 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:text="@string/close_hours" />
+                        android:layout_weight="0.5"
+                        android:text="@string/close_hours"
+                        android:textColor="@color/colorWhite" />
 
                     <EditText
                         android:id="@+id/txt_close_hours"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:layout_weight="1"
                         android:inputType="time"
-                        android:textSize="13sp"
                         android:textColor="@color/colorWhite"
-                        android:layout_weight="1"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/btn_update"
+                    style="@style/Button.Positive"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_margin="16dp"
                     android:layout_marginTop="32dp"
-                    style="@style/Button.Positive"
                     android:text="@string/update"
                     android:textAllCaps="false" />
             </LinearLayout>

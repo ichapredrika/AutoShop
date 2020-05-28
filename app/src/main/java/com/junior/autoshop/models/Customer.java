@@ -16,7 +16,7 @@ public class Customer {
 
     public Customer(JSONObject object) {
         try {
-            this.id = object.optString("USER_ID", "");
+            this.id = object.optString("CUSTOMER_ID", "");
             this.fullname = object.optString("FULLNAME", "");
             this.email = object.optString("EMAIL", "");
             this.phone = object.optString("PHONE", "");

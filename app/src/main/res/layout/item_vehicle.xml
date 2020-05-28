@@ -4,11 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
     android:layout_marginTop="4dp"
-    android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
-    android:background="@color/colorBackground"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -16,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorDark5"
         app:cardCornerRadius="10dp"
         app:contentPadding="5dp">
 
@@ -34,7 +32,8 @@
                     android:id="@+id/txt_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                        tools:text="Vehicle Name" />
+                    android:textColor="@color/colorWhite"
+                    tools:text="Vehicle Name" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -47,6 +46,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="0dp"
                         android:paddingEnd="4dp"
+                        android:textColor="@color/colorWhite"
                         tools:text="Brand" />
 
                     <TextView
@@ -55,15 +55,10 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="0dp"
                         android:paddingEnd="4dp"
+                        android:textColor="@color/colorWhite"
                         tools:text="Model" />
 
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/txt_year"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="Year" />
             </LinearLayout>
 
             <ImageView

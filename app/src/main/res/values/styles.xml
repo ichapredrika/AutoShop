@@ -67,4 +67,8 @@
     <style name="Text.Caption">
         <item name="android:textSize">13sp</item>
     </style>
+
+    <style name="mySpinnerItemStyle" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
 </resources>

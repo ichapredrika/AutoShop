@@ -157,7 +157,7 @@ public class ProfileAutoshopFragment extends Fragment {
     }
 
     private void popUpEditProfile() {
-        popUpDialog.setContentView(R.layout.pop_up_edit_profile);
+        popUpDialog.setContentView(R.layout.pop_up_edit_profile_autoshop);
         imgAutoshopEdit = popUpDialog.findViewById(R.id.img_autoshop);
         final TextView tvName = popUpDialog.findViewById(R.id.txt_name);
         final TextView tvUsername = popUpDialog.findViewById(R.id.txt_username);
@@ -614,6 +614,8 @@ public class ProfileAutoshopFragment extends Fragment {
 
         userPreference.setAutoshop(autoshop);
         userPreference.setType(EXTRA_AUTOSHOP);
+
+        this.autoshop = mUserPreference.getAutoshop();
     }
 
     void updateUi(Autoshop autoshop) {

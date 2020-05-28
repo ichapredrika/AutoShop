@@ -15,8 +15,6 @@ public class ServiceAutoshop {
             this.serviceId = object.optString("SERVICE_ID", "");
             this.type = object.optString("TYPE", "");
             this.detail = object.optString("DETAIL", "");
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
