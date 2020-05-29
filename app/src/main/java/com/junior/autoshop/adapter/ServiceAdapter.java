@@ -3,11 +3,16 @@ package com.junior.autoshop.adapter;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,22 +20,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.junior.autoshop.R;
+import com.junior.autoshop.SelectedServiceCallback;
 import com.junior.autoshop.models.Service;
-import com.junior.autoshop.phpConf;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceViewHolder> {
@@ -38,11 +32,14 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
     private Context context;
     private ProgressDialog loading;
     private Dialog popUpDialog;
+    private SelectedServiceCallback callback;
 
-    public ServiceAdapter(Context context, ArrayList<Service> listService) {
+    public ServiceAdapter(Context context, ArrayList<Service> listService, SelectedServiceCallback callback) {
         this.context = context;
         this.listService = listService;
         popUpDialog = new Dialog(context);
+        this.callback = callback;
+
     }
 
     @NonNull
@@ -53,7 +50,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ServiceViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ServiceViewHolder holder, final int position) {
         final Service service = listService.get(position);
         holder.tvName.setText(service.getType());
         holder.imgInfo.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +59,48 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
                 Toast.makeText(context, service.getDetail(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        holder.cbBook.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                 @Override
+                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                     if (isChecked) {
+                         popUpDialog.setContentView(R.layout.pop_up_note);
+
+                         final TextView tvNote = popUpDialog.findViewById(R.id.txt_note);
+                         Button btnAdd = popUpDialog.findViewById(R.id.btn_add_note);
+                         ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
+
+                         btnAdd.setOnClickListener(new View.OnClickListener() {
+                             @Override
+                             public void onClick(View v) {
+                                 String note = tvNote.getText().toString().trim();
+                                 Service newService = listService.get(position);
+                                 newService.setNote(note);
+                                 callback.selectService(newService);
+                                 popUpDialog.dismiss();
+                             }
+                         });
+
+                         imgClose.setOnClickListener(new View.OnClickListener() {
+                             @Override
+                             public void onClick(View v) {
+                                 popUpDialog.dismiss();
+                                 callback.selectService(listService.get(position));
+                             }
+                         });
+                         if (popUpDialog.getWindow() != null) {
+                             popUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                             popUpDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                         }
+                         popUpDialog.show();
+
+                     } else {
+                         callback.deleteService(listService.get(position));
+                     }
+                 }
+             }
+        );
 
     }
 
@@ -72,14 +111,12 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
 
     class ServiceViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
-        TextView tvNote;
         ImageView imgInfo;
         CheckBox cbBook;
 
         ServiceViewHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.txt_name);
-            tvNote = itemView.findViewById(R.id.txt_note);
             imgInfo = itemView.findViewById(R.id.img_info);
             cbBook = itemView.findViewById(R.id.cb_book);
         }

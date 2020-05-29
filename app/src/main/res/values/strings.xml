@@ -96,4 +96,6 @@
     <string name="vehicle_name">Vehicle Name</string>
     <string name="brand_model">Brand-Model</string>
     <string name="add_vehicle">Add Vehicle</string>
+    <string name="add_note">Add Note</string>
+    <string name="note">Note</string>
 </resources>

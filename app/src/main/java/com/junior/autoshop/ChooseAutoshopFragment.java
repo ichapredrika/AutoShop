@@ -8,14 +8,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.junior.autoshop.models.Service;
+
+import java.util.ArrayList;
+
 
 public class ChooseAutoshopFragment extends Fragment {
-
+    private ArrayList<Service> listSelectedService;
+    public static String EXTRA_SERVICE = "SERVICE";
     public ChooseAutoshopFragment() {
     }
 
@@ -31,9 +37,12 @@ public class ChooseAutoshopFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Button btnProceed = view.findViewById(R.id.btn_proceed);
 
+        listSelectedService = (ArrayList<Service>)getArguments().getSerializable(EXTRA_SERVICE);
+        Log.d("selected service", listSelectedService.toString());
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 BookingDetailFragment bookingDetailFragment = new BookingDetailFragment();
               /*  Bundle mBundle = new Bundle();
                 mBundle.putString(DetailCategoryFragment.EXTRA_NAME, "Lifestyle");

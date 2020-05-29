@@ -36,7 +36,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class BookingFragment extends Fragment {
+public class BookingFragment extends Fragment implements SelectedServiceCallback {
 
     private ServiceAdapter serviceAdapter;
     private UserPreference mUserPreference;
@@ -45,7 +45,7 @@ public class BookingFragment extends Fragment {
     private ProgressDialog loading;
     private ArrayList<Service> listService = new ArrayList<>();
     private ArrayList<Service> listServiceToAdapter = new ArrayList<>();
-
+    private ArrayList<Service> listSelectedService = new ArrayList<>();
     public BookingFragment() {
 
     }
@@ -66,7 +66,7 @@ public class BookingFragment extends Fragment {
         rvService = view.findViewById(R.id.rv_service);
         Button btnProceed = view.findViewById(R.id.btn_proceed);
 
-        serviceAdapter = new ServiceAdapter(getContext(), listServiceToAdapter);
+        serviceAdapter = new ServiceAdapter(getContext(), listServiceToAdapter, this);
         serviceAdapter.notifyDataSetChanged();
         rvService.setHasFixedSize(true);
         rvService.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -78,11 +78,9 @@ public class BookingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ChooseAutoshopFragment chooseAutoshopFragment = new ChooseAutoshopFragment();
-               /* Bundle mBundle = new Bundle();
-                mBundle.putString(DetailCategoryFragment.EXTRA_NAME, "Lifestyle");
-                String description = "Kategori ini akan berisi produk-produk lifestyle";
-                mDetailCategoryFragment.setArguments(mBundle);
-                mDetailCategoryFragment.setDescription(description);*/
+                Bundle mBundle = new Bundle();
+                mBundle.putSerializable(ChooseAutoshopFragment.EXTRA_SERVICE, listSelectedService);
+                chooseAutoshopFragment.setArguments(mBundle);
                 FragmentManager mFragmentManager = getFragmentManager();
                 if (mFragmentManager != null) {
                     FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
@@ -149,4 +147,29 @@ public class BookingFragment extends Fragment {
         serviceAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void selectService(Service service) {
+        listSelectedService.add(service);
+        Log.d("selectedService", listSelectedService.toString());
+    }
+
+    @Override
+    public void deleteService(Service service) {
+        for(int i=0; i< listSelectedService.size();i++){
+            if (service.getId().equals(listSelectedService.get(i).getId())){
+                listSelectedService.remove(i);
+            }
+        }
+        Log.d("selectedService", listSelectedService.toString());
+    }
+
+    @Override
+    public void addNoteService(Service service) {
+        for(int i=0; i< listSelectedService.size();i++){
+            if (service.getId().equals(listSelectedService.get(i).getId())){
+                listSelectedService.get(i).setNote(service.getNote());
+            }
+        }
+        Log.d("selectedService", listSelectedService.toString());
+    }
 }
