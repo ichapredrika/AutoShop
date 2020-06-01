@@ -4,9 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
     android:orientation="vertical">
 
@@ -16,6 +13,7 @@
         android:layout_margin="5dp"
         android:layout_marginTop="8dp"
         app:cardCornerRadius="10dp"
+        android:backgroundTint="@color/colorDark5"
         app:contentPadding="5dp">
 
     <LinearLayout
@@ -25,6 +23,7 @@
         android:padding="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_autoshop"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -43,18 +42,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
+                android:textColor="@color/colorWhite"
                 tools:text="Autoshop Name" />
 
             <TextView
-                android:id="@+id/txt_addresss"
+                android:id="@+id/txt_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
                 tools:text="Address" />
 
             <TextView
                 android:id="@+id/txt_distance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
                 tools:text="Distance" />
 
 

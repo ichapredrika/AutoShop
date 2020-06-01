@@ -30,6 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/proceed"
-        style="@style/Button.Positive" />
+        style="@style/Button.Neutral" />
 
 </LinearLayout>

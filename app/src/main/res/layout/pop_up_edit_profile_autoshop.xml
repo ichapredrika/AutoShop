@@ -324,13 +324,12 @@
 
                 <Button
                     android:id="@+id/btn_update"
-                    style="@style/Button.Positive"
+                    style="@style/Button.Neutral"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_marginTop="32dp"
-                    android:text="@string/update"
-                    android:textAllCaps="false" />
+                    android:text="@string/update" />
             </LinearLayout>
 
         </ScrollView>

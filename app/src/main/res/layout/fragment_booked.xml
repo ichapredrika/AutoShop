@@ -24,11 +24,10 @@
         android:layout_marginTop="8dp"/>
 
     <Button
-        android:id="@+id/btn_logout"
+        android:id="@+id/btn_scan_qr"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@drawable/btn_neutral"
-        android:text="@string/scan_qr"
-        android:textAllCaps="false" />
+        android:text="@string/scan_qr" />
 </LinearLayout>

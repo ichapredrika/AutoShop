@@ -98,4 +98,9 @@
     <string name="add_vehicle">Add Vehicle</string>
     <string name="add_note">Add Note</string>
     <string name="note">Note</string>
+    <string name="location_in_maps">Location in Maps</string>
+    <string name="no_note">No Note</string>
+    <string name="change_location">Change Location</string>
+    <string name="hold_and_drag_the_marker">Hold and drag the marker</string>
+    <string name="save_location">Save Location</string>
 </resources>

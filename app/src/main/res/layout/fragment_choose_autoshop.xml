@@ -1,75 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="@color/colorBackground"
+    android:orientation="vertical"
     tools:context=".ChooseAutoshopFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:title="@string/choose_autoshop"
-        app:titleTextColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimaryDark" />
+        android:background="?attr/colorPrimaryDark"
+        app:title="@string/choose_autoshop"
+        app:titleTextColor="@color/colorWhite" />
 
-    <ScrollView
+    <FrameLayout
+        android:id="@+id/fl_map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
 
-        <LinearLayout
+        <TextView
+            style="@style/Text.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/mark_your_location"
+            android:textColor="@color/colorWhite" />
 
-            <TextView
-                style="@style/Text.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/mark_your_location"
-                android:textColor="@color/colorWhite" />
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp" />
+    </FrameLayout>
 
-            <fragment
-                android:id="@+id/mapFragment"
-                class="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp" />
+    <Button
+        android:id="@+id/btn_search_autoshop"
+        style="@style/Button.Neutral"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/search_autoshop"
+        android:textAllCaps="false" />
 
-            <Button
-                android:id="@+id/btn_search_autoshop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textAllCaps="false"
-                android:text="@string/search_autoshop"
-                style="@style/Button.Neutral" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_autoshop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
-
-        </LinearLayout>
-    </ScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_autoshop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/btn_proceed"
+        style="@style/Button.Neutral"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/proceed"
-        style="@style/Button.Positive" />
+        android:text="@string/proceed" />
 
 </LinearLayout>

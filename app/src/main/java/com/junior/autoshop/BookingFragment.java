@@ -1,5 +1,6 @@
 package com.junior.autoshop;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -34,7 +35,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 public class BookingFragment extends Fragment implements SelectedServiceCallback {
 
@@ -66,6 +76,7 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
         rvService = view.findViewById(R.id.rv_service);
         Button btnProceed = view.findViewById(R.id.btn_proceed);
 
+        handleSSLHandshake();
         serviceAdapter = new ServiceAdapter(getContext(), listServiceToAdapter, this);
         serviceAdapter.notifyDataSetChanged();
         rvService.setHasFixedSize(true);
@@ -77,17 +88,19 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChooseAutoshopFragment chooseAutoshopFragment = new ChooseAutoshopFragment();
-                Bundle mBundle = new Bundle();
-                mBundle.putSerializable(ChooseAutoshopFragment.EXTRA_SERVICE, listSelectedService);
-                chooseAutoshopFragment.setArguments(mBundle);
-                FragmentManager mFragmentManager = getFragmentManager();
-                if (mFragmentManager != null) {
-                    FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-                    mFragmentTransaction.replace(R.id.container_layout, chooseAutoshopFragment, ChooseAutoshopFragment.class.getSimpleName());
-                    mFragmentTransaction.addToBackStack(null);
-                    mFragmentTransaction.commit();
-                }
+                if (listSelectedService.size()>0){
+                    ChooseAutoshopFragment chooseAutoshopFragment = new ChooseAutoshopFragment();
+                    Bundle mBundle = new Bundle();
+                    mBundle.putSerializable(ChooseAutoshopFragment.EXTRA_SERVICE, listSelectedService);
+                    chooseAutoshopFragment.setArguments(mBundle);
+                    FragmentManager mFragmentManager = getFragmentManager();
+                    if (mFragmentManager != null) {
+                        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+                        mFragmentTransaction.replace(R.id.container_layout, chooseAutoshopFragment, ChooseAutoshopFragment.class.getSimpleName());
+                        mFragmentTransaction.addToBackStack(null);
+                        mFragmentTransaction.commit();
+                    }
+                }else Toast.makeText(getContext(), "Please choose a service!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -171,5 +184,35 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
             }
         }
         Log.d("selectedService", listSelectedService.toString());
+    }
+
+    @SuppressLint("TrulyRandom")
+    public static void handleSSLHandshake() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+
+                @Override
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                }
+
+                @Override
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                }
+            }};
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String arg0, SSLSession arg1) {
+                    return true;
+                }
+            });
+        } catch (Exception ignored) {
+        }
     }
 }

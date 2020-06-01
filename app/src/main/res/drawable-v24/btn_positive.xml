@@ -7,7 +7,7 @@
         tools:targetApi="lollipop">
         <shape android:shape="rectangle">
             <gradient
-                android:endColor="@color/colorBlue1"
+                android:endColor="@color/colorDark5"
                 android:startColor="@color/colorDark5"
                 android:angle="45" />
             <corners android:radius="10dp" />
@@ -17,7 +17,7 @@
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
             <gradient
-                android:endColor="@color/colorBlue1"
+                android:endColor="@color/colorDark5"
                 android:startColor="@color/colorDark5"
                 android:angle="45" />
             <corners android:radius="10dp" />

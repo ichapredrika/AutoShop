@@ -7,7 +7,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import org.json.JSONObject;
 
-public class Autoshop implements Parcelable {
+import java.util.Comparator;
+
+public class Autoshop implements Parcelable, Comparable {
     private String id;
     private String name;
     private String username;
@@ -23,6 +25,7 @@ public class Autoshop implements Parcelable {
     private String photo;
     private String openHours;
     private String closeHours;
+    private double distance;
 
     public Autoshop(){
 
@@ -50,23 +53,12 @@ public class Autoshop implements Parcelable {
         }
     }
 
-    public Autoshop(String id, String name, String username, String email, String pickerContact, String adminContact, String password, String address, String latlong, String space, String bank, String accountNumber, String photo, String openHours, String closeHours) {
-        this.id = id;
-        this.name = name;
-        this.username = username;
-        this.email = email;
-        this.pickerContact = pickerContact;
-        this.adminContact = adminContact;
-        this.password = password;
-        this.address = address;
-        this.latlong = latlong;
-        this.space = space;
-        this.bank = bank;
-        this.accountNumber = accountNumber;
-        this.photo = photo;
-        this.openHours = openHours;
-        this.closeHours = closeHours;
+    @Override
+    public int compareTo(Object o) {
+        int compareDist= (int) ((Autoshop) o).getDistance();
+        return (int) this.distance-compareDist;
     }
+
 
     public String getId() {
         return id;
@@ -188,6 +180,14 @@ public class Autoshop implements Parcelable {
         this.closeHours = closeHours;
     }
 
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -210,6 +210,7 @@ public class Autoshop implements Parcelable {
         dest.writeString(this.photo);
         dest.writeString(this.openHours);
         dest.writeString(this.closeHours);
+        dest.writeDouble(this.distance);
     }
 
     protected Autoshop(Parcel in) {
@@ -228,6 +229,7 @@ public class Autoshop implements Parcelable {
         this.photo = in.readString();
         this.openHours = in.readString();
         this.closeHours = in.readString();
+        this.distance = in.readDouble();
     }
 
     public static final Parcelable.Creator<Autoshop> CREATOR = new Parcelable.Creator<Autoshop>() {
@@ -241,4 +243,6 @@ public class Autoshop implements Parcelable {
             return new Autoshop[size];
         }
     };
+
+
 }

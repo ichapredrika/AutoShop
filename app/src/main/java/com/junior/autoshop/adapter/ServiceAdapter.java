@@ -66,9 +66,10 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
                  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                      if (isChecked) {
                          popUpDialog.setContentView(R.layout.pop_up_note);
-
+                         popUpDialog.setCanceledOnTouchOutside(false);
                          final TextView tvNote = popUpDialog.findViewById(R.id.txt_note);
                          Button btnAdd = popUpDialog.findViewById(R.id.btn_add_note);
+                         Button btnNoNote = popUpDialog.findViewById(R.id.btn_no_note);
                          ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
 
                          btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +78,16 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
                                  String note = tvNote.getText().toString().trim();
                                  Service newService = listService.get(position);
                                  newService.setNote(note);
+                                 callback.selectService(newService);
+                                 popUpDialog.dismiss();
+                             }
+                         });
+
+                         btnNoNote.setOnClickListener(new View.OnClickListener() {
+                             @Override
+                             public void onClick(View v) {
+                                 Service newService = listService.get(position);
+                                 newService.setNote("");
                                  callback.selectService(newService);
                                  popUpDialog.dismiss();
                              }

@@ -226,10 +226,9 @@
             android:layout_height="40dp"
             android:layout_margin="16dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_positive"
+            android:background="@drawable/btn_neutral"
             android:text="@string/update"
             android:textAlignment="center"
-            android:textColor="@color/colorGray4"
             android:textSize="14sp" />
 
         <Button
@@ -238,10 +237,9 @@
             android:layout_height="40dp"
             android:layout_margin="16dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_positive"
+            android:background="@drawable/btn_neutral"
             android:text="@string/finish"
             android:textAlignment="center"
-            android:textColor="@color/colorGray4"
             android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

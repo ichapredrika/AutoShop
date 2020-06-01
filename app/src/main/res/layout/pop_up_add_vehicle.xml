@@ -71,10 +71,9 @@
 
     <Button
         android:id="@+id/btn_add_vehicle"
-        style="@style/Button.Positive"
+        style="@style/Button.Neutral"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/add_vehicle"
-        android:textAllCaps="false" />
+        android:text="@string/add_vehicle" />
 </LinearLayout>

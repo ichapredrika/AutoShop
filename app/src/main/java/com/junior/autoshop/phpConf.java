@@ -1,7 +1,7 @@
 package com.junior.autoshop;
 
 public class phpConf {
-    private final static String ip = "192.168.1.6";
+    private final static String ip = "192.168.1.12";
 
     private final static String prefix = "https://" + ip + "/autoshop/";
     public final static String URL_CONNECTION = "connection.php";
@@ -11,6 +11,7 @@ public class phpConf {
     public final static String URL_GET_PROFILE_AUTOSHOP = prefix + "get_profile_autoshop.php";
     public final static String URL_GET_PROFILE_CUSTOMER = prefix + "get_profile_customer.php";
     public final static String URL_UPDATE_PROFILE_AUTOSHOP = prefix + "update_profile_autoshop.php";
+    public final static String URL_UPDATE_LOCATION_AUTOSHOP = prefix + "update_location_autoshop.php";
     public final static String URL_GET_SERVICE_AUTOSHOP = prefix + "get_service_autoshop.php";
     public final static String URL_ADD_SERVICE_AUTOSHOP = prefix + "add_service_autoshop.php";
     public final static String URL_GET_SERVICE = prefix + "get_service.php";

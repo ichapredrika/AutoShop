@@ -1,5 +1,6 @@
 package com.junior.autoshop;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -10,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +42,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.junior.autoshop.adapter.AddServiceAutoshopAdapter;
 import com.junior.autoshop.adapter.ServiceAutoshopAdapter;
 import com.junior.autoshop.models.Autoshop;
@@ -57,10 +72,13 @@ import java.util.HashMap;
 import static android.Manifest.permission.CAMERA;
 import static android.app.Activity.RESULT_OK;
 
-public class ProfileAutoshopFragment extends Fragment {
+public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallback,
+        LocationListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
     private static final String EXTRA_AUTOSHOP = "AUTOSHOP";
     private static final int PIC_ID = 123;
     private static final int REQUEST_CAMERA = 1;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     private ProgressDialog loading;
     private UserPreference mUserPreference;
@@ -72,6 +90,13 @@ public class ProfileAutoshopFragment extends Fragment {
 
     private String imageAutoshop;
     private Dialog popUpDialog;
+
+    private GoogleMap mMap;
+    Location mLastLocation;
+    Marker mCurrLocationMarker;
+    GoogleApiClient mGoogleApiClient;
+    LocationRequest mLocationRequest;
+    MarkerOptions markerOptions;
 
     private RecyclerView rvServices, rvService;
     private ServiceAutoshopAdapter serviceAutoshopAdapter;
@@ -99,9 +124,12 @@ public class ProfileAutoshopFragment extends Fragment {
         autoshop = mUserPreference.getAutoshop();
 
         initProfile(view);
+        SupportMapFragment mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mMapFragment.getMapAsync(this);
 
         popUpDialog = new Dialog(getContext());
         Button btnLogout = view.findViewById(R.id.btn_logout);
+        final Button btnChangeLoc = view.findViewById(R.id.btn_change_loc);
         rvServices = view.findViewById(R.id.rv_services);
 
         serviceAutoshopAdapter = new ServiceAutoshopAdapter(getContext(), listServiceAutoshopToAdapter);
@@ -126,6 +154,14 @@ public class ProfileAutoshopFragment extends Fragment {
             }
         });
 
+        btnChangeLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent changeLoc = new Intent(getContext(), MapActivity.class);
+                    changeLoc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getContext().startActivity(changeLoc);
+            }
+        });
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -594,6 +630,53 @@ public class ProfileAutoshopFragment extends Fragment {
         mRequestQueue.add(mStringRequest);
     }
 
+    private void updateLoc(final String latlong) {
+        loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
+        RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
+
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_UPDATE_LOCATION_AUTOSHOP, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    Log.d("Json update LOC", s);
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray data = jsonObject.getJSONArray("result");
+                    JSONObject jo = data.getJSONObject(0);
+
+                    Log.d("tagJsonObject", jo.toString());
+                    String response = jo.getString("response");
+                    String message = jo.getString("message");
+                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                    loading.dismiss();
+
+                    if (response.equals("1")) {
+                        getProfile();
+                    }
+
+                } catch (JSONException e) {
+                    loading.dismiss();
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                Log.d("tag", String.valueOf(error));
+                Toast.makeText(getContext(), getString(R.string.msg_connection_error), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected java.util.Map<String, String> getParams() {
+                java.util.Map<String, String> params = new HashMap<>();
+                params.put("AUTOSHOP_ID", autoshop.getId());
+                params.put("LATLONG", latlong);
+                return params;
+            }
+        };
+        mRequestQueue.add(mStringRequest);
+    }
+
     void saveAdmin(Autoshop autoshop) {
         UserPreference userPreference = new UserPreference(getContext());
         autoshop.setId(autoshop.getId());
@@ -640,5 +723,82 @@ public class ProfileAutoshopFragment extends Fragment {
         byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         return decodedByte;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                buildGoogleApiClient();
+                mMap.setMyLocationEnabled(true);
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+        } else {
+            buildGoogleApiClient();
+            mMap.setMyLocationEnabled(true);
+        }
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API).build();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        mLastLocation = location;
+        if (mCurrLocationMarker != null) {
+            mCurrLocationMarker.remove();
+        }
+        //Place current location marker
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+         markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title("Drag me to your location!");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        mCurrLocationMarker = mMap.addMarker(markerOptions);
+
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+
+        //stop location updates
+        if (mGoogleApiClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
+        }
+    }
+
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
