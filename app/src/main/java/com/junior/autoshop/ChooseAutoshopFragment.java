@@ -81,6 +81,7 @@ public class ChooseAutoshopFragment extends Fragment implements SelectedAutoshop
     private int serviceCount;
     private SupportMapFragment mMapFragment;
     private boolean isFound;
+    private double userLat, userLong;
 
     private ArrayList<Autoshop> listAutoshop = new ArrayList<>();
     private ArrayList<Autoshop> listAutoshopToAdapter = new ArrayList<>();
@@ -159,6 +160,8 @@ public class ChooseAutoshopFragment extends Fragment implements SelectedAutoshop
                 }
             }
         });
+
+
     }
 
 
@@ -181,6 +184,26 @@ public class ChooseAutoshopFragment extends Fragment implements SelectedAutoshop
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener()
+        {
+            @Override
+            public void onMarkerDragStart(Marker marker)
+            {
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                userLat     = marker.getPosition().latitude;
+                userLong     = marker.getPosition().longitude;
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker)
+            {
+            }
+        });
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -311,8 +334,6 @@ public class ChooseAutoshopFragment extends Fragment implements SelectedAutoshop
     }
 
     private void calculateDistance(ArrayList<Autoshop> autoshops) {
-        double userLat = markerOptions.getPosition().latitude;
-        double userLong = markerOptions.getPosition().longitude;
 
         Log.d("loc", userLat + ", " + userLong);
         for (int i = 0; i < autoshops.size(); i++) {
