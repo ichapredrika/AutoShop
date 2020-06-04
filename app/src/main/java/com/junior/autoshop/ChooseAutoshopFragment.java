@@ -3,6 +3,8 @@ package com.junior.autoshop;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,9 +54,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 
 public class ChooseAutoshopFragment extends Fragment implements SelectedAutoshopCallback, OnMapReadyCallback,
@@ -62,6 +67,7 @@ public class ChooseAutoshopFragment extends Fragment implements SelectedAutoshop
         GoogleApiClient.OnConnectionFailedListener {
     private ArrayList<Service> listSelectedService;
     public static String EXTRA_SERVICE = "SERVICE";
+    public static String EXTRA_AUTOSHOP = "AUTOSHOP";
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     private FrameLayout flMap;
@@ -82,8 +88,10 @@ public class ChooseAutoshopFragment extends Fragment implements SelectedAutoshop
     private SupportMapFragment mMapFragment;
     private boolean isFound;
     private double userLat, userLong;
+    private String location;
 
     private ArrayList<Autoshop> listAutoshop = new ArrayList<>();
+    private ArrayList<Autoshop> listSelectedAutoshop = new ArrayList<>();
     private ArrayList<Autoshop> listAutoshopToAdapter = new ArrayList<>();
 
     public ChooseAutoshopFragment() {
@@ -145,18 +153,51 @@ public class ChooseAutoshopFragment extends Fragment implements SelectedAutoshop
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BookingDetailFragment bookingDetailFragment = new BookingDetailFragment();
-              /*  Bundle mBundle = new Bundle();
-                mBundle.putString(DetailCategoryFragment.EXTRA_NAME, "Lifestyle");
-                String description = "Kategori ini akan berisi produk-produk lifestyle";
-                mDetailCategoryFragment.setArguments(mBundle);
-                mDetailCategoryFragment.setDescription(description);*/
-                FragmentManager mFragmentManager = getFragmentManager();
-                if (mFragmentManager != null) {
-                    FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-                    mFragmentTransaction.replace(R.id.container_layout, bookingDetailFragment, BookingDetailFragment.class.getSimpleName());
-                    mFragmentTransaction.addToBackStack(null);
-                    mFragmentTransaction.commit();
+                if(listSelectedAutoshop.size()<1){
+                    Toast.makeText(getContext(), "Please select a workshop!", Toast.LENGTH_SHORT).show();
+                }else if(listSelectedAutoshop.size()>1){
+                    Toast.makeText(getContext(), "Please select only 1 workshop!", Toast.LENGTH_SHORT).show();
+                } else{
+                    String latlong = userLat + "," + userLong;
+                    Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+
+                    try {
+                        List<Address> listAddresses = geocoder.getFromLocation(userLat,userLong,1);
+                        location = "Could not find location :(";
+                        if (listAddresses != null && listAddresses.size() > 0) {
+                            if (listAddresses.get(0).getThoroughfare() != null) {
+                                location = listAddresses.get(0).getThoroughfare() + " ";
+                            }
+                            if (listAddresses.get(0).getLocality() != null) {
+                                location += listAddresses.get(0).getLocality() + " ";
+                            }
+                            if (listAddresses.get(0).getPostalCode() != null) {
+                                location += listAddresses.get(0).getPostalCode() + " ";
+                            }
+                            if (listAddresses.get(0).getAdminArea() != null) {
+                                location += listAddresses.get(0).getAdminArea();
+                            }
+                        }
+                        Log.i("Address",location);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    BookingDetailFragment bookingDetailFragment = new BookingDetailFragment();
+
+                    Bundle mBundle = new Bundle();
+                    mBundle.putSerializable(ChooseAutoshopFragment.EXTRA_SERVICE, listSelectedService);
+                    mBundle.putParcelable(ChooseAutoshopFragment.EXTRA_AUTOSHOP, selectedAutoshop);
+                    mBundle.putString("LATLONG", latlong);
+                    mBundle.putString("LOCATION", location);
+                    bookingDetailFragment.setArguments(mBundle);
+                    FragmentManager mFragmentManager = getFragmentManager();
+                    if (mFragmentManager != null) {
+                        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+                        mFragmentTransaction.replace(R.id.container_layout, bookingDetailFragment, BookingDetailFragment.class.getSimpleName());
+                        mFragmentTransaction.addToBackStack(BookingDetailFragment.class.getSimpleName());
+                        mFragmentTransaction.commit();
+                    }
                 }
             }
         });
@@ -227,6 +268,8 @@ public class ChooseAutoshopFragment extends Fragment implements SelectedAutoshop
         markerOptions.title("Current Position");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
+        userLat= location.getLatitude();
+        userLong = location.getLongitude();
 
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -264,7 +307,22 @@ public class ChooseAutoshopFragment extends Fragment implements SelectedAutoshop
 
     @Override
     public void selectAutoshop(Autoshop autoshop) {
-        selectedAutoshop = autoshop;
+        for (int i=0; i<listAutoshopToAdapter.size();i++){
+            if(autoshop.getId().equals(listAutoshopToAdapter.get(i).getId())){
+                selectedAutoshop = listAutoshopToAdapter.get(i);
+                listSelectedAutoshop.add(selectedAutoshop);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void deleteAutoshop(Autoshop autoshop) {
+        for(int i=0; i<listSelectedAutoshop.size();i++){
+            if (autoshop.getId().equals(listSelectedAutoshop.get(i).getId())){
+                listSelectedAutoshop.remove(i);
+            }
+        }
     }
 
     private void getAutoshop() {

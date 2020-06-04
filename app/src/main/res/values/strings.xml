@@ -103,4 +103,8 @@
     <string name="change_location">Change Location</string>
     <string name="hold_and_drag_the_marker">Hold and drag the marker</string>
     <string name="save_location">Save Location</string>
+    <string name="self_delivery">Self Delivery</string>
+    <string name="autoshop_pickup">Autoshop Pickup</string>
+    <string name="choose_movement1">Choose Movement</string>
+    <string name="set_movement">Set Movement</string>
 </resources>

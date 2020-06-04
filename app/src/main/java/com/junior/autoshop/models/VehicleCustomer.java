@@ -8,6 +8,7 @@ public class VehicleCustomer {
     private String name;
     private String brand;
     private String model;
+    private boolean isSelected;
 
     public VehicleCustomer(){}
     public VehicleCustomer(JSONObject object) {
@@ -68,5 +69,13 @@ public class VehicleCustomer {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

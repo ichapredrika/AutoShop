@@ -25,6 +25,7 @@ public class Autoshop implements Parcelable, Comparable {
     private String photo;
     private String openHours;
     private String closeHours;
+    private boolean isSelected;
     private double distance;
 
     public Autoshop(){
@@ -58,7 +59,6 @@ public class Autoshop implements Parcelable, Comparable {
         int compareDist= (int) ((Autoshop) o).getDistance();
         return (int) this.distance-compareDist;
     }
-
 
     public String getId() {
         return id;
@@ -180,12 +180,24 @@ public class Autoshop implements Parcelable, Comparable {
         this.closeHours = closeHours;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     public double getDistance() {
         return distance;
     }
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    public static Creator<Autoshop> getCREATOR() {
+        return CREATOR;
     }
 
     @Override

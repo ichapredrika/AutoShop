@@ -15,10 +15,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.junior.autoshop.R;
@@ -28,6 +30,7 @@ import com.junior.autoshop.models.Service;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class AutoshopAdapter extends RecyclerView.Adapter<AutoshopAdapter.AutoshopViewHolder> {
     private ArrayList<Autoshop> listAutoshop;
@@ -54,6 +57,9 @@ public class AutoshopAdapter extends RecyclerView.Adapter<AutoshopAdapter.Autosh
     @Override
     public void onBindViewHolder(@NonNull final AutoshopViewHolder holder, final int position) {
         final Autoshop autoshop = listAutoshop.get(position);
+        if (autoshop.isSelected()){
+            holder.ll.setBackground(context.getDrawable(R.drawable.bg_gray_gradient));
+        }else holder.ll.setBackground(context.getDrawable(R.drawable.bg_black_gradient));
         holder.tvName.setText(autoshop.getName());
         holder.tvAddress.setText(autoshop.getAddress());
         holder.tvDistance.setText("Distance: "+ df.format(autoshop.getDistance())+" Km");
@@ -67,7 +73,17 @@ public class AutoshopAdapter extends RecyclerView.Adapter<AutoshopAdapter.Autosh
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.selectAutoshop(listAutoshop.get(position));
+                if(autoshop.isSelected()){
+                    callback.deleteAutoshop(listAutoshop.get(position));
+                    listAutoshop.get(position).setSelected(false);
+                    notifyDataSetChanged();
+
+                }else{
+                    callback.selectAutoshop(listAutoshop.get(position));
+                    listAutoshop.get(position).setSelected(true);
+                    notifyDataSetChanged();
+                }
+
             }
         });
 
@@ -83,6 +99,7 @@ public class AutoshopAdapter extends RecyclerView.Adapter<AutoshopAdapter.Autosh
         TextView tvAddress;
         ImageView imgAutoshop;
         TextView tvDistance;
+        LinearLayout ll;
 
         AutoshopViewHolder(View itemView) {
             super(itemView);
@@ -90,6 +107,7 @@ public class AutoshopAdapter extends RecyclerView.Adapter<AutoshopAdapter.Autosh
             tvAddress = itemView.findViewById(R.id.txt_address);
             tvDistance = itemView.findViewById(R.id.txt_distance);
             imgAutoshop = itemView.findViewById(R.id.img_autoshop);
+            ll= itemView.findViewById(R.id.ll);
         }
     }
 

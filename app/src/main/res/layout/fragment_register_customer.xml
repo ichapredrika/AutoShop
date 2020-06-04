@@ -19,7 +19,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:padding="16dp"
-            app:srcCompat="@drawable/ic_automotive"
+            app:srcCompat="@drawable/ic_logo"
             tools:ignore="ContentDescription" />
 
         <TextView

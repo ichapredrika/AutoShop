@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/bg_black_gradient">
+
+    <ImageView
+        android:id="@+id/img_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_close"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:text="@string/choose_movement1"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:gravity="center"/>
+
+    <RadioGroup
+        android:id="@+id/rg_movement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rb_self_delivery"
+            style="@style/TextVertical.Caption"
+            android:textColor="@color/colorWhite"
+            android:buttonTint="@color/colorWhite"
+            android:text="@string/self_delivery" />
+
+        <RadioButton
+            android:id="@+id/rb_autoshop_pickup"
+            style="@style/TextVertical.Caption"
+            android:textColor="@color/colorWhite"
+            android:buttonTint="@color/colorWhite"
+            android:text="@string/autoshop_pickup" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_set_movement"
+        style="@style/Button.Neutral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/set_movement" />
+
+</LinearLayout>

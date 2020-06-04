@@ -42,7 +42,6 @@ public class HomeCustomerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(HomeCustomerActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_SOS);
-                intent.putExtra("namaItem", "junior");
                 startActivity(intent);
             }
         });

@@ -72,9 +72,7 @@ import java.util.HashMap;
 import static android.Manifest.permission.CAMERA;
 import static android.app.Activity.RESULT_OK;
 
-public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallback,
-        LocationListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallback {
     private static final String EXTRA_AUTOSHOP = "AUTOSHOP";
     private static final int PIC_ID = 123;
     private static final int REQUEST_CAMERA = 1;
@@ -126,6 +124,7 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         initProfile(view);
         SupportMapFragment mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
+        markerOptions = new MarkerOptions();
 
         popUpDialog = new Dialog(getContext());
         Button btnLogout = view.findViewById(R.id.btn_logout);
@@ -138,7 +137,7 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         rvServices.setLayoutManager(new LinearLayoutManager(getContext()));
         rvServices.setAdapter(serviceAutoshopAdapter);
 
-        getProfile();
+        //getProfile();
 
         imgEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -717,6 +716,19 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
 
         Bitmap profileBitmap = decodeBitmap(autoshop.getPhoto());
         imgAutoshop.setImageBitmap(profileBitmap);
+
+        String[] arrSplit = autoshop.getLatlong().split(",");
+
+        LatLng latLng = new LatLng(Double.parseDouble(arrSplit[0]), Double.parseDouble(arrSplit[1]));
+
+        markerOptions.position(latLng);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+        mCurrLocationMarker = mMap.addMarker(markerOptions);
+
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
     }
 
     private Bitmap decodeBitmap(String encodedImage) {
@@ -729,76 +741,13 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                buildGoogleApiClient();
-                mMap.setMyLocationEnabled(true);
-            } else {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
-        } else {
-            buildGoogleApiClient();
-            mMap.setMyLocationEnabled(true);
-        }
-    }
-
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API).build();
-        mGoogleApiClient.connect();
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        mLastLocation = location;
-        if (mCurrLocationMarker != null) {
-            mCurrLocationMarker.remove();
-        }
-        //Place current location marker
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-         markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("Drag me to your location!");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        mCurrLocationMarker = mMap.addMarker(markerOptions);
-
-        //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
-
-        //stop location updates
-        if (mGoogleApiClient != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
-        }
+    public void onResume() {
+        super.onResume();
+        getProfile();
     }
 
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000);
-        mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        if (ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 }

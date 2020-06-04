@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--AIzaSyAIilN-EUT3Wmf0qqSChIUTu6F-HmqC_bo-->
+   <!-- <string name="google_map_api_key">Asal-</string>-->
+
     <string name="google_map_api_key">AIzaSyAIilN-EUT3Wmf0qqSChIUTu6F-HmqC_bo</string>
 </resources>

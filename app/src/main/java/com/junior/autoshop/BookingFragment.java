@@ -97,7 +97,7 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
                     if (mFragmentManager != null) {
                         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
                         mFragmentTransaction.replace(R.id.container_layout, chooseAutoshopFragment, ChooseAutoshopFragment.class.getSimpleName());
-                        mFragmentTransaction.addToBackStack(null);
+                        mFragmentTransaction.addToBackStack(ChooseAutoshopFragment.class.getSimpleName());
                         mFragmentTransaction.commit();
                     }
                 }else Toast.makeText(getContext(), "Please choose a service!", Toast.LENGTH_SHORT).show();
