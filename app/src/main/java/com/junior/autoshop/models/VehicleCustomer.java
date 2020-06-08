@@ -8,6 +8,7 @@ public class VehicleCustomer {
     private String name;
     private String brand;
     private String model;
+    private String year;
     private boolean isSelected;
 
     public VehicleCustomer(){}
@@ -18,17 +19,20 @@ public class VehicleCustomer {
             this.name = object.optString("VEHICLE_NAME", "");
             this.brand = object.optString("BRAND", "");
             this.model = object.optString("MODEL", "");
+            this.year = object.optString("PRODUCTION_YEAR", "");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public VehicleCustomer(String id, String vehicleId, String name, String brand, String model) {
+    public VehicleCustomer(String id, String vehicleId, String name, String brand, String model, String year, boolean isSelected) {
         this.id = id;
         this.vehicleId = vehicleId;
         this.name = name;
         this.brand = brand;
         this.model = model;
+        this.year = year;
+        this.isSelected = isSelected;
     }
 
     public String getId() {
@@ -69,6 +73,14 @@ public class VehicleCustomer {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public boolean isSelected() {

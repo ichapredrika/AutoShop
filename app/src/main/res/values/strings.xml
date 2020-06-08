@@ -107,4 +107,6 @@
     <string name="autoshop_pickup">Autoshop Pickup</string>
     <string name="choose_movement1">Choose Movement</string>
     <string name="set_movement">Set Movement</string>
+    <string name="year">Year</string>
+    <string name="production_year">Production Year</string>
 </resources>

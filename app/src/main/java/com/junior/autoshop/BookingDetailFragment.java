@@ -192,9 +192,9 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
                         String sh_id = transId+"serv-"+i;
 
                         if (service == null) {
-                            service="('"+ sh_id +"','"+ listSelectedService.get(i).getId() +"','"+ transId +"','"+listSelectedService.get(i).getNote()+"')";
+                            service="('"+ sh_id +"','"+ listSelectedService.get(i).getId() +"','"+ transId +"','"+listSelectedService.get(i).getNote()+"', NULL)";
                         }else{
-                            service=service + "('"+ sh_id +"','"+ listSelectedService.get(i).getId() +"','"+ transId +"','"+listSelectedService.get(i).getNote()+"')";
+                            service=service + "('"+ sh_id +"','"+ listSelectedService.get(i).getId() +"','"+ transId +"','"+listSelectedService.get(i).getNote()+"', NULL)";
                         }
 
                         if(i!=listSelectedService.size()-1){

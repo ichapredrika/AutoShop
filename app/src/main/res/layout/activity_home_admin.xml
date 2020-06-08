@@ -30,6 +30,7 @@
             android:layout_weight="1"
             android:layout_margin="8dp"
             app:cardCornerRadius="10dp"
+            android:backgroundTint="@color/colorDark5"
             app:contentPadding="8dp">
 
             <LinearLayout
@@ -43,13 +44,14 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_booking" />
+                    android:src="@drawable/ic_nav_booked" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:textColor="@color/colorWhite"
                     android:text="@string/booked_service"
                     />
 
@@ -62,6 +64,7 @@
             android:layout_weight="1"
             android:layout_margin="8dp"
             app:cardCornerRadius="10dp"
+            android:backgroundTint="@color/colorDark5"
             app:contentPadding="8dp">
 
             <LinearLayout
@@ -75,13 +78,14 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_ongoing" />
+                    android:src="@drawable/ic_nav_workspace" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:textColor="@color/colorWhite"
                     android:text="@string/working_space" />
 
             </LinearLayout>
@@ -103,6 +107,7 @@
             android:layout_margin="8dp"
             android:layout_gravity="center"
             app:cardCornerRadius="10dp"
+            android:backgroundTint="@color/colorDark5"
             app:contentPadding="8dp">
 
             <LinearLayout
@@ -116,13 +121,14 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_payment_png" />
+                    android:src="@drawable/ic_nav_payment" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:textColor="@color/colorWhite"
                     android:text="@string/payment" />
 
             </LinearLayout>
@@ -134,6 +140,7 @@
             android:layout_weight="1"
             android:layout_margin="8dp"
             app:cardCornerRadius="10dp"
+            android:backgroundTint="@color/colorDark5"
             app:contentPadding="8dp">
 
             <LinearLayout
@@ -147,14 +154,15 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_profile" />
+                    android:src="@drawable/ic_nav_wprof" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="@string/profile" />
+                    android:text="@string/profile"
+                    android:textColor="@color/colorWhite"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

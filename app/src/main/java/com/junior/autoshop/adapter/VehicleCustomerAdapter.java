@@ -61,6 +61,7 @@ public class VehicleCustomerAdapter extends RecyclerView.Adapter<VehicleCustomer
         holder.tvName.setText(vehicleCustomer.getName());
         holder.tvModel.setText(vehicleCustomer.getModel());
         holder.tvBrand.setText(vehicleCustomer.getBrand());
+        holder.tvYear.setText(vehicleCustomer.getYear());
 
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +105,7 @@ public class VehicleCustomerAdapter extends RecyclerView.Adapter<VehicleCustomer
         TextView tvName;
         TextView tvBrand;
         TextView tvModel;
+        TextView tvYear;
         ImageView imgDelete;
 
         VehicleCustomerViewHolder(View itemView) {
@@ -111,6 +113,7 @@ public class VehicleCustomerAdapter extends RecyclerView.Adapter<VehicleCustomer
             tvName = itemView.findViewById(R.id.txt_name);
             tvBrand = itemView.findViewById(R.id.txt_brand);
             tvModel = itemView.findViewById(R.id.txt_model);
+            tvYear = itemView.findViewById(R.id.txt_year);
             imgDelete = itemView.findViewById(R.id.img_delete);
         }
     }

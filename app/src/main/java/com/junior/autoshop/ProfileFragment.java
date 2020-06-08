@@ -200,6 +200,7 @@ public class ProfileFragment extends Fragment {
 
         final TextView tvName = popUpDialog.findViewById(R.id.txt_vehicle_name);
         final Spinner spBrandModel = popUpDialog.findViewById(R.id.sp_brand_model);
+        final TextView tvYear = popUpDialog.findViewById(R.id.txt_year);
         ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
         Button btnAddVehicle = popUpDialog.findViewById(R.id.btn_add_vehicle);
 
@@ -214,9 +215,13 @@ public class ProfileFragment extends Fragment {
                 if (tvName.getText().toString().trim().isEmpty()) {
                     tvName.setError("Name Can't be Empty!");
                     tvName.requestFocus();
+                }if (tvYear.getText().toString().trim().isEmpty()) {
+                    tvYear.setError("Production Year Can't be Empty!");
+                    tvYear.requestFocus();
                 } else {
                     VehicleCustomer newVehicleCustomer = new VehicleCustomer();
                     newVehicleCustomer.setName(tvName.getText().toString().trim());
+                    newVehicleCustomer.setYear(tvYear.getText().toString().trim());
 
                     for(int i=0;i<listVehicleAll.size();i++){
                         if (spBrandModel.getSelectedItem().equals(listVehicleAll.get(i).getBrandModel())){
@@ -419,6 +424,7 @@ public class ProfileFragment extends Fragment {
                 params.put("VEHICLE_ID", vehicleCustomer.getVehicleId());
                 params.put("CUSTOMER_ID", customer.getId());
                 params.put("VEHICLE_NAME", vehicleCustomer.getName());
+                params.put("PRODUCTION_YEAR", vehicleCustomer.getYear());
                 return params;
             }
         };

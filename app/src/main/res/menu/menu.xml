@@ -3,27 +3,27 @@
 
     <item
         android:id="@+id/navigation_booking"
-        android:icon="@drawable/ic_book_service"
+        android:icon="@drawable/ic_nav_booking"
         android:title="@string/booking" />
 
     <item
         android:id="@+id/navigation_sos"
-        android:icon="@drawable/ic_sos_menu"
+        android:icon="@drawable/ic_nav_sos"
         android:title="@string/sos" />
 
     <item
         android:id="@+id/navigation_ongoing"
-        android:icon="@drawable/ic_automotive"
+        android:icon="@drawable/ic_nav_ongoing"
         android:title="@string/ongoing" />
 
     <item
         android:id="@+id/navigation_history"
-        android:icon="@drawable/ic_history"
+        android:icon="@drawable/ic_nav_history"
         android:title="@string/history" />
 
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_profile_menu"
+        android:icon="@drawable/ic_nav_cprof"
         android:title="@string/profile" />
 
 </menu>

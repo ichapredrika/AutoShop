@@ -717,8 +717,12 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         Bitmap profileBitmap = decodeBitmap(autoshop.getPhoto());
         imgAutoshop.setImageBitmap(profileBitmap);
 
-        String[] arrSplit = autoshop.getLatlong().split(",");
+        /*String[] arrSplit = autoshop.getLatlong().split(",");
 
+        LatLng latLng = new LatLng(Double.parseDouble(arrSplit[0]), Double.parseDouble(arrSplit[1]));
+        mCurrLocationMarker.setPosition(latLng);*/
+
+        String[] arrSplit = autoshop.getLatlong().split(",");
         LatLng latLng = new LatLng(Double.parseDouble(arrSplit[0]), Double.parseDouble(arrSplit[1]));
 
         markerOptions.position(latLng);
