@@ -1,7 +1,7 @@
 package com.junior.autoshop;
 
 public class phpConf {
-    private final static String ip = "192.168.43.93";
+    private final static String ip = "192.168.1.7";
 
     private final static String prefix = "https://" + ip + "/autoshop/";
     public final static String URL_CONNECTION = "connection.php";
@@ -25,6 +25,7 @@ public class phpConf {
     public final static String URL_UPDATE_TRANS_PROGRESS = prefix + "update_trans_progress.php";
     public final static String URL_ADD_TRANS_COST = prefix + "add_trans_cost.php";
     public final static String URL_DELETE_TRANS_COST = prefix + "delete_trans_cost.php";
+    public final static String URL_CHANGE_STATUS = prefix + "change_status.php";
     public final static String URL_FINISH_TRANS = prefix + "finish_trans.php";
     public final static String URL_GET_WFP_TRANS = prefix + "get_wfp_trans.php";
     public final static String URL_GET_FINISHED_TRANS = prefix + "get_finished_trans.php";
@@ -40,6 +41,7 @@ public class phpConf {
     public final static String URL_CREATE_TRANS_SOS = prefix + "create_trans_sos.php";
     public final static String URL_GET_SOS_AUTOSHOP = prefix + "get_sos_autoshop.php";
     public final static String URL_GET_ONGOING_TRANS = prefix + "get_ongoing_trans.php";
+    public final static String URL_GET_ONGOING_DETAIL = prefix + "get_ongoing_detail.php";
     public final static String URL_CANCEL_TRANS = prefix + "cancel_trans.php";
     public final static String URL_CHANGE_PICKUP_OPTION = prefix + "change_pickup_option.php";
     public final static String URL_GET_AUTOSHOP_PAYMENT_ACC = prefix + "get_autoshop_payment_acc.php";

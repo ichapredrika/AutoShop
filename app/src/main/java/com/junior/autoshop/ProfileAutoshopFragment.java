@@ -317,7 +317,6 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
                     updateProfile(newAutoshop);
                     popUpDialog.dismiss();
                 }
-
             }
         });
 

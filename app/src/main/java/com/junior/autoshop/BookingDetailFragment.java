@@ -64,8 +64,8 @@ import static com.junior.autoshop.ChooseAutoshopFragment.EXTRA_AUTOSHOP;
 import static com.junior.autoshop.ChooseAutoshopFragment.EXTRA_SERVICE;
 
 public class BookingDetailFragment extends Fragment implements SelectedVehicleCallback {
-    private static final String EXTRA_SELF_DELIVERY = "SELF DELIVERY";
-    private static final String EXTRA_AUTOSHOP_PICKUP = "AUTOSHOP PICKUP";
+    public static final String EXTRA_SELF_DELIVERY = "SELF DELIVERY";
+    public static final String EXTRA_AUTOSHOP_PICKUP = "AUTOSHOP PICKUP";
     private ArrayList<Service> listSelectedService;
     private Autoshop selectedAutoshop;
     private ImageButton btnStartDate, btnMovement;
@@ -94,6 +94,7 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
     private String location;
     private String transId;
     private String service;
+
 
     public BookingDetailFragment() {
     }
