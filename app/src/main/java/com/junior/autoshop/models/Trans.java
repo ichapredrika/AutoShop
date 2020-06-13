@@ -19,11 +19,16 @@ public class Trans {
     private String status;
     private String autoshopAddress;
     private String autoshopLatlong;
+    private String autoshopBank;
+    private String autoshopAccountNumber;
     private String vehicleName;
+    private String vehicleBrand;
+    private String vehicleModel;
     private String adminContact;
     private String pickupContact;
     private String customerName;
     private String customerContact;
+
 
     public Trans(){}
 
@@ -42,10 +47,14 @@ public class Trans {
             this.type = object.optString("TYPE", "");
             this.totalPrice = object.optString("TOTAL_PRICE", "");
             this.autoshopName = object.optString("NAME", "");
+            this.autoshopBank = object.optString("BANK", "");
+            this.autoshopAccountNumber = object.optString("ACCOUNT_NUMBER", "");
             this.status = object.optString("STATUS", "");
             this.autoshopAddress = object.optString("ADDRESS", "");
             this.autoshopLatlong = object.optString("AUTOSHOP_LATLONG", "");
             this.vehicleName = object.optString("VEHICLE_NAME", "");
+            this.vehicleBrand = object.optString("BRAND", "");
+            this.vehicleModel = object.optString("MODEL", "");
             this.adminContact = object.optString("ADMIN_CONTACT", "");
             this.pickupContact = object.optString("PICKUP_CONTACT", "");
             this.customerName = object.optString("FULLNAME", "");
@@ -55,6 +64,37 @@ public class Trans {
         }
     }
 
+    public String getVehicleBrand() {
+        return vehicleBrand;
+    }
+
+    public void setVehicleBrand(String vehicleBrand) {
+        this.vehicleBrand = vehicleBrand;
+    }
+
+    public String getVehicleModel() {
+        return vehicleModel;
+    }
+
+    public void setVehicleModel(String vehicleModel) {
+        this.vehicleModel = vehicleModel;
+    }
+
+    public String getAutoshopBank() {
+        return autoshopBank;
+    }
+
+    public void setAutoshopBank(String autoshopBank) {
+        this.autoshopBank = autoshopBank;
+    }
+
+    public String getAutoshopAccountNumber() {
+        return autoshopAccountNumber;
+    }
+
+    public void setAutoshopAccountNumber(String autoshopAccountNumber) {
+        this.autoshopAccountNumber = autoshopAccountNumber;
+    }
 
     public String getId() {
         return id;

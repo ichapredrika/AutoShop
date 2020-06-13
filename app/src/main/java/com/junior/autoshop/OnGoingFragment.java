@@ -97,22 +97,19 @@ public class OnGoingFragment extends Fragment {
                     String response = jo.getString("response");
 
                     loading.dismiss();
-
+                    listOnGoing.clear();
                     if (response.equals("1")) {
-                        listOnGoing.clear();
-
                         JSONArray transData = jo.getJSONArray("DATA");
                         for (int i = 0; i < transData.length(); i++) {
                             JSONObject object = transData.getJSONObject(i);
                             TransOngoing transOngoing = new TransOngoing(object);
                             listOnGoing.add(transOngoing);
                         }
-                        updateAdapter(listOnGoing);
-
                     } else {
                         String message = jo.getString("message");
                         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                     }
+                    updateAdapter(listOnGoing);
 
                 } catch (JSONException e) {
                     loading.dismiss();

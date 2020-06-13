@@ -16,51 +16,58 @@
         app:title="@string/sos_choose_autoshop"
         app:titleTextColor="@color/colorWhite" />
 
-    <TextView
-        style="@style/Text.Title"
+    <FrameLayout
+        android:id="@+id/fl_map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/mark_your_location"
-        android:textColor="@color/colorWhite" />
+        android:layout_weight="1">
 
-    <fragment
-        android:id="@+id/mapFragment"
-        class="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"/>
+        <TextView
+            style="@style/Text.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/mark_your_location"
+            android:textColor="@color/colorWhite" />
 
-    <TextView
-        style="@style/Text.Title"
-        android:layout_width="match_parent"
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp" />
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/btn_search_autoshop"
+        style="@style/Button.Neutral"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/pick_autoshop"
-        android:textColor="@color/colorWhite" />
+        android:layout_margin="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/search_autoshop"
+        android:textAllCaps="false" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_autoshop"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_weight="1"/>
+        android:visibility="gone"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/btn_proceed"
+        style="@style/Button.Neutral"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="@drawable/btn_neutral"
-        android:text="@string/proceed"
-        android:textAlignment="center" />
+        android:text="@string/proceed" />
 
 </LinearLayout>

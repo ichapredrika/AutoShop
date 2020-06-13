@@ -25,14 +25,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/colorWhite"
+            android:textAlignment="viewEnd"
             tools:text="Price" />
 
         <ImageView
             android:id="@+id/img_delete"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginStart="12dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_delete" />
+            android:src="@drawable/ic_delete"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

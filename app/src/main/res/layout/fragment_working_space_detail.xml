@@ -20,110 +20,112 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="10dp"
-                app:contentPadding="5dp">
+                android:background="@drawable/bg_black_gradient"
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/txt_name"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"
+                        tools:text="User Name" />
 
-                        <TextView
-                            android:id="@+id/txt_name"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:textStyle="bold"
-                            tools:text="User Name" />
+                    <Button
+                        android:id="@+id/btn_complaints"
+                        style="@style/Button.Neutral"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:drawableTint="@color/colorBlack"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/complaints"
+                        android:textAllCaps="false"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/txt_complaints"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_info"
-                            android:drawablePadding="4dp"
-                            android:text="@string/complaints" />
-                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/txt_brand"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_marginStart="0dp"
+                        android:layout_marginEnd="4dp"
+                        android:textColor="@color/colorWhite"
+                        tools:text="Brand" />
 
-                        <TextView
-                            android:id="@+id/txt_brand"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="0dp"
-                            android:layout_marginEnd="4dp"
-                            tools:text="Brand" />
-
-                        <TextView
-                            android:id="@+id/txt_model"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="Model" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/txt_model"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="0dp"
-                            android:layout_marginEnd="4dp"
-                            android:layout_weight="1"
-                            android:textStyle="bold"
-                            android:text="@string/progress" />
-
-                        <TextView
-                            android:id="@+id/txt_progress"
-                            android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="50%"
-                            android:textStyle="bold"
-                            android:gravity="end"/>
-
-                    </LinearLayout>
-
-                    <SeekBar
-                        android:id="@+id/sb_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_marginTop="5dp"
-                        android:progressBackgroundTint="@color/colorGray1"
-                        android:progressTint="@color/colorBlue1"
-                        android:thumbTint="@color/colorBlue1" />
+                        android:textColor="@color/colorWhite"
+                        tools:text="Model" />
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:text="@string/progress"
+                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/_0"
+                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/sb_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:progressBackgroundTint="@color/colorGray4"
+                    android:progressTint="@color/colorWhite"
+                    android:thumbTint="@color/colorWhite" />
+
+            </LinearLayout>
+
 
             <TextView
                 style="@style/Text.Title"
@@ -136,81 +138,90 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Spinner
-                    android:id="@+id/sp_service"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/border_edit_text"
-                    android:gravity="center" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_price"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.8"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/border_edit_text"
-                    android:gravity="center"
-                    android:hint="@string/price"
-                    android:inputType="numberDecimal"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="10dp"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="13sp" />
-
-                <Button
-                    android:id="@+id/btn_add_service"
-                    style="@style/Button.Positive"
-                    android:layout_width="50dp"
-                    android:layout_height="35dp"
-                    android:text="@string/add"
-                    android:textAllCaps="false"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_service"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="10dp"
-                app:contentPadding="5dp">
+                android:background="@drawable/bg_black_gradient"
+                android:padding="8dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
                     android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/sp_service"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorWhite"
+                        android:backgroundTint="@color/colorWhite"
+                        android:theme="@style/ThemeOverlay.AppCompat.Light"
+                        android:gravity="center" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_price"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="0.8"
+                        android:gravity="center"
+                        android:hint="@string/price"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="10dp"
+                        android:backgroundTint="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+
+                    <Button
+                        android:id="@+id/btn_add_cost"
+                        style="@style/Button.Neutral"
+                        android:layout_width="50dp"
+                        android:layout_height="35dp"
+                        android:text="@string/add"
+                        android:textAllCaps="false"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_cost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:padding="4dp"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/total"
                         android:textStyle="bold"
-                        android:text="@string/total"/>
+                        android:textColor="@color/colorWhite"/>
 
                     <TextView
                         android:id="@+id/txt_total"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="end"
+                        android:text="@string/rp_0"
                         android:textStyle="bold"
-                        tools:text="Rp. 1000.000"/>
+                        android:textColor="@color/colorWhite"/>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>
@@ -222,22 +233,22 @@
 
         <Button
             android:id="@+id/btn_update"
+            style="@style/Button.Neutral"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_margin="16dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_neutral"
             android:text="@string/update"
             android:textAlignment="center"
             android:textSize="14sp" />
 
         <Button
             android:id="@+id/btn_finish"
+            style="@style/Button.Neutral"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_margin="16dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_neutral"
             android:text="@string/finish"
             android:textAlignment="center"
             android:textSize="14sp" />

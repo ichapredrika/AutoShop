@@ -60,58 +60,69 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
             }
         });
 
+        if (service.isSelected()) holder.cbBook.setChecked(true);
 
-        holder.cbBook.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                 @Override
-                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                     if (isChecked) {
-                         popUpDialog.setContentView(R.layout.pop_up_note);
-                         popUpDialog.setCanceledOnTouchOutside(false);
-                         final TextView tvNote = popUpDialog.findViewById(R.id.txt_note);
-                         Button btnAdd = popUpDialog.findViewById(R.id.btn_add_note);
-                         Button btnNoNote = popUpDialog.findViewById(R.id.btn_no_note);
-                         ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
+        holder.cbBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.cbBook.isChecked()==true) {
+                    popUpDialog.setContentView(R.layout.pop_up_note);
+                    popUpDialog.setCanceledOnTouchOutside(false);
+                    final TextView tvNote = popUpDialog.findViewById(R.id.txt_note);
+                    Button btnAdd = popUpDialog.findViewById(R.id.btn_add_note);
+                    Button btnNoNote = popUpDialog.findViewById(R.id.btn_no_note);
+                    ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
 
-                         btnAdd.setOnClickListener(new View.OnClickListener() {
-                             @Override
-                             public void onClick(View v) {
-                                 String note = tvNote.getText().toString().trim();
-                                 Service newService = listService.get(position);
-                                 newService.setNote(note);
-                                 callback.selectService(newService);
-                                 popUpDialog.dismiss();
-                             }
-                         });
+                    btnAdd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String note = tvNote.getText().toString().trim();
+                            listService.get(position).setNote(note);
+                            listService.get(position).setSelected(true);
+                            callback.selectService(listService.get(position));
+                            //notifyDataSetChanged();
+                            popUpDialog.dismiss();
+                        }
+                    });
 
-                         btnNoNote.setOnClickListener(new View.OnClickListener() {
-                             @Override
-                             public void onClick(View v) {
-                                 Service newService = listService.get(position);
-                                 newService.setNote("");
-                                 callback.selectService(newService);
-                                 popUpDialog.dismiss();
-                             }
-                         });
+                    btnNoNote.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String note = "";
+                            listService.get(position).setNote(note);
+                            listService.get(position).setSelected(true);
+                            callback.selectService(listService.get(position));
+                            //notifyDataSetChanged();
+                            popUpDialog.dismiss();
+                        }
+                    });
 
-                         imgClose.setOnClickListener(new View.OnClickListener() {
-                             @Override
-                             public void onClick(View v) {
-                                 popUpDialog.dismiss();
-                                 callback.selectService(listService.get(position));
-                             }
-                         });
-                         if (popUpDialog.getWindow() != null) {
-                             popUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                             popUpDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                         }
-                         popUpDialog.show();
+                    imgClose.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String note = "";
+                            listService.get(position).setNote(note);
+                            listService.get(position).setSelected(true);
+                            callback.selectService(listService.get(position));
+                            //notifyDataSetChanged();
+                            popUpDialog.dismiss();
+                        }
+                    });
+                    if (popUpDialog.getWindow() != null) {
+                        popUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        popUpDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    }
+                    popUpDialog.show();
 
-                     } else {
-                         callback.deleteService(listService.get(position));
-                     }
-                 }
-             }
-        );
+                } else {
+                    String note = "";
+                    listService.get(position).setNote(note);
+                    listService.get(position).setSelected(false);
+                    callback.deleteService(listService.get(position));
+                    //notifyDataSetChanged();
+                }
+            }
+        });
 
     }
 
@@ -120,7 +131,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
         return listService.size();
     }
 
-    class ServiceViewHolder extends RecyclerView.ViewHolder {
+    static class ServiceViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
         ImageView imgInfo;
         CheckBox cbBook;

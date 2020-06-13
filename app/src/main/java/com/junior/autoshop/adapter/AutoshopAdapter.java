@@ -83,7 +83,6 @@ public class AutoshopAdapter extends RecyclerView.Adapter<AutoshopAdapter.Autosh
                     listAutoshop.get(position).setSelected(true);
                     notifyDataSetChanged();
                 }
-
             }
         });
 

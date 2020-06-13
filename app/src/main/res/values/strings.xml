@@ -110,4 +110,7 @@
     <string name="amount_parse">Rp. %1$s</string>
     <string name="production_year">Production Year</string>
     <string name="rp_0">Rp 0</string>
+    <string name="detail">Detail</string>
+    <string name="invoice">Invoice</string>
+    <string name="_0">0%</string>
 </resources>

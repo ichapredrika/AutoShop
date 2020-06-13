@@ -114,49 +114,4 @@ public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.OnGoingV
         }
     }
 
-    private void deleteService(final int position) {
-        loading = ProgressDialog.show(context, "Loading Data...", "Please Wait...", false, false);
-        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
-
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_DELETE_VEHICLE_CUSTOMER, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                try {
-
-                    Log.d("Json delete vehicle", s);
-                    JSONObject jsonObject = new JSONObject(s);
-                    JSONArray data = jsonObject.getJSONArray("result");
-                    JSONObject jo = data.getJSONObject(0);
-
-                    Log.d("tagJsonObject", jo.toString());
-                    String response = jo.getString("response");
-                    String message = jo.getString("message");
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                    loading.dismiss();
-                    listTransOnGoing.remove(position);
-                    notifyDataSetChanged();
-
-                } catch (JSONException e) {
-                    loading.dismiss();
-                    e.printStackTrace();
-                }
-                loading.dismiss();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                loading.dismiss();
-                Log.d("tag", String.valueOf(error));
-                Toast.makeText(context, context.getString(R.string.msg_connection_error), Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            protected java.util.Map<String, String> getParams() {
-                java.util.Map<String, String> params = new HashMap<>();
-                params.put("VH_ID", listTransOnGoing.get(position).getId());
-                return params;
-            }
-        };
-        mRequestQueue.add(mStringRequest);
-    }
 }

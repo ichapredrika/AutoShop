@@ -2,9 +2,13 @@ package com.junior.autoshop.adapter;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -23,10 +28,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.junior.autoshop.BookingDetailFragment;
+import com.junior.autoshop.MainAdminActivity;
 import com.junior.autoshop.R;
-import com.junior.autoshop.UpdateTotalCallback;
-import com.junior.autoshop.models.TransCost;
-import com.junior.autoshop.models.VehicleCustomer;
+import com.junior.autoshop.models.Trans;
 import com.junior.autoshop.phpConf;
 
 import org.json.JSONArray;
@@ -34,55 +39,53 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
-public class TransCostAdapter extends RecyclerView.Adapter<TransCostAdapter.TransCostViewHolder>{
-    private ArrayList<TransCost> listTransCost;
+
+public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentViewHolder>{
+    private ArrayList<Trans> listTrans;
     private Context context;
     private ProgressDialog loading;
     private Dialog popUpDialog;
     private DecimalFormat df = new DecimalFormat("#,###.###");
-    private boolean isEditable;
-    private UpdateTotalCallback callback;
 
-    public TransCostAdapter(Context context, ArrayList<TransCost> listTransCost, boolean isEditable) {
+    public PaymentAdapter(Context context, ArrayList<Trans> listTrans) {
         this.context = context;
-        this.listTransCost = listTransCost;
+        this.listTrans = listTrans;
         popUpDialog = new Dialog(context);
-        this.isEditable = isEditable;
-    }
-
-    public TransCostAdapter(Context context, ArrayList<TransCost> listTransCost, boolean isEditable, UpdateTotalCallback callback) {
-        this.context = context;
-        this.listTransCost = listTransCost;
-        popUpDialog = new Dialog(context);
-        this.isEditable = isEditable;
-        this.callback = callback;
     }
 
     @NonNull
     @Override
-    public TransCostViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_trans_cost, viewGroup, false);
-        return new TransCostViewHolder(view);
+    public PaymentViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_payment, viewGroup, false);
+        return new PaymentViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TransCostViewHolder holder, final int position) {
-        final TransCost transCost = listTransCost.get(position);
-        holder.tvService.setText(transCost.getType());
-        double price = Double.parseDouble(transCost.getPrice());
+    public void onBindViewHolder(@NonNull PaymentViewHolder holder, final int position) {
+        final Trans trans = listTrans.get(position);
 
-        holder.tvPrice.setText(context.getString(R.string.amount_parse,df.format(price)));
+        holder.tvCustomerName.setText(trans.getCustomerName());
+        holder.tvBrand.setText(trans.getVehicleBrand());
+        holder.tvModel.setText(trans.getVehicleModel());
+        if(trans.getTotalPrice().equals("null") || trans.getTotalPrice().isEmpty()){
+            holder.tvTotal.setText("Rp. 0");
+        }else{
+            double price = Double.parseDouble(trans.getTotalPrice());
+            holder.tvTotal.setText(context.getString(R.string.amount_parse,df.format(price)));
+        }
 
-        if (!isEditable){
-            holder.imgDelete.setVisibility(View.GONE);
-        }else holder.imgDelete.setVisibility(View.VISIBLE);
-        holder.imgDelete.setOnClickListener(new View.OnClickListener() {
+        holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popUpDialog.setContentView(R.layout.pop_up_confirmation);
+                final TextView tvQuestion = popUpDialog.findViewById(R.id.txt_question);
+                tvQuestion.setText("Are you sure?");
                 Button btnYes = popUpDialog.findViewById(R.id.btn_yes);
                 Button btnNo = popUpDialog.findViewById(R.id.btn_no);
 
@@ -90,7 +93,7 @@ public class TransCostAdapter extends RecyclerView.Adapter<TransCostAdapter.Tran
                 btnYes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteCost(position);
+                        finishTrans(position,trans.getId());
                         popUpDialog.dismiss();
                     }
                 });
@@ -108,36 +111,33 @@ public class TransCostAdapter extends RecyclerView.Adapter<TransCostAdapter.Tran
                 popUpDialog.show();
             }
         });
+
+        holder.btnContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phone = trans.getCustomerContact();
+                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("phone number", phone);
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(context.getApplicationContext(),"Phone Number Copied to Clipboard!",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return listTransCost.size();
+        return listTrans.size();
     }
 
-    class TransCostViewHolder extends RecyclerView.ViewHolder {
-        TextView tvService;
-        TextView tvPrice;
-        ImageView imgDelete;
-
-        TransCostViewHolder(View itemView) {
-            super(itemView);
-            tvService = itemView.findViewById(R.id.txt_service);
-            tvPrice = itemView.findViewById(R.id.txt_price);
-            imgDelete = itemView.findViewById(R.id.img_delete);
-        }
-    }
-
-    private void deleteCost(final int position) {
+    private void finishTrans(final int position, final String transId) {
         loading = ProgressDialog.show(context, "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_DELETE_TRANS_COST, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_FINISH_TRANS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
-
-                    Log.d("Json delete COST", s);
+                    Log.d("Json finish", s);
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray data = jsonObject.getJSONArray("result");
                     JSONObject jo = data.getJSONObject(0);
@@ -147,10 +147,8 @@ public class TransCostAdapter extends RecyclerView.Adapter<TransCostAdapter.Tran
                     String message = jo.getString("message");
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                     loading.dismiss();
-                    callback.delete(listTransCost.get(position).getPrice());
-                    listTransCost.remove(position);
+                    listTrans.remove(position);
                     notifyDataSetChanged();
-
                 } catch (JSONException e) {
                     loading.dismiss();
                     e.printStackTrace();
@@ -167,14 +165,38 @@ public class TransCostAdapter extends RecyclerView.Adapter<TransCostAdapter.Tran
         }){
             @Override
             protected java.util.Map<String, String> getParams() {
+                Date c = Calendar.getInstance().getTime();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String time = dateFormat.format(c);
+
                 java.util.Map<String, String> params = new HashMap<>();
-                params.put("PRICING_ID", listTransCost.get(position).getId());
-                params.put("PRICE", listTransCost.get(position).getPrice());
-                params.put("TRANSACTION_ID", listTransCost.get(position).getTransId());
-                Log.d("param", params.toString());
+                params.put("TRANSACTION_ID", transId);
+                params.put("STATUS", "FINISHED");
+                params.put("TIME", time);
+                params.put("AUTOSHOP_ID", listTrans.get(position).getAutoshopId());
                 return params;
             }
         };
         mRequestQueue.add(mStringRequest);
+    }
+
+
+    class PaymentViewHolder extends RecyclerView.ViewHolder {
+        TextView tvCustomerName;
+        TextView tvBrand;
+        TextView tvModel;
+        TextView tvTotal;
+        Button btnContact;
+        Button btnConfirm;
+
+        PaymentViewHolder(View itemView) {
+            super(itemView);
+            tvCustomerName = itemView.findViewById(R.id.txt_name);
+            tvBrand = itemView.findViewById(R.id.txt_brand);
+            tvModel = itemView.findViewById(R.id.txt_model);
+            tvTotal = itemView.findViewById(R.id.txt_total);
+            btnContact = itemView.findViewById(R.id.btn_contact);
+            btnConfirm = itemView.findViewById(R.id.btn_confirm);
+        }
     }
 }

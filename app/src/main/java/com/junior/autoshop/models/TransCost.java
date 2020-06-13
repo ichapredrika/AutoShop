@@ -8,6 +8,7 @@ public class TransCost {
     private String price;
     private String type;
     private String detail;
+    private String transId;
 
     public TransCost(){}
 
@@ -18,6 +19,7 @@ public class TransCost {
             this.price = object.optString("PRICE", "");
             this.type = object.optString("TYPE", "");
             this.detail = object.optString("DETAIL", "");
+            this.transId = object.optString("TRANSACTION_ID", "");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,5 +64,13 @@ public class TransCost {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getTransId() {
+        return transId;
+    }
+
+    public void setTransId(String transId) {
+        this.transId = transId;
     }
 }

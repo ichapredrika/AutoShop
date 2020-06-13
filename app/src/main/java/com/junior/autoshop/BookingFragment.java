@@ -163,6 +163,12 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
     @Override
     public void selectService(Service service) {
         listSelectedService.add(service);
+        for(int i=0; i< listService.size();i++){
+            if (service.getId().equals(listService.get(i).getId())){
+                listService.get(i).setNote(service.getNote());
+                listService.get(i).setSelected(service.isSelected());
+            }
+        }
         Log.d("selectedService", listSelectedService.toString());
     }
 
@@ -173,18 +179,15 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
                 listSelectedService.remove(i);
             }
         }
-        Log.d("selectedService", listSelectedService.toString());
-    }
-
-    @Override
-    public void addNoteService(Service service) {
-        for(int i=0; i< listSelectedService.size();i++){
-            if (service.getId().equals(listSelectedService.get(i).getId())){
-                listSelectedService.get(i).setNote(service.getNote());
+        for(int i=0; i< listService.size();i++){
+            if (service.getId().equals(listService.get(i).getId())){
+                listService.get(i).setNote(service.getNote());
+                listService.get(i).setSelected(service.isSelected());
             }
         }
         Log.d("selectedService", listSelectedService.toString());
     }
+
 
     @SuppressLint("TrulyRandom")
     public static void handleSSLHandshake() {
@@ -215,4 +218,11 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
         } catch (Exception ignored) {
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateAdapter(listService);
+    }
+
 }

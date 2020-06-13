@@ -11,6 +11,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,16 +33,6 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -63,24 +63,18 @@ import java.util.UUID;
 import static com.junior.autoshop.ChooseAutoshopFragment.EXTRA_AUTOSHOP;
 import static com.junior.autoshop.ChooseAutoshopFragment.EXTRA_SERVICE;
 
-public class BookingDetailFragment extends Fragment implements SelectedVehicleCallback {
+public class SosDetailFragment extends Fragment implements SelectedVehicleCallback {
     public static final String EXTRA_SELF_DELIVERY = "SELF DELIVERY";
     public static final String EXTRA_AUTOSHOP_PICKUP = "AUTOSHOP PICKUP";
-    private ArrayList<Service> listSelectedService;
     private Autoshop selectedAutoshop;
-    private ImageButton btnStartDate, btnMovement;
-    private TextView tvStartDate, tvMovement;
-    private RecyclerView rvVehicle, rvService;
+    private FragmentActivity myContext;
+    private RecyclerView rvVehicle;
     private Button btnBook;
     private ImageView imgAutoshop;
     private TextView tvAutoshopName, tvAddress, tvDistance;
     private DecimalFormat df = new DecimalFormat("#,###.##");
-    final String START_DATE_TAG = "StartDate";
     private String startDate;
-    private Date date;
     private Dialog popUpDialog;
-    private String movement;
-    private SelectedServiceAdapter selectedServiceAdapter;
     private VehicleAdapter vehicleAdapter;
     private ArrayList<VehicleCustomer> listSelectedVehicle = new ArrayList<>();
     private ArrayList<VehicleCustomer> listVehicleCustomer = new ArrayList<>();
@@ -88,35 +82,27 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
     private ProgressDialog loading;
     private UserPreference mUserPreference;
     private Customer customer;
-    private FragmentActivity myContext;
     private VehicleCustomer selectedVehicle;
     private String latlong;
     private String location;
     private String transId;
     private String service;
 
-
-    public BookingDetailFragment() {
+    public SosDetailFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_booking_detail, container, false);
+        return inflater.inflate(R.layout.fragment_sos_detail, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        btnStartDate = view.findViewById(R.id.btn_start_date);
-        btnMovement = view.findViewById(R.id.btn_movement);
         btnBook = view.findViewById(R.id.btn_book);
-        tvStartDate = view.findViewById(R.id.txt_start_date);
-        tvMovement = view.findViewById(R.id.txt_movement);
         rvVehicle = view.findViewById(R.id.rv_vehicle);
-        rvService = view.findViewById(R.id.rv_service);
         imgAutoshop = view.findViewById(R.id.img_autoshop);
         tvAutoshopName = view.findViewById(R.id.txt_name);
         tvAddress = view.findViewById(R.id.txt_address);
@@ -125,12 +111,9 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
         mUserPreference = new UserPreference(getContext());
         customer = mUserPreference.getCustomer();
 
-        listSelectedService = (ArrayList<Service>) getArguments().getSerializable(EXTRA_SERVICE);
         selectedAutoshop = getArguments().getParcelable(EXTRA_AUTOSHOP);
         latlong = getArguments().getString("LATLONG");
         location = getArguments().getString("LOCATION");
-        Log.d("selected service", listSelectedService.toString());
-        Log.d("selected autoshop", selectedAutoshop.toString());
 
         popUpDialog = new Dialog(getContext());
         tvAutoshopName.setText(selectedAutoshop.getName());
@@ -142,12 +125,6 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
             imgAutoshop.setImageBitmap(profileBitmap);
         }
 
-        selectedServiceAdapter = new SelectedServiceAdapter(getContext(), listSelectedService);
-        selectedServiceAdapter.notifyDataSetChanged();
-        rvService.setHasFixedSize(true);
-        rvService.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvService.setAdapter(selectedServiceAdapter);
-
         vehicleAdapter = new VehicleAdapter(getContext(), listVehicleCustomerToAdapter, this);
         vehicleAdapter.notifyDataSetChanged();
         rvVehicle.setHasFixedSize(true);
@@ -156,84 +133,27 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
 
         getProfile();
 
-        btnStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment dFragment = new DatePickerFragment();
-                dFragment.show(getFragmentManager(), "Date Picker");
-            }
-        });
-
-        btnMovement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popUpMovement();
-            }
-        });
 
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tvStartDate.equals("Pick booking date")) {
-                    Toast.makeText(getContext(), "Please select start date!", Toast.LENGTH_SHORT).show();
-                } else if (movement == null) {
-                    Toast.makeText(getContext(), "Please select movement!", Toast.LENGTH_SHORT).show();
-                } else if (listSelectedVehicle.size() < 1) {
+               if (listSelectedVehicle.size() < 1) {
                     Toast.makeText(getContext(), "Please select a vehicle!", Toast.LENGTH_SHORT).show();
                 } else if (listSelectedVehicle.size() > 1) {
                     Toast.makeText(getContext(), "Please select only 1 vehicle!", Toast.LENGTH_SHORT).show();
                 } else {
-                    startDate = tvStartDate.getText().toString();
+                   Date c = Calendar.getInstance().getTime();
+                   SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                   startDate = dateFormat.format(c);
 
                     UUID uuid = UUID.randomUUID();
                     transId = uuid.toString().replace("-", "").toUpperCase();
-
-                    service=null;
-                    for(int i=0; i<listSelectedService.size();i++){
-                        String sh_id = transId+"serv-"+i;
-                        if (service == null) {
-                            service="('"+ sh_id +"','"+ listSelectedService.get(i).getId() +"','"+ transId +"','"+listSelectedService.get(i).getNote()+"', NULL)";
-                        }else{
-                            service=service + "('"+ sh_id +"','"+ listSelectedService.get(i).getId() +"','"+ transId +"','"+listSelectedService.get(i).getNote()+"', NULL)";
-                        }
-                        if(i!=listSelectedService.size()-1){
-                            service=service+",";
-                        }
-                    }
+                    String sh_id = transId+"serv-"+0;
+                    service="('"+ sh_id +"','sertow','"+ transId +"','SOS', NULL)";
                     createTrans();
                 }
             }
         });
-    }
-
-    private void popUpMovement() {
-        popUpDialog.setContentView(R.layout.pop_up_movement);
-        ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
-        Button btnSetMovement = popUpDialog.findViewById(R.id.btn_set_movement);
-        final RadioGroup rgMovement = popUpDialog.findViewById(R.id.rg_movement);
-
-        btnSetMovement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rgMovement.getCheckedRadioButtonId() == R.id.rb_self_delivery) {
-                    movement = EXTRA_SELF_DELIVERY;
-                } else movement = EXTRA_AUTOSHOP_PICKUP;
-                tvMovement.setText(movement);
-                popUpDialog.dismiss();
-            }
-        });
-
-        imgClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popUpDialog.dismiss();
-            }
-        });
-        if (popUpDialog.getWindow() != null) {
-            popUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            popUpDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        }
-        popUpDialog.show();
     }
 
     private void getProfile() {
@@ -326,37 +246,6 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
         }
     }
 
-    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog dpd = new DatePickerDialog(getActivity(),
-                    AlertDialog.THEME_HOLO_DARK, this, year, month, day);
-            dpd.getDatePicker().setMinDate(calendar.getTimeInMillis());
-            calendar.add(Calendar.DATE, 2);
-            dpd.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-            return dpd;
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            TextView tv = (TextView) getActivity().findViewById(R.id.txt_start_date);
-            Calendar cal = Calendar.getInstance();
-            cal.setTimeInMillis(0);
-            cal.set(year, month, day, 0, 0, 0);
-            Date chosenDate = cal.getTime();
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            String formattedDate = dateFormat.format(chosenDate);
-
-            tv.setText(formattedDate);
-        }
-    }
-
     private void createTrans() {
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
@@ -376,23 +265,11 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
 
                     if (response.equals("1")) {
-                        //todo
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_ONGOING);
                         FragmentManager mFragmentManager = getFragmentManager();
                         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         startActivity(intent);
-                       /* Bundle mBundle = new Bundle();
-                        mBundle.putSerializable(ChooseAutoshopFragment.EXTRA_SERVICE, listSelectedService);
-                        ChooseAutoshopFragment chooseAutoshopFragment = new ChooseAutoshopFragment();
-                        chooseAutoshopFragment.setArguments(mBundle);
-                        FragmentManager mFragmentManager = getFragmentManager();
-                        if (mFragmentManager != null) {
-                            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-                            mFragmentTransaction.replace(R.id.container_layout, chooseAutoshopFragment, ChooseAutoshopFragment.class.getSimpleName());
-                            mFragmentTransaction.addToBackStack(ChooseAutoshopFragment.class.getSimpleName());
-                            mFragmentTransaction.commit();
-                        }*/
 
                     }
                 } catch (JSONException e) {
@@ -410,16 +287,18 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
                 java.util.Map<String, String> params = new HashMap<>();
                 params.put("TRANSACTION_ID", transId);
                 params.put("START_DATE", startDate);
-                params.put("MOVEMENT_OPTION", movement);
+                params.put("MOVEMENT_OPTION", EXTRA_AUTOSHOP_PICKUP);
                 params.put("VH_ID", selectedVehicle.getId());
                 params.put("LOCATION", location);
                 params.put("LATLONG", latlong);
                 params.put("CUSTOMER_ID", customer.getId());
                 params.put("AUTOSHOP_ID", selectedAutoshop.getId());
                 params.put("STATUS", "ON QUEUE");
-                params.put("TYPE", "REGULAR");
+                params.put("TYPE", "SOS");
                 params.put("SERVICE", service);
+                Log.d("param", params.toString());
                 return params;
+
             }
         };
         mRequestQueue.add(mStringRequest);

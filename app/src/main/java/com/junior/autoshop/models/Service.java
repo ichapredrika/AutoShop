@@ -10,24 +10,25 @@ public class Service implements Parcelable {
     private String type;
     private String detail;
     private String note;
+    private boolean isSelected;
 
     public Service(JSONObject object) {
         try {
             this.id = object.optString("SERVICE_ID", "");
             this.type = object.optString("TYPE", "");
             this.detail = object.optString("DETAIL", "");
-
-
+            this.isSelected = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Service(String id, String type, String detail, String note) {
-        this.id = id;
-        this.type = type;
-        this.detail = detail;
-        this.note = note;
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     public String getId() {
@@ -62,6 +63,7 @@ public class Service implements Parcelable {
         this.note = note;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -73,6 +75,7 @@ public class Service implements Parcelable {
         dest.writeString(this.type);
         dest.writeString(this.detail);
         dest.writeString(this.note);
+        dest.writeByte(this.isSelected ? (byte) 1 : (byte) 0);
     }
 
     protected Service(Parcel in) {
@@ -80,6 +83,7 @@ public class Service implements Parcelable {
         this.type = in.readString();
         this.detail = in.readString();
         this.note = in.readString();
+        this.isSelected = in.readByte() != 0;
     }
 
     public static final Parcelable.Creator<Service> CREATOR = new Parcelable.Creator<Service>() {

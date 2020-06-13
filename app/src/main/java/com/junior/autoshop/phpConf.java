@@ -1,7 +1,7 @@
 package com.junior.autoshop;
 
 public class phpConf {
-    private final static String ip = "192.168.1.7";
+    private final static String ip = "192.168.1.13";
 
     private final static String prefix = "https://" + ip + "/autoshop/";
     public final static String URL_CONNECTION = "connection.php";
@@ -16,9 +16,9 @@ public class phpConf {
     public final static String URL_ADD_SERVICE_AUTOSHOP = prefix + "add_service_autoshop.php";
     public final static String URL_GET_SERVICE = prefix + "get_service.php";
     public final static String URL_DELETE_SERVICE_AUTOSHOP = prefix + "delete_service_autoshop.php";
-    public final static String URL_GET_BOOKED_SERVICE = prefix + "get_booked_service.php";
+    public final static String URL_GET_BOOKED_TRANS = prefix + "get_booked_trans.php";
     public final static String URL_ACCEPT_BOOKING_REQUEST = prefix + "accept_booking_request.php";
-    public final static String URL_GET_WORKING_SPACE = prefix + "get_working_space.php";
+    public final static String URL_GET_WORKING_SPACE = prefix + "get_workingspace_trans.php";
     public final static String URL_GET_TRANS_DETAIL = prefix + "get_trans_detail.php";
     public final static String URL_GET_TRANS_SERVICE = prefix + "get_trans_service.php";
     public final static String URL_GET_TRANS_COST = prefix + "get_trans_cost.php";
@@ -26,9 +26,11 @@ public class phpConf {
     public final static String URL_ADD_TRANS_COST = prefix + "add_trans_cost.php";
     public final static String URL_DELETE_TRANS_COST = prefix + "delete_trans_cost.php";
     public final static String URL_CHANGE_STATUS = prefix + "change_status.php";
+    public final static String URL_ACCEPT_TRANS = prefix + "accept_trans.php";
     public final static String URL_FINISH_TRANS = prefix + "finish_trans.php";
     public final static String URL_GET_WFP_TRANS = prefix + "get_wfp_trans.php";
     public final static String URL_GET_FINISHED_TRANS = prefix + "get_finished_trans.php";
+    public final static String URL_GET_FINISHED_TRANS_AUTOSHOP = prefix + "get_finished_trans_autoshop.php";
     public final static String URL_CONFIRM_PAYMENT = prefix + "confirm_payment.php";
     public final static String URL_UPDATE_PROFILE_CUSTOMER = prefix + "update_profile_customer.php";
     public final static String URL_GET_VEHICLE_CUSTOMER = prefix + "get_vehicle_customer.php";

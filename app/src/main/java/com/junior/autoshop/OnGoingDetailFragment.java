@@ -62,7 +62,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 public class OnGoingDetailFragment extends Fragment {
     public static String EXTRA_TRANS_ID = "TRANSACTION_ID";
     public static String EXTRA_DELIVERY = "DELIVERY";
@@ -71,6 +70,7 @@ public class OnGoingDetailFragment extends Fragment {
     private ProgressDialog loading;
     private UserPreference mUserPreference;
     private RecyclerView rvCost;
+    private RecyclerView rvInvoice;
     private TransCostAdapter transCostAdapter;
     private ArrayList<TransCost> listTransCost = new ArrayList<>();
     private ArrayList<TransCost> listTransCostToAdapter = new ArrayList<>();
@@ -118,19 +118,19 @@ public class OnGoingDetailFragment extends Fragment {
         imgQrcode = view.findViewById(R.id.img_qr);
         pieChart = view.findViewById(R.id.piechart);
         tvProgress = view.findViewById(R.id.txt_progress);
+        tvTotal = view.findViewById(R.id.txt_total);
 
         popUpDialog = new Dialog(getContext());
         mUserPreference = new UserPreference(getContext());
         customer = mUserPreference.getCustomer();
 
-        transCostAdapter = new TransCostAdapter(getContext(), listTransCostToAdapter);
+        transCostAdapter = new TransCostAdapter(getContext(), listTransCostToAdapter, false);
         transCostAdapter.notifyDataSetChanged();
         rvCost.setHasFixedSize(true);
         rvCost.setLayoutManager(new LinearLayoutManager(getContext()));
         rvCost.setAdapter(transCostAdapter);
 
         transId = getArguments().getString(EXTRA_TRANS_ID);
-        Toast.makeText(getContext(), transId, Toast.LENGTH_SHORT).show();
 
         getDetail();
 
@@ -173,6 +173,19 @@ public class OnGoingDetailFragment extends Fragment {
                 }else changePickupOption(EXTRA_SELF_PICKUP);
             }
         });
+
+        btnIssue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (trans.getPickupOption().equals("null")){
+                    Toast.makeText(getContext(), "Please choose pickup option first!", Toast.LENGTH_SHORT).show();
+                }else if (trans.getPickupOption().equals(EXTRA_DELIVERY)){
+                    popUpPayment();
+                }else if (trans.getPickupOption().equals(EXTRA_SELF_PICKUP)){
+                    popUpInvoice();
+                }
+            }
+        });
     }
 
     private void popUpComplaints() {
@@ -184,6 +197,80 @@ public class OnGoingDetailFragment extends Fragment {
         rvComplaints.setHasFixedSize(true);
         rvComplaints.setLayoutManager(new LinearLayoutManager(getContext()));
         rvComplaints.setAdapter(selectedServiceAdapter);
+
+        ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popUpDialog.dismiss();
+            }
+        });
+
+        if (popUpDialog.getWindow() != null) {
+            popUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            popUpDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        popUpDialog.show();
+    }
+
+    private void popUpInvoice() {
+        popUpDialog.setContentView(R.layout.pop_up_invoice);
+
+        rvInvoice = popUpDialog.findViewById(R.id.rv_cost);
+        transCostAdapter = new TransCostAdapter(getContext(), listTransCostToAdapter, false);
+        transCostAdapter.notifyDataSetChanged();
+        rvInvoice.setHasFixedSize(true);
+        rvInvoice.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvInvoice.setAdapter(transCostAdapter);
+
+        ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popUpDialog.dismiss();
+            }
+        });
+
+        if (popUpDialog.getWindow() != null) {
+            popUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            popUpDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        popUpDialog.show();
+    }
+
+    private void popUpPayment() {
+        popUpDialog.setContentView(R.layout.pop_up_payment);
+
+        TextView tvBank = popUpDialog.findViewById(R.id.txt_bank);
+        TextView tvAccNumber = popUpDialog.findViewById(R.id.txt_account_number);
+        TextView tvContact = popUpDialog.findViewById(R.id.txt_contact);
+        TextView tvTotal = popUpDialog.findViewById(R.id.txt_total);
+
+        tvBank.setText(trans.getAutoshopBank());
+        tvAccNumber.setText(trans.getAutoshopAccountNumber());
+        tvContact.setText(trans.getAdminContact());
+        double total = Double.parseDouble(trans.getTotalPrice());
+        tvTotal.setText(getContext().getString(R.string.amount_parse,df.format(total)));
+
+        tvTotal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("total price", trans.getTotalPrice());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(getActivity().getApplicationContext(),"Total Price Copied to Clipboard!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        tvContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("phone number", trans.getAdminContact());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(getActivity().getApplicationContext(),"Phone Number Copied to Clipboard!",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
         imgClose.setOnClickListener(new View.OnClickListener() {
@@ -439,7 +526,7 @@ public class OnGoingDetailFragment extends Fragment {
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_CHANGE_STATUS, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_CANCEL_TRANS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -477,7 +564,6 @@ public class OnGoingDetailFragment extends Fragment {
             protected java.util.Map<String, String> getParams() {
                 java.util.Map<String, String> params = new HashMap<>();
                 params.put("TRANSACTION_ID", transId);
-                params.put("STATUS", "CANCELLED");
                 return params;
             }
         };
@@ -527,6 +613,7 @@ public class OnGoingDetailFragment extends Fragment {
         };
         mRequestQueue.add(mStringRequest);
     }
+
     private void updateAdapter(ArrayList<TransCost> list) {
         listTransCostToAdapter.clear();
         listTransCostToAdapter.addAll(list);

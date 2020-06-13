@@ -42,9 +42,10 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.11.0'
 
-    implementation 'com.google.android.gms:play-services-vision:20.1.0'
+    //ZXing Barcode
+    implementation 'me.dm7.barcodescanner:zxing:1.9.13'
     implementation 'com.google.zxing:core:3.4.0'
-    implementation 'com.journeyapps:zxing-android-embedded:3.5.0@aar'
+    implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
 
     // Google MAPS
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
