@@ -25,8 +25,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.junior.autoshop.adapter.BookedAdapter;
-import com.junior.autoshop.adapter.HistoryAutoshopAdapter;
 import com.junior.autoshop.adapter.PaymentAdapter;
 import com.junior.autoshop.models.Autoshop;
 import com.junior.autoshop.models.Trans;
@@ -48,7 +46,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 
-public class PaymentFragment extends Fragment {
+public class PaymentFragment extends Fragment implements UpdateTransCallback {
 
     private RecyclerView rvPayment;
     private ImageView imgHistory;
@@ -80,7 +78,7 @@ public class PaymentFragment extends Fragment {
         mUserPreference = new UserPreference(getContext());
         autoshop = mUserPreference.getAutoshop();
 
-        paymentAdapter = new PaymentAdapter(getContext(), listPaymentToAdapter);
+        paymentAdapter = new PaymentAdapter(getContext(), listPaymentToAdapter, this);
         paymentAdapter.notifyDataSetChanged();
         rvPayment.setHasFixedSize(true);
         rvPayment.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -108,7 +106,7 @@ public class PaymentFragment extends Fragment {
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_GET_WFP_TRANS, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_GET_WFP_TRANS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -194,5 +192,10 @@ public class PaymentFragment extends Fragment {
             });
         } catch (Exception ignored) {
         }
+    }
+
+    @Override
+    public void update() {
+        getTransPayment();
     }
 }

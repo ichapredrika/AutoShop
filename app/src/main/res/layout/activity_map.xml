@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBlack"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/colorBlack"
     tools:context=".MapActivity">
 
     <ImageView
@@ -14,25 +13,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:src="@drawable/ic_close"/>
+        android:src="@drawable/ic_close" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/location_in_maps"
-        android:textStyle="bold"
         android:gravity="center"
-        android:textSize="16sp"
-        android:textColor="@color/colorWhite"/>
+        android:text="@string/location_in_maps"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-        <fragment
-            android:id="@+id/map"
-            class="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/txt_pickup_fee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        tools:text="Delivery Fee/Km: Rp 20.000" />
+
+    <fragment
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -40,18 +47,19 @@
         android:layout_gravity="bottom"
         android:layout_marginTop="8dp"
         android:gravity="center"
+        android:text="@string/hold_and_drag_the_marker"
         android:textColor="@color/colorWhite"
-        android:text="@string/hold_and_drag_the_marker"/>
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/btn_change_loc"
+        style="@style/Button.Neutral"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:textSize="13sp"
-        android:padding="4dp"
-        android:layout_marginTop="4dp"
         android:layout_gravity="center_horizontal"
-        style="@style/Button.Neutral"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/save_location"/>
+        android:padding="8dp"
+        android:text="@string/save_location"
+        android:textSize="13sp" />
 </LinearLayout>

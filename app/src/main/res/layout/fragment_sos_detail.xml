@@ -77,29 +77,43 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
+                        android:textSize="15sp"
                         tools:text="Autoshop Name" />
 
                     <TextView
                         android:id="@+id/txt_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="15sp"
                         tools:text="Address" />
 
                     <TextView
                         android:id="@+id/txt_distance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="15sp"
                         tools:text="Distance" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
+    <TextView
+        android:id="@+id/txt_delivery_fee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:gravity="center"
+        tools:text="Pickup Fee/km: Rp.30.000"/>
+
     <Button
         android:id="@+id/btn_book"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         style="@style/Button.Neutral"
         android:text="@string/book" />
 

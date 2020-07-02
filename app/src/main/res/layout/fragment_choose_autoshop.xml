@@ -29,7 +29,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/mark_your_location"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
 
         <fragment
             android:id="@+id/map"
@@ -39,18 +40,89 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/hold_and_drag_the_marker"
+            android:textColor="@color/colorDark5"
+            android:textSize="15sp" />
     </FrameLayout>
 
     <Button
-        android:id="@+id/btn_search_autoshop"
+        android:id="@+id/btn_set_location"
         style="@style/Button.Neutral"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:text="@string/search_autoshop"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/set_location"
         android:textAllCaps="false" />
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+
+       <Button
+           android:id="@+id/btn_search_autoshop"
+           style="@style/Button.Neutral"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:layout_margin="16dp"
+           android:paddingStart="8dp"
+           android:paddingEnd="8dp"
+           android:visibility="gone"
+           android:text="@string/search_nearby"
+           android:textAllCaps="false" />
+
+       <Button
+           android:id="@+id/btn_search_favorite"
+           style="@style/Button.Neutral"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:layout_margin="16dp"
+           android:paddingStart="8dp"
+           android:paddingEnd="8dp"
+           android:visibility="gone"
+           android:text="@string/search_favorite"
+           android:textAllCaps="false" />
+   </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_autoshop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_prev" />
+
+        <TextView
+            android:id="@+id/txt_distance_zone"
+            android:layout_width="0dp"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/img_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_next" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_autoshop"
@@ -59,8 +131,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:visibility="gone"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_proceed"

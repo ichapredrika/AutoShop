@@ -2,8 +2,6 @@ package com.junior.autoshop.adapter;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.junior.autoshop.R;
 import com.junior.autoshop.models.Service;
 import com.junior.autoshop.models.Trans;
-import com.junior.autoshop.phpConf;
+import com.junior.autoshop.PhpConf;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,7 +91,7 @@ public class HistoryAutoshopAdapter extends RecyclerView.Adapter<HistoryAutoshop
         loading = ProgressDialog.show(context, "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_GET_TRANS_SERVICE, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_GET_TRANS_SERVICE, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

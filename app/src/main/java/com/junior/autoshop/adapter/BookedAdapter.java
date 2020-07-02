@@ -5,42 +5,23 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.junior.autoshop.OnGoingDetailFragment;
 import com.junior.autoshop.R;
 import com.junior.autoshop.models.Trans;
-import com.junior.autoshop.models.TransOngoing;
-import com.junior.autoshop.phpConf;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
-public class BookedAdapter extends RecyclerView.Adapter<BookedAdapter.BookedViewHolder>{
+public class BookedAdapter extends RecyclerView.Adapter<BookedAdapter.BookedViewHolder> {
     private ArrayList<Trans> listTrans;
     private Context context;
     private ProgressDialog loading;
@@ -63,10 +44,22 @@ public class BookedAdapter extends RecyclerView.Adapter<BookedAdapter.BookedView
     public void onBindViewHolder(@NonNull BookedViewHolder holder, final int position) {
         final Trans trans = listTrans.get(position);
 
+        if (trans.getStatus().equals("REISSUE")) {
+            holder.ll.setBackground(context.getDrawable(R.drawable.bg_orange_gradient));
+        }else if (trans.getType().equals("SOS")) {
+            holder.ll.setBackground(context.getDrawable(R.drawable.bg_red_gradient));
+        } else {
+             if (trans.getMovementOption().equals("SELF DELIVERY")) {
+                holder.ll.setBackground(context.getDrawable(R.drawable.bg_green_gradient));
+            } else {
+                holder.ll.setBackground(context.getDrawable(R.drawable.bg_yellow_gradient));
+            }
+        }
+
         holder.tvCustomerName.setText(trans.getCustomerName());
+        holder.tvStartDate.setText(trans.getStartDate());
         holder.tvBrand.setText(trans.getVehicleBrand());
         holder.tvModel.setText(trans.getVehicleModel());
-        holder.tvAddress.setText(trans.getLocation());
 
         holder.imgMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,16 +82,18 @@ public class BookedAdapter extends RecyclerView.Adapter<BookedAdapter.BookedView
         TextView tvCustomerName;
         TextView tvBrand;
         TextView tvModel;
-        TextView tvAddress;
+        TextView tvStartDate;
         ImageView imgMap;
+        LinearLayout ll;
 
         BookedViewHolder(View itemView) {
             super(itemView);
             tvCustomerName = itemView.findViewById(R.id.txt_name);
             tvBrand = itemView.findViewById(R.id.txt_brand);
             tvModel = itemView.findViewById(R.id.txt_model);
-            tvAddress = itemView.findViewById(R.id.txt_address);
+            tvStartDate = itemView.findViewById(R.id.txt_start_date);
             imgMap = itemView.findViewById(R.id.img_map);
+            ll = itemView.findViewById(R.id.ll);
         }
     }
 }

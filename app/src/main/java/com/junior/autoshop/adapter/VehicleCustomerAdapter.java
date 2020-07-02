@@ -24,9 +24,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.junior.autoshop.R;
-import com.junior.autoshop.models.ServiceAutoshop;
 import com.junior.autoshop.models.VehicleCustomer;
-import com.junior.autoshop.phpConf;
+import com.junior.autoshop.PhpConf;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -122,7 +121,7 @@ public class VehicleCustomerAdapter extends RecyclerView.Adapter<VehicleCustomer
         loading = ProgressDialog.show(context, "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_DELETE_VEHICLE_CUSTOMER, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_DELETE_VEHICLE_CUSTOMER, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

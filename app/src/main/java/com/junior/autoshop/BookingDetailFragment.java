@@ -30,7 +30,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -73,7 +72,7 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
     private RecyclerView rvVehicle, rvService;
     private Button btnBook;
     private ImageView imgAutoshop;
-    private TextView tvAutoshopName, tvAddress, tvDistance;
+    private TextView tvAutoshopName, tvAddress, tvDistance, tvDeliveryFee;
     private DecimalFormat df = new DecimalFormat("#,###.##");
     final String START_DATE_TAG = "StartDate";
     private String startDate;
@@ -91,10 +90,9 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
     private FragmentActivity myContext;
     private VehicleCustomer selectedVehicle;
     private String latlong;
-    private String location;
     private String transId;
-    private String service;
-
+    private String service, pricing;
+    private double totalPrice=0;
 
     public BookingDetailFragment() {
     }
@@ -121,6 +119,7 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
         tvAutoshopName = view.findViewById(R.id.txt_name);
         tvAddress = view.findViewById(R.id.txt_address);
         tvDistance = view.findViewById(R.id.txt_distance);
+        tvDeliveryFee = view.findViewById(R.id.txt_delivery_fee);
 
         mUserPreference = new UserPreference(getContext());
         customer = mUserPreference.getCustomer();
@@ -128,15 +127,15 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
         listSelectedService = (ArrayList<Service>) getArguments().getSerializable(EXTRA_SERVICE);
         selectedAutoshop = getArguments().getParcelable(EXTRA_AUTOSHOP);
         latlong = getArguments().getString("LATLONG");
-        location = getArguments().getString("LOCATION");
         Log.d("selected service", listSelectedService.toString());
         Log.d("selected autoshop", selectedAutoshop.toString());
 
         popUpDialog = new Dialog(getContext());
         tvAutoshopName.setText(selectedAutoshop.getName());
+        double deliveryFee = Double.parseDouble(selectedAutoshop.getDeliveryFee());
+        tvDeliveryFee.setText("Delivery Fee/Km : "+ getString(R.string.amount_parse, df.format(deliveryFee)));
         tvAddress.setText(selectedAutoshop.getAddress());
-        String distance = df.format(selectedAutoshop.getDistance());
-        tvDistance.setText(distance);
+        tvDistance.setText("Distance: "+ df.format(selectedAutoshop.getDistance())+" Km");
         if (selectedAutoshop.getPhoto() != null) {
             Bitmap profileBitmap = decodeBitmap(selectedAutoshop.getPhoto());
             imgAutoshop.setImageBitmap(profileBitmap);
@@ -174,7 +173,7 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tvStartDate.equals("Pick booking date")) {
+                if (tvStartDate.getText().toString().equals("Pick booking date")) {
                     Toast.makeText(getContext(), "Please select start date!", Toast.LENGTH_SHORT).show();
                 } else if (movement == null) {
                     Toast.makeText(getContext(), "Please select movement!", Toast.LENGTH_SHORT).show();
@@ -189,6 +188,8 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
                     transId = uuid.toString().replace("-", "").toUpperCase();
 
                     service=null;
+                    pricing="";
+
                     for(int i=0; i<listSelectedService.size();i++){
                         String sh_id = transId+"serv-"+i;
                         if (service == null) {
@@ -200,6 +201,21 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
                             service=service+",";
                         }
                     }
+
+                    if (movement.equals(EXTRA_AUTOSHOP_PICKUP)){
+                        String pricing_id = transId + "-pickup";
+                        double priceDb;
+                        if (selectedAutoshop.getDeliveryFee().equals("") || selectedAutoshop.getDeliveryFee().equals("null")){
+                            priceDb=0;
+                        }else{
+                            priceDb = Double.parseDouble(selectedAutoshop.getDeliveryFee())* selectedAutoshop.getDistance();
+                        }
+
+                        totalPrice = priceDb;
+                        String price = Double.toString(priceDb);
+                        pricing = "('" + pricing_id + "','Pickup Fee','" + transId + "','"+ price +"')";
+                    }
+
                     createTrans();
                 }
             }
@@ -240,7 +256,7 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_GET_PROFILE_CUSTOMER, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_GET_PROFILE_CUSTOMER, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -360,7 +376,7 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
     private void createTrans() {
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_CREATE_TRANS, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_CREATE_TRANS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -376,24 +392,12 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
 
                     if (response.equals("1")) {
-                        //todo
+
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_ONGOING);
                         FragmentManager mFragmentManager = getFragmentManager();
                         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         startActivity(intent);
-                       /* Bundle mBundle = new Bundle();
-                        mBundle.putSerializable(ChooseAutoshopFragment.EXTRA_SERVICE, listSelectedService);
-                        ChooseAutoshopFragment chooseAutoshopFragment = new ChooseAutoshopFragment();
-                        chooseAutoshopFragment.setArguments(mBundle);
-                        FragmentManager mFragmentManager = getFragmentManager();
-                        if (mFragmentManager != null) {
-                            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-                            mFragmentTransaction.replace(R.id.container_layout, chooseAutoshopFragment, ChooseAutoshopFragment.class.getSimpleName());
-                            mFragmentTransaction.addToBackStack(ChooseAutoshopFragment.class.getSimpleName());
-                            mFragmentTransaction.commit();
-                        }*/
-
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getContext(), getString(R.string.msg_something_wrong), Toast.LENGTH_SHORT).show();
@@ -412,13 +416,15 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
                 params.put("START_DATE", startDate);
                 params.put("MOVEMENT_OPTION", movement);
                 params.put("VH_ID", selectedVehicle.getId());
-                params.put("LOCATION", location);
                 params.put("LATLONG", latlong);
                 params.put("CUSTOMER_ID", customer.getId());
                 params.put("AUTOSHOP_ID", selectedAutoshop.getId());
                 params.put("STATUS", "ON QUEUE");
                 params.put("TYPE", "REGULAR");
                 params.put("SERVICE", service);
+                params.put("PRICING", pricing);
+                params.put("TOTAL_PRICE", Double.toString(totalPrice));
+                Log.d("ct param", params.toString());
                 return params;
             }
         };

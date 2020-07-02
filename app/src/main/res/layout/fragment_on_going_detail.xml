@@ -53,38 +53,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RadioGroup
-                android:id="@+id/rg_pickup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rb_pickup"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/radio_flat_selector"
-                    android:button="@android:color/transparent"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="@string/self_pickup"
-                    android:textColor="@color/radio_flat_text_selector" />
-
-                <RadioButton
-                    android:id="@+id/rb_delivery"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/radio_flat_selector"
-                    android:button="@android:color/transparent"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="@string/delivery"
-                    android:textColor="@color/radio_flat_text_selector" />
-            </RadioGroup>
-
             <ImageView
                 android:id="@+id/img_qr"
                 android:layout_width="150dp"
@@ -93,13 +61,14 @@
                 android:layout_marginTop="12dp" />
 
             <TextView
+                android:id="@+id/txt_refresh"
+                style="@style/Text.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:drawableEnd="@drawable/ic_refresh"
                 android:text="@string/detail"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textColor="@color/colorWhite" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -125,6 +94,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorWhite"
+                            android:textSize="15sp"
                             android:textStyle="bold"
                             tools:text="Autoshop Name" />
 
@@ -133,9 +103,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorWhite"
+                            android:textSize="15sp"
                             tools:text="Vehicle Name" />
 
-
+                        <TextView
+                            android:id="@+id/txt_pickup_option"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorWhite"
+                            tools:text="Autoshop Delivery"/>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -144,24 +120,24 @@
 
                             <Button
                                 android:id="@+id/btn_contact"
+                                style="@style/Button.Neutral"
                                 android:layout_width="wrap_content"
                                 android:layout_height="24dp"
                                 android:layout_marginTop="8dp"
                                 android:layout_marginEnd="4dp"
                                 android:layout_marginBottom="8dp"
-                                android:background="@drawable/btn_neutral"
                                 android:text="@string/contact"
                                 android:textAllCaps="false" />
 
                             <Button
                                 android:id="@+id/btn_complaints"
+                                style="@style/Button.Neutral"
                                 android:layout_width="wrap_content"
                                 android:layout_height="24dp"
                                 android:layout_marginStart="4dp"
                                 android:layout_marginTop="8dp"
                                 android:layout_marginEnd="4dp"
                                 android:layout_marginBottom="8dp"
-                                android:background="@drawable/btn_neutral"
                                 android:text="@string/complaints"
                                 android:textAllCaps="false" />
                         </LinearLayout>
@@ -180,6 +156,7 @@
                             android:gravity="center"
                             android:text="Progress"
                             android:textColor="@color/colorWhite"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <FrameLayout
@@ -201,6 +178,7 @@
                                 android:background="@color/colorDark5"
                                 android:gravity="center"
                                 android:textColor="@color/colorWhite"
+                                android:textSize="15sp"
 
                                 tools:text="20%" />
                         </FrameLayout>
@@ -212,12 +190,12 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                style="@style/Text.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/transaction_cost"
                 android:textColor="@color/colorWhite"
-                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -245,6 +223,7 @@
                         android:layout_weight="1"
                         android:text="@string/total"
                         android:textColor="@color/colorWhite"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -255,6 +234,7 @@
                         android:gravity="end"
                         android:text="@string/rp_0"
                         android:textColor="@color/colorWhite"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -271,12 +251,46 @@
 
         <Button
             android:id="@+id/btn_issue"
+            style="@style/Button.Neutral"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            style="@style/Button.Neutral"
             android:text="@string/issue"
             android:visibility="gone" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_pickup_option"
+            style="@style/Button.Neutral"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/select_pickup_option"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_finish"
+            style="@style/Button.Neutral"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/finish_order"
+            />
     </LinearLayout>
 
 </LinearLayout>

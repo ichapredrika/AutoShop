@@ -1,38 +1,29 @@
 package com.junior.autoshop;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,11 +31,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.junior.autoshop.adapter.SelectedServiceAdapter;
 import com.junior.autoshop.adapter.VehicleAdapter;
 import com.junior.autoshop.models.Autoshop;
 import com.junior.autoshop.models.Customer;
-import com.junior.autoshop.models.Service;
 import com.junior.autoshop.models.VehicleCustomer;
 
 import org.json.JSONArray;
@@ -57,11 +46,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.UUID;
 
 import static com.junior.autoshop.ChooseAutoshopFragment.EXTRA_AUTOSHOP;
-import static com.junior.autoshop.ChooseAutoshopFragment.EXTRA_SERVICE;
 
 public class SosDetailFragment extends Fragment implements SelectedVehicleCallback {
     public static final String EXTRA_SELF_DELIVERY = "SELF DELIVERY";
@@ -71,7 +58,7 @@ public class SosDetailFragment extends Fragment implements SelectedVehicleCallba
     private RecyclerView rvVehicle;
     private Button btnBook;
     private ImageView imgAutoshop;
-    private TextView tvAutoshopName, tvAddress, tvDistance;
+    private TextView tvAutoshopName, tvAddress, tvDistance, tvDeliveryFee;
     private DecimalFormat df = new DecimalFormat("#,###.##");
     private String startDate;
     private Dialog popUpDialog;
@@ -84,9 +71,9 @@ public class SosDetailFragment extends Fragment implements SelectedVehicleCallba
     private Customer customer;
     private VehicleCustomer selectedVehicle;
     private String latlong;
-    private String location;
     private String transId;
-    private String service;
+    private String service, pricing;
+    private double totalPrice = 0;
 
     public SosDetailFragment() {
     }
@@ -107,19 +94,21 @@ public class SosDetailFragment extends Fragment implements SelectedVehicleCallba
         tvAutoshopName = view.findViewById(R.id.txt_name);
         tvAddress = view.findViewById(R.id.txt_address);
         tvDistance = view.findViewById(R.id.txt_distance);
+        tvDeliveryFee = view.findViewById(R.id.txt_delivery_fee);
 
         mUserPreference = new UserPreference(getContext());
         customer = mUserPreference.getCustomer();
 
         selectedAutoshop = getArguments().getParcelable(EXTRA_AUTOSHOP);
         latlong = getArguments().getString("LATLONG");
-        location = getArguments().getString("LOCATION");
 
         popUpDialog = new Dialog(getContext());
         tvAutoshopName.setText(selectedAutoshop.getName());
         tvAddress.setText(selectedAutoshop.getAddress());
-        String distance = df.format(selectedAutoshop.getDistance());
-        tvDistance.setText(distance);
+
+        double deliveryFee = Double.parseDouble(selectedAutoshop.getDeliveryFee());
+        tvDeliveryFee.setText("Delivery Fee/Km: " + getString(R.string.amount_parse, df.format(deliveryFee)));
+        tvDistance.setText("Distance: " + df.format(selectedAutoshop.getDistance()) + " Km");
         if (selectedAutoshop.getPhoto() != null) {
             Bitmap profileBitmap = decodeBitmap(selectedAutoshop.getPhoto());
             imgAutoshop.setImageBitmap(profileBitmap);
@@ -137,19 +126,26 @@ public class SosDetailFragment extends Fragment implements SelectedVehicleCallba
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if (listSelectedVehicle.size() < 1) {
+                service = null;
+                pricing = null;
+
+                if (listSelectedVehicle.size() < 1) {
                     Toast.makeText(getContext(), "Please select a vehicle!", Toast.LENGTH_SHORT).show();
                 } else if (listSelectedVehicle.size() > 1) {
                     Toast.makeText(getContext(), "Please select only 1 vehicle!", Toast.LENGTH_SHORT).show();
                 } else {
-                   Date c = Calendar.getInstance().getTime();
-                   SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                   startDate = dateFormat.format(c);
-
+                    Date c = Calendar.getInstance().getTime();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    startDate = dateFormat.format(c);
+                    double priceDb = Double.parseDouble(selectedAutoshop.getDeliveryFee()) * selectedAutoshop.getDistance();
+                    String price = Double.toString(priceDb);
+                    totalPrice = priceDb;
                     UUID uuid = UUID.randomUUID();
                     transId = uuid.toString().replace("-", "").toUpperCase();
-                    String sh_id = transId+"serv-"+0;
-                    service="('"+ sh_id +"','sertow','"+ transId +"','SOS', NULL)";
+                    String sh_id = transId + "serv-" + 0;
+                    String pricing_id = transId + "-pickup";
+                    service = "('" + sh_id + "','sertow','" + transId + "','SOS', NULL)";
+                    pricing = "('" + pricing_id + "','Pickup SOS','" + transId + "','" + price + "')";
                     createTrans();
                 }
             }
@@ -160,7 +156,7 @@ public class SosDetailFragment extends Fragment implements SelectedVehicleCallba
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_GET_PROFILE_CUSTOMER, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_GET_PROFILE_CUSTOMER, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -249,7 +245,7 @@ public class SosDetailFragment extends Fragment implements SelectedVehicleCallba
     private void createTrans() {
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_CREATE_TRANS, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_CREATE_TRANS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -289,16 +285,16 @@ public class SosDetailFragment extends Fragment implements SelectedVehicleCallba
                 params.put("START_DATE", startDate);
                 params.put("MOVEMENT_OPTION", EXTRA_AUTOSHOP_PICKUP);
                 params.put("VH_ID", selectedVehicle.getId());
-                params.put("LOCATION", location);
                 params.put("LATLONG", latlong);
                 params.put("CUSTOMER_ID", customer.getId());
                 params.put("AUTOSHOP_ID", selectedAutoshop.getId());
                 params.put("STATUS", "ON QUEUE");
                 params.put("TYPE", "SOS");
                 params.put("SERVICE", service);
+                params.put("PRICING", pricing);
+                params.put("TOTAL_PRICE", Double.toString(totalPrice));
                 Log.d("param", params.toString());
                 return params;
-
             }
         };
         mRequestQueue.add(mStringRequest);

@@ -60,12 +60,18 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
             }
         });
 
-        if (service.isSelected()) holder.cbBook.setChecked(true);
+        if (service.isSelected()){
+            holder.imgCheckbox.setImageDrawable(context.getDrawable(R.drawable.ic_box_checked));
+        }else {
+            holder.imgCheckbox.setImageDrawable(context.getDrawable(R.drawable.ic_box));
+        }
 
-        holder.cbBook.setOnClickListener(new View.OnClickListener() {
+        holder.imgCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.cbBook.isChecked()==true) {
+
+                service.setSelected(!service.isSelected());
+                if (service.isSelected()==true) {
                     popUpDialog.setContentView(R.layout.pop_up_note);
                     popUpDialog.setCanceledOnTouchOutside(false);
                     final TextView tvNote = popUpDialog.findViewById(R.id.txt_note);
@@ -134,13 +140,13 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
     static class ServiceViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
         ImageView imgInfo;
-        CheckBox cbBook;
+        ImageView imgCheckbox;
 
         ServiceViewHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.txt_name);
             imgInfo = itemView.findViewById(R.id.img_info);
-            cbBook = itemView.findViewById(R.id.cb_book);
+            imgCheckbox = itemView.findViewById(R.id.img_checkbox);
         }
     }
 

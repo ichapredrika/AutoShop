@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
         loading = ProgressDialog.show(LoginActivity.this, "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(LoginActivity.this);
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_LOGIN, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_LOGIN, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

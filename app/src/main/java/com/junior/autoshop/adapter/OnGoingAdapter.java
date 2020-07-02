@@ -4,18 +4,13 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,33 +18,20 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.junior.autoshop.ChooseAutoshopFragment;
 import com.junior.autoshop.OnGoingDetailFragment;
 import com.junior.autoshop.R;
-import com.junior.autoshop.models.TransOngoing;
-import com.junior.autoshop.phpConf;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.junior.autoshop.models.Trans;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.OnGoingViewHolder>{
-    private ArrayList<TransOngoing> listTransOnGoing;
+    private ArrayList<Trans> listTransOnGoing;
     private Context context;
     private ProgressDialog loading;
     private Dialog popUpDialog;
 
-    public OnGoingAdapter(Context context, ArrayList<TransOngoing> listTransOnGoing) {
+    public OnGoingAdapter(Context context, ArrayList<Trans> listTransOnGoing) {
         this.context = context;
         this.listTransOnGoing = listTransOnGoing;
         popUpDialog = new Dialog(context);
@@ -64,9 +46,10 @@ public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.OnGoingV
 
     @Override
     public void onBindViewHolder(@NonNull OnGoingViewHolder holder, final int position) {
-        final TransOngoing transOngoing = listTransOnGoing.get(position);
+        final Trans transOngoing = listTransOnGoing.get(position);
         holder.tvAutoshopName.setText(transOngoing.getAutoshopName());
         holder.tvVehicleName.setText(transOngoing.getVehicleName());
+        holder.tvStatus.setText(transOngoing.getStatus());
 
         holder.imgMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,12 +87,14 @@ public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.OnGoingV
     class OnGoingViewHolder extends RecyclerView.ViewHolder {
         TextView tvAutoshopName;
         TextView tvVehicleName;
+        TextView tvStatus;
         ImageView imgMap;
 
         OnGoingViewHolder(View itemView) {
             super(itemView);
             tvAutoshopName = itemView.findViewById(R.id.txt_name);
             tvVehicleName = itemView.findViewById(R.id.txt_vehicle_name);
+            tvStatus = itemView.findViewById(R.id.txt_status);
             imgMap = itemView.findViewById(R.id.img_map);
         }
     }

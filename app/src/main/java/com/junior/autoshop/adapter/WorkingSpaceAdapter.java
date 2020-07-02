@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -83,6 +84,7 @@ public class WorkingSpaceAdapter extends RecyclerView.Adapter<WorkingSpaceAdapte
         TextView tvBrand;
         TextView tvModel;
         TextView tvSpace;
+        LinearLayout ll;
 
         WorkingSpaceViewHolder(View itemView) {
             super(itemView);
@@ -90,6 +92,7 @@ public class WorkingSpaceAdapter extends RecyclerView.Adapter<WorkingSpaceAdapte
             tvBrand = itemView.findViewById(R.id.txt_brand);
             tvModel = itemView.findViewById(R.id.txt_model);
             tvSpace = itemView.findViewById(R.id.txt_space);
+            ll = itemView.findViewById(R.id.ll);
         }
     }
 }

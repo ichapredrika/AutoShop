@@ -17,6 +17,7 @@ public class Service implements Parcelable {
             this.id = object.optString("SERVICE_ID", "");
             this.type = object.optString("TYPE", "");
             this.detail = object.optString("DETAIL", "");
+                this.note = object.optString("COMPLAINT", "");
             this.isSelected = false;
         } catch (Exception e) {
             e.printStackTrace();

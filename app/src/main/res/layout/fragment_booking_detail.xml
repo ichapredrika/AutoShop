@@ -49,6 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
+                    android:textSize="16sp"
                     android:text="@string/pick_booking_date"
                     android:textColor="@color/colorWhite" />
             </LinearLayout>
@@ -74,8 +75,16 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:text="@string/choose_movement"
+                    android:textSize="16sp"
                     android:textColor="@color/colorWhite" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_delivery_fee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
+                tools:text="Pickup Fee/km: Rp.30.000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -83,6 +92,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/choose_vehicle"
                 style="@style/Text.Title"
+                android:textSize="18sp"
                 android:textColor="@color/colorWhite" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -96,6 +106,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/service"
                 style="@style/Text.Title"
+                android:textSize="18sp"
                 android:textColor="@color/colorWhite" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -109,6 +120,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/autoshop"
                 style="@style/Text.Title"
+                android:textSize="18sp"
                 android:textColor="@color/colorWhite" />
 
             <LinearLayout
@@ -132,6 +144,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_margin="8dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -139,18 +153,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
+                        android:textSize="15sp"
                         tools:text="Autoshop Name" />
 
                     <TextView
                         android:id="@+id/txt_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="15sp"
                         tools:text="Address" />
 
                     <TextView
                         android:id="@+id/txt_distance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="15sp"
                         tools:text="Distance" />
                 </LinearLayout>
             </LinearLayout>

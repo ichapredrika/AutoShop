@@ -3,11 +3,7 @@ package com.junior.autoshop.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import org.json.JSONObject;
-
-import java.util.Comparator;
 
 public class Autoshop implements Parcelable, Comparable {
     private String id;
@@ -25,10 +21,16 @@ public class Autoshop implements Parcelable, Comparable {
     private String photo;
     private String openHours;
     private String closeHours;
+    private String deliveryFee;
+    private String overnightFee;
     private boolean isSelected;
     private double distance;
+    private boolean isFavorite;
+    private String favoriteId;
+    private boolean isAvailable;
+    private boolean isInFavorite;
 
-    public Autoshop(){
+    public Autoshop() {
 
     }
 
@@ -49,6 +51,15 @@ public class Autoshop implements Parcelable, Comparable {
             this.photo = object.optString("PHOTO", "");
             this.openHours = object.optString("OPEN_HOURS", "");
             this.closeHours = object.optString("CLOSE_HOURS", "");
+            this.deliveryFee = object.optString("DELIVERY_FEE", "0");
+            this.overnightFee = object.optString("OVERNIGHT_FEE", "0");
+            this.favoriteId = object.optString("FAVORITE_ID", "");
+            String isFavorite = object.optString("IS_FAVORITE", "FALSE");
+            if (isFavorite.equals("TRUE")) {
+                this.isFavorite = true;
+            } else this.isFavorite = false;
+            this.setAvailable(true);
+            this.setInFavorite(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,8 +67,24 @@ public class Autoshop implements Parcelable, Comparable {
 
     @Override
     public int compareTo(Object o) {
-        int compareDist= (int) ((Autoshop) o).getDistance();
-        return (int) this.distance-compareDist;
+        int compareDist = (int) ((Autoshop) o).getDistance();
+        return (int) this.distance - compareDist;
+    }
+
+    public boolean isInFavorite() {
+        return isInFavorite;
+    }
+
+    public void setInFavorite(boolean inFavorite) {
+        isInFavorite = inFavorite;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 
     public String getId() {
@@ -198,6 +225,38 @@ public class Autoshop implements Parcelable, Comparable {
 
     public static Creator<Autoshop> getCREATOR() {
         return CREATOR;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    public String getFavoriteId() {
+        return favoriteId;
+    }
+
+    public void setFavoriteId(String favoriteId) {
+        this.favoriteId = favoriteId;
+    }
+
+    public String getDeliveryFee() {
+        return deliveryFee;
+    }
+
+    public void setDeliveryFee(String deliveryFee) {
+        this.deliveryFee = deliveryFee;
+    }
+
+    public String getOvernightFee() {
+        return overnightFee;
+    }
+
+    public void setOvernightFee(String overnightFee) {
+        this.overnightFee = overnightFee;
     }
 
     @Override

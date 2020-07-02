@@ -22,7 +22,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.junior.autoshop.adapter.HistoryAdapter;
 import com.junior.autoshop.adapter.WorkingSpaceAdapter;
 import com.junior.autoshop.models.Autoshop;
 import com.junior.autoshop.models.Trans;
@@ -88,7 +87,7 @@ public class WorkingSpaceFragment extends Fragment {
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_GET_WORKING_SPACE, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_GET_WORKING_SPACE, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

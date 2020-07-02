@@ -37,12 +37,14 @@
             style="@style/TextVertical.Caption"
             android:textColor="@color/colorWhite"
             android:buttonTint="@color/colorWhite"
+            android:textSize="15sp"
             android:text="@string/self_delivery" />
 
         <RadioButton
             android:id="@+id/rb_autoshop_pickup"
             style="@style/TextVertical.Caption"
             android:textColor="@color/colorWhite"
+            android:textSize="15sp"
             android:buttonTint="@color/colorWhite"
             android:text="@string/autoshop_pickup" />
 

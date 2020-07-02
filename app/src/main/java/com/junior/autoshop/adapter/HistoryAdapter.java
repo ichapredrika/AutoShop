@@ -6,35 +6,45 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.junior.autoshop.MainActivity;
 import com.junior.autoshop.R;
 import com.junior.autoshop.models.Trans;
-import com.junior.autoshop.phpConf;
+import com.junior.autoshop.PhpConf;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -64,12 +74,33 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
 
         holder.tvName.setText(trans.getAutoshopName());
         holder.tvVehicleName.setText(trans.getVehicleBrand());
+        holder.tvStatus.setText(trans.getStatus());
         if(trans.getTotalPrice().equals("null")){
             holder.tvTotal.setText("Rp. 0");
         }else{
             double price = Double.parseDouble(trans.getTotalPrice());
             holder.tvTotal.setText(context.getString(R.string.amount_parse,df.format(price)));
         }
+
+        if(!trans.getFinishDate().equals("null") && !trans.getFinishDate().equals("") && !trans.getStatus().equals("CANCELLED") ){
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date currentDate = new Date();
+            Date finishDate = null;
+            try {
+                JodaTimeAndroid.init(context);
+                finishDate = format.parse(trans.getFinishDate());
+                DateTime dtCur = new DateTime(currentDate);
+                DateTime dtFin = new DateTime(finishDate);
+                Days d = Days.daysBetween(dtCur, dtFin);
+                int days = d.getDays();
+                if (days==0 || days==-1){
+                    holder.btnReissue.setVisibility(View.VISIBLE);
+                }else holder.btnReissue.setVisibility(View.GONE);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }else holder.btnReissue.setVisibility(View.GONE);
 
         holder.btnReissue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,21 +146,23 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         TextView tvVehicleName;
         TextView tvTotal;
         Button btnReissue;
+        TextView tvStatus;
 
         HistoryViewHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.txt_name);
             tvVehicleName = itemView.findViewById(R.id.txt_vehicle_name);
             tvTotal = itemView.findViewById(R.id.txt_total);
+            tvStatus = itemView.findViewById(R.id.txt_status);
             btnReissue = itemView.findViewById(R.id.btn_reissue);
         }
     }
 
-    private void reIssue(final int position) {
+ /*   private void reIssue(final int position) {
         loading = ProgressDialog.show(context, "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_CHANGE_STATUS, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_CHANGE_STATUS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -166,10 +199,60 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
             protected java.util.Map<String, String> getParams() {
                 java.util.Map<String, String> params = new HashMap<>();
                 params.put("TRANSACTION_ID", listTrans.get(position).getId());
-                params.put("STATUS", "ON PROGRESS");
+                params.put("STATUS", "REISSUE");
                 return params;
             }
         };
+        mRequestQueue.add(mStringRequest);
+    }
+*/
+    private void reIssue(final int position) {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_REISSUE, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    Log.d("Json reissue", s);
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray data = jsonObject.getJSONArray("result");
+
+                    JSONObject jo = data.getJSONObject(0);
+
+                    Log.d("tagJsonObject", jo.toString());
+                    String response = jo.getString("response");
+                    String message = jo.getString("message");
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                    if(response.equals("1")){
+                        listTrans.remove(position);
+                        notifyDataSetChanged();
+                    }
+
+                } catch (JSONException e) {
+                    Toast.makeText(context, context.getString(R.string.msg_something_wrong), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, context.getString(R.string.msg_connection_error), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected java.util.Map<String, String> getParams() {
+                Date c = Calendar.getInstance().getTime();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String startDate = dateFormat.format(c);
+
+                java.util.Map<String, String> params = new HashMap<>();
+                params.put("TRANSACTION_ID", listTrans.get(position).getId());
+                params.put("MOVEMENT_OPTION", "AUTOSHOP PICKUP");
+                params.put("STATUS", "REISSUE");
+                Log.d("ct param", params.toString());
+                return params;
+            }
+        };
+        mStringRequest.setRetryPolicy(new DefaultRetryPolicy(0,-1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mRequestQueue.add(mStringRequest);
     }
 

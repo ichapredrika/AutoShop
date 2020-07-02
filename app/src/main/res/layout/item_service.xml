@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorWhite"
                 android:textStyle="bold"
+                android:textSize="15sp"
                 tools:text="Service Name" />
 
             <TextView
@@ -32,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorWhite"
+                android:textSize="15sp"
                 tools:text="Details" />
 
         </LinearLayout>

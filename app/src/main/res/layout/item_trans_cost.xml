@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/colorWhite"
+            android:textSize="15sp"
             tools:text="Service Name" />
 
         <TextView
@@ -26,6 +27,7 @@
             android:layout_weight="1"
             android:textColor="@color/colorWhite"
             android:textAlignment="viewEnd"
+            android:textSize="15sp"
             tools:text="Price" />
 
         <ImageView

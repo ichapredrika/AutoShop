@@ -26,8 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.junior.autoshop.R;
 import com.junior.autoshop.UpdateTotalCallback;
 import com.junior.autoshop.models.TransCost;
-import com.junior.autoshop.models.VehicleCustomer;
-import com.junior.autoshop.phpConf;
+import com.junior.autoshop.PhpConf;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +70,7 @@ public class TransCostAdapter extends RecyclerView.Adapter<TransCostAdapter.Tran
     @Override
     public void onBindViewHolder(@NonNull TransCostViewHolder holder, final int position) {
         final TransCost transCost = listTransCost.get(position);
-        holder.tvService.setText(transCost.getType());
+        holder.tvService.setText(transCost.getServiceAct());
         double price = Double.parseDouble(transCost.getPrice());
 
         holder.tvPrice.setText(context.getString(R.string.amount_parse,df.format(price)));
@@ -85,7 +84,6 @@ public class TransCostAdapter extends RecyclerView.Adapter<TransCostAdapter.Tran
                 popUpDialog.setContentView(R.layout.pop_up_confirmation);
                 Button btnYes = popUpDialog.findViewById(R.id.btn_yes);
                 Button btnNo = popUpDialog.findViewById(R.id.btn_no);
-
 
                 btnYes.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -132,7 +130,7 @@ public class TransCostAdapter extends RecyclerView.Adapter<TransCostAdapter.Tran
         loading = ProgressDialog.show(context, "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_DELETE_TRANS_COST, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_DELETE_TRANS_COST, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

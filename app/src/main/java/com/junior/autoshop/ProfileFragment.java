@@ -253,7 +253,7 @@ public class ProfileFragment extends Fragment {
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_GET_PROFILE_CUSTOMER, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_GET_PROFILE_CUSTOMER, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -336,7 +336,7 @@ public class ProfileFragment extends Fragment {
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_UPDATE_PROFILE_CUSTOMER, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_UPDATE_PROFILE_CUSTOMER, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -386,7 +386,7 @@ public class ProfileFragment extends Fragment {
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_ADD_VEHICLE_CUSTOMER, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_ADD_VEHICLE_CUSTOMER, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -435,7 +435,7 @@ public class ProfileFragment extends Fragment {
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.GET, phpConf.URL_GET_VEHICLE, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.GET, PhpConf.URL_GET_VEHICLE, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

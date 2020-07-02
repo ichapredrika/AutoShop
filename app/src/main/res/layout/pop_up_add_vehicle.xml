@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0.5"
+            android:textSize="15sp"
             android:textColor="@color/colorWhite"
             android:text="@string/vehicle_name" />
 
@@ -58,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0.5"
+            android:textSize="15sp"
             android:textColor="@color/colorWhite"
             android:text="@string/brand_model" />
 
@@ -79,6 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0.5"
+            android:textSize="15sp"
             android:text="@string/production_year"
             android:textColor="@color/colorWhite" />
 

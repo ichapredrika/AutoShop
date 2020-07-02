@@ -18,15 +18,92 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorWhite"
+        android:text="@string/pick_up_time"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:layout_weight="0.5"
+            android:text="@string/date"
+            android:textColor="@color/colorWhite" />
+
+        <EditText
+            android:id="@+id/txt_date"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:inputType="date"
+            android:textColorHint="@color/colorWhite"
+            android:hint="@string/yy_mm_dd"
+            android:textColor="@color/colorWhite"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:layout_weight="0.5"
+            android:text="@string/time"
+            android:textColor="@color/colorWhite" />
+
+        <EditText
+            android:id="@+id/txt_time"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:inputType="time"
+            android:textColorHint="@color/colorWhite"
+            android:hint="@string/hh_mm_ss"
+            android:textColor="@color/colorWhite"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_confirm"
+        style="@style/Button.Neutral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/confirm" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
         android:text="@string/invoice"
         android:textStyle="bold"
         android:textSize="18sp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_cost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@drawable/bg_gray_gradient"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,6 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/total"
+            android:textSize="15sp"
             android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
@@ -48,6 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
+            android:textSize="15sp"
             android:text="@string/rp_0"
             android:textColor="@color/colorWhite"
             android:textStyle="bold" />

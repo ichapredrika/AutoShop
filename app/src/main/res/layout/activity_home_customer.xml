@@ -53,6 +53,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
                     android:text="@string/booking_service"
+                    android:textSize="20sp"
                     />
 
             </LinearLayout>
@@ -87,6 +88,7 @@
                     android:layout_gravity="center"
                     android:textColor="@color/colorWhite"
                     android:gravity="center"
+                    android:textSize="20sp"
                     android:text="@string/sos" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -127,6 +129,7 @@
                     android:layout_gravity="center"
                     android:textColor="@color/colorWhite"
                     android:gravity="center"
+                    android:textSize="20sp"
                     android:text="@string/on_going_service" />
 
             </LinearLayout>
@@ -160,6 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:textSize="20sp"
                     android:textColor="@color/colorWhite"
                     android:text="@string/service_history" />
 
@@ -202,6 +206,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:textSize="20sp"
                     android:textColor="@color/colorWhite"
                     android:text="@string/profile" />
 

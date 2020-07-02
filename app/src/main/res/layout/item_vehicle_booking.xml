@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
             android:textStyle="bold"
+            android:textSize="15sp"
             tools:text="Vehicle Name" />
 
         <LinearLayout
@@ -33,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="0dp"
                 android:paddingEnd="4dp"
+                android:textSize="15sp"
                 android:textColor="@color/colorWhite"
                 tools:text="Brand" />
 
@@ -42,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="0dp"
                 android:paddingEnd="4dp"
+                android:textSize="15sp"
                 android:textColor="@color/colorWhite"
                 tools:text="Model" />
 

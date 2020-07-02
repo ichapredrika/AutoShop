@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +23,8 @@ import com.android.volley.toolbox.Volley;
 import com.junior.autoshop.R;
 import com.junior.autoshop.UserPreference;
 import com.junior.autoshop.models.Autoshop;
-import com.junior.autoshop.models.Service;
 import com.junior.autoshop.models.ServiceAutoshop;
-import com.junior.autoshop.phpConf;
+import com.junior.autoshop.PhpConf;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -114,7 +112,7 @@ public class AddServiceAutoshopAdapter extends RecyclerView.Adapter<AddServiceAu
         loading = ProgressDialog.show(context, "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_DELETE_SERVICE_AUTOSHOP, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_DELETE_SERVICE_AUTOSHOP, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -160,7 +158,7 @@ public class AddServiceAutoshopAdapter extends RecyclerView.Adapter<AddServiceAu
         loading = ProgressDialog.show(context, "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_ADD_SERVICE_AUTOSHOP, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_ADD_SERVICE_AUTOSHOP, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

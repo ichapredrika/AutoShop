@@ -4,10 +4,8 @@ import org.json.JSONObject;
 
 public class TransCost {
     private String id;
-    private String serviceId;
+    private String serviceAct;
     private String price;
-    private String type;
-    private String detail;
     private String transId;
 
     public TransCost(){}
@@ -15,15 +13,21 @@ public class TransCost {
     public TransCost(JSONObject object) {
         try {
             this.id = object.optString("PRICING_ID", "");
-            this.serviceId = object.optString("SERVICE_ID", "");
+            this.serviceAct = object.optString("SERVICE_ACT", "");
             this.price = object.optString("PRICE", "");
-            this.type = object.optString("TYPE", "");
-            this.detail = object.optString("DETAIL", "");
             this.transId = object.optString("TRANSACTION_ID", "");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String getServiceAct() {
+        return serviceAct;
+    }
+
+    public void setServiceAct(String serviceAct) {
+        this.serviceAct = serviceAct;
     }
 
     public String getId() {
@@ -34,36 +38,12 @@ public class TransCost {
         this.id = id;
     }
 
-    public String getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
-    }
-
     public String getPrice() {
         return price;
     }
 
     public void setPrice(String price) {
         this.price = price;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
     }
 
     public String getTransId() {

@@ -106,7 +106,7 @@ public class RegisterAutoshopFragment extends Fragment {
     private void hitRegist(final Autoshop autoshop) {
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_REGISTER_AUTOSHOP, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_REGISTER_AUTOSHOP, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.d(TAG, s);

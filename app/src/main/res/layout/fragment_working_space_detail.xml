@@ -49,6 +49,7 @@
                         android:layout_weight="1"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold"
+                        android:textSize="15sp"
                         tools:text="User Name" />
 
                     <Button
@@ -75,6 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="0dp"
                         android:layout_marginEnd="4dp"
+                        android:textSize="15sp"
                         android:textColor="@color/colorWhite"
                         tools:text="Brand" />
 
@@ -83,6 +85,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorWhite"
+                        android:textSize="15sp"
                         tools:text="Model" />
 
                 </LinearLayout>
@@ -100,6 +103,7 @@
                         android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:text="@string/progress"
+                        android:textSize="15sp"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold" />
 
@@ -110,6 +114,7 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:text="@string/_0"
+                        android:textSize="15sp"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold" />
 
@@ -147,40 +152,40 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <Spinner
-                        android:id="@+id/sp_service"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_service_act"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
-                        android:textColor="@color/colorWhite"
-                        android:backgroundTint="@color/colorWhite"
-                        android:theme="@style/ThemeOverlay.AppCompat.Light"
-                        android:gravity="center" />
+                        android:background="@drawable/border_edit_text"
+                        android:hint="@string/service_act"
+                        android:inputType="text"
+                        android:textColorHint="@color/colorDark3"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="10dp"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="15sp" />
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_price"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_weight="0.8"
-                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/border_edit_text"
                         android:hint="@string/price"
                         android:inputType="numberDecimal"
+                        android:layout_weight="1"
+                        android:textColorHint="@color/colorDark3"
                         android:paddingStart="20dp"
                         android:paddingEnd="10dp"
-                        android:backgroundTint="@color/colorWhite"
-                        android:textColorHint="@color/colorWhite"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="13sp" />
+                        android:textColor="@color/colorBlack"
+                        android:textSize="15sp" />
 
                     <Button
                         android:id="@+id/btn_add_cost"
                         style="@style/Button.Neutral"
                         android:layout_width="50dp"
-                        android:layout_height="35dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="4dp"
                         android:text="@string/add"
                         android:textAllCaps="false"
                         android:textSize="13sp" />
@@ -207,6 +212,7 @@
                         android:layout_weight="1"
                         android:text="@string/total"
                         android:textStyle="bold"
+                        android:textSize="15sp"
                         android:textColor="@color/colorWhite"/>
 
                     <TextView
@@ -215,6 +221,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
+                        android:textSize="15sp"
                         android:text="@string/rp_0"
                         android:textStyle="bold"
                         android:textColor="@color/colorWhite"/>

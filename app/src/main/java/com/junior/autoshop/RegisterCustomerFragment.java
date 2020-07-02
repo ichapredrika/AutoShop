@@ -124,7 +124,7 @@ public class RegisterCustomerFragment extends Fragment {
     private void hitRegist(final Customer customer) {
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_REGISTER_CUSTOMER, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_REGISTER_CUSTOMER, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.d(TAG, s);

@@ -1,16 +1,18 @@
 package com.junior.autoshop;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -28,11 +30,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,15 +46,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -66,6 +68,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -77,6 +80,7 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
     private static final int PIC_ID = 123;
     private static final int REQUEST_CAMERA = 1;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    private DecimalFormat df = new DecimalFormat("#,###.###");
 
     private ProgressDialog loading;
     private UserPreference mUserPreference;
@@ -84,7 +88,7 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
     private Autoshop autoshop;
     private ImageView imgEditProfile, imgEditService, imgAutoshop, imgAutoshopEdit;
     private TextView tvName, tvUsername, tvEmail, tvPickerContact, tvAdminContact;
-    private TextView tvAddress, tvLatlong, tvSpace, tvBank, tvAccount, tvOpenHours, tvCloseHours;
+    private TextView tvAddress, tvLatlong, tvSpace, tvBank, tvAccount, tvOpenHours, tvCloseHours, tvDeliveryFee, tvOvernightFee;
 
     private String imageAutoshop;
     private Dialog popUpDialog;
@@ -156,9 +160,10 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         btnChangeLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent changeLoc = new Intent(getContext(), MapActivity.class);
-                    changeLoc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    getContext().startActivity(changeLoc);
+                Intent changeLoc = new Intent(getContext(), MapActivity.class);
+                changeLoc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                changeLoc.putExtra(MapActivity.EXTRA_ORIGIN, MapActivity.EXTRA_PROFILE);
+                getContext().startActivity(changeLoc);
             }
         });
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +194,55 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         tvAccount = view.findViewById(R.id.txt_account_number);
         tvOpenHours = view.findViewById(R.id.txt_open_hours);
         tvCloseHours = view.findViewById(R.id.txt_close_hours);
+        tvDeliveryFee = view.findViewById(R.id.txt_delivery_fee);
+        tvOvernightFee = view.findViewById(R.id.txt_overnight_fee);
+    }
+
+    void updateUi(Autoshop autoshop) {
+        tvName.setText(autoshop.getName());
+        tvUsername.setText(autoshop.getUsername());
+        tvEmail.setText(autoshop.getEmail());
+        tvPickerContact.setText(autoshop.getPickerContact());
+        tvAdminContact.setText(autoshop.getAdminContact());
+        tvAddress.setText(autoshop.getAddress());
+        tvLatlong.setText(autoshop.getLatlong());
+        tvBank.setText(autoshop.getBank());
+        tvSpace.setText(autoshop.getSpace());
+        tvAccount.setText(autoshop.getAccountNumber());
+        tvOpenHours.setText(autoshop.getOpenHours());
+        tvCloseHours.setText(autoshop.getCloseHours());
+
+        double overnightFee = Double.parseDouble(autoshop.getOvernightFee());
+        double deliveryFee = Double.parseDouble(autoshop.getDeliveryFee());
+
+        tvDeliveryFee.setText(getString(R.string.amount_parse, df.format(deliveryFee)));
+        tvOvernightFee.setText(getString(R.string.amount_parse, df.format(overnightFee)));
+
+        if(!autoshop.getPhoto().equals("null")){
+            Bitmap profileBitmap = decodeBitmap(autoshop.getPhoto());
+            imgAutoshop.setImageBitmap(profileBitmap);
+        }
+
+        /*String[] arrSplit = autoshop.getLatlong().split(",");
+
+        LatLng latLng = new LatLng(Double.parseDouble(arrSplit[0]), Double.parseDouble(arrSplit[1]));
+        mCurrLocationMarker.setPosition(latLng);*/
+        LatLng latLng;
+        if (autoshop.getLatlong().equals("null")) {
+            latLng = new LatLng(0, 0);
+        } else {
+            String[] arrSplit = autoshop.getLatlong().split(",");
+            latLng = new LatLng(Double.parseDouble(arrSplit[0]), Double.parseDouble(arrSplit[1]));
+        }
+        markerOptions.position(latLng);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker);
+        markerOptions.icon(icon);
+        markerOptions.anchor(0.5f, 1.0f);
+        mCurrLocationMarker = mMap.addMarker(markerOptions);
+
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
     }
 
     private void popUpEditProfile() {
@@ -207,6 +261,8 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         final TextView tvOpenHours = popUpDialog.findViewById(R.id.txt_open_hours);
         final TextView tvCloseHours = popUpDialog.findViewById(R.id.txt_close_hours);
         final CheckBox cb24hrs = popUpDialog.findViewById(R.id.cb_24hrs);
+        final TextView tvDeliveryFee = popUpDialog.findViewById(R.id.txt_delivery_fee);
+        final TextView tvOvernightFee = popUpDialog.findViewById(R.id.txt_overnight_fee);
 
         tvName.setText(autoshop.getName());
         tvUsername.setText(autoshop.getUsername());
@@ -220,27 +276,32 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         tvAccount.setText(autoshop.getAccountNumber());
         tvOpenHours.setText(autoshop.getOpenHours());
         tvCloseHours.setText(autoshop.getCloseHours());
+        tvDeliveryFee.setText(autoshop.getDeliveryFee());
+        tvOvernightFee.setText(autoshop.getOvernightFee());
 
         Button btnUpdate = popUpDialog.findViewById(R.id.btn_update);
         ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
-        Bitmap profileBitmap = decodeBitmap(autoshop.getPhoto());
-        imageAutoshop = autoshop.getPhoto();
-        imgAutoshopEdit.setImageBitmap(profileBitmap);
+
+        if(!autoshop.getPhoto().equals("null")){
+            Bitmap profileBitmap = decodeBitmap(autoshop.getPhoto());
+            imageAutoshop = autoshop.getPhoto();
+            imgAutoshopEdit.setImageBitmap(profileBitmap);
+        }
 
         cb24hrs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                               @Override
-                                               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                                   if (isChecked) {
-                                                       tvOpenHours.setText("00:00:00");
-                                                       tvOpenHours.setFocusable(false);
-                                                       tvCloseHours.setText("00:00:00");
-                                                       tvCloseHours.setFocusable(false);
-                                                   } else {
-                                                       tvOpenHours.setFocusable(true);
-                                                       tvCloseHours.setFocusable(true);
-                                                   }
-                                               }
-                                           }
+           @Override
+           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                   if (isChecked) {
+                       tvOpenHours.setText("00:00:00");
+                       tvOpenHours.setFocusable(false);
+                       tvCloseHours.setText("00:00:00");
+                       tvCloseHours.setFocusable(false);
+                   } else {
+                       tvOpenHours.setFocusable(true);
+                       tvCloseHours.setFocusable(true);
+                   }
+               }
+           }
         );
 
 
@@ -260,7 +321,6 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (tvName.getText().toString().trim().isEmpty()) {
                     tvName.setError("Autoshop Name Can't be Empty!");
                     tvName.requestFocus();
@@ -297,6 +357,12 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
                 } else if (tvCloseHours.getText().toString().isEmpty()) {
                     tvCloseHours.setError("Close Hours Field Can't be Empty!");
                     tvCloseHours.requestFocus();
+                } else if (tvDeliveryFee.getText().toString().isEmpty()) {
+                    tvDeliveryFee.setError("Delivery Fee Field Can't be Empty!");
+                    tvDeliveryFee.requestFocus();
+                } else if (tvOvernightFee.getText().toString().isEmpty()) {
+                    tvOvernightFee.setError("Overnight Fee Field Can't be Empty!");
+                    tvOvernightFee.requestFocus();
                 } else {
                     Autoshop newAutoshop = new Autoshop();
                     newAutoshop.setId(autoshop.getId());
@@ -312,6 +378,8 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
                     newAutoshop.setAccountNumber(tvAccount.getText().toString().trim());
                     newAutoshop.setOpenHours(tvOpenHours.getText().toString().trim());
                     newAutoshop.setCloseHours(tvCloseHours.getText().toString().trim());
+                    newAutoshop.setDeliveryFee(tvDeliveryFee.getText().toString().trim());
+                    newAutoshop.setOvernightFee(tvOvernightFee.getText().toString().trim());
                     newAutoshop.setPhoto(imageAutoshop);
 
                     updateProfile(newAutoshop);
@@ -454,7 +522,7 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.GET, phpConf.URL_GET_SERVICE, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.GET, PhpConf.URL_GET_SERVICE, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -510,7 +578,7 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_GET_PROFILE_AUTOSHOP, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_GET_PROFILE_AUTOSHOP, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -572,7 +640,7 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_UPDATE_PROFILE_AUTOSHOP, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_UPDATE_PROFILE_AUTOSHOP, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -621,7 +689,8 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
                 params.put("EMAIL", newAutoshop.getEmail());
                 params.put("OPEN_HOURS", newAutoshop.getOpenHours());
                 params.put("CLOSE_HOURS", newAutoshop.getCloseHours());
-
+                params.put("OVERNIGHT_FEE", newAutoshop.getOvernightFee());
+                params.put("DELIVERY_FEE", newAutoshop.getDeliveryFee());
                 return params;
             }
         };
@@ -632,7 +701,7 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_UPDATE_LOCATION_AUTOSHOP, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_UPDATE_LOCATION_AUTOSHOP, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -697,41 +766,6 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         userPreference.setType(EXTRA_AUTOSHOP);
 
         this.autoshop = mUserPreference.getAutoshop();
-    }
-
-    void updateUi(Autoshop autoshop) {
-        tvName.setText(autoshop.getName());
-        tvUsername.setText(autoshop.getUsername());
-        tvEmail.setText(autoshop.getEmail());
-        tvPickerContact.setText(autoshop.getPickerContact());
-        tvAdminContact.setText(autoshop.getAdminContact());
-        tvAddress.setText(autoshop.getAddress());
-        tvLatlong.setText(autoshop.getLatlong());
-        tvBank.setText(autoshop.getBank());
-        tvSpace.setText(autoshop.getSpace());
-        tvAccount.setText(autoshop.getAccountNumber());
-        tvOpenHours.setText(autoshop.getOpenHours());
-        tvCloseHours.setText(autoshop.getCloseHours());
-
-        Bitmap profileBitmap = decodeBitmap(autoshop.getPhoto());
-        imgAutoshop.setImageBitmap(profileBitmap);
-
-        /*String[] arrSplit = autoshop.getLatlong().split(",");
-
-        LatLng latLng = new LatLng(Double.parseDouble(arrSplit[0]), Double.parseDouble(arrSplit[1]));
-        mCurrLocationMarker.setPosition(latLng);*/
-
-        String[] arrSplit = autoshop.getLatlong().split(",");
-        LatLng latLng = new LatLng(Double.parseDouble(arrSplit[0]), Double.parseDouble(arrSplit[1]));
-
-        markerOptions.position(latLng);
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-
-        mCurrLocationMarker = mMap.addMarker(markerOptions);
-
-        //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
     }
 
     private Bitmap decodeBitmap(String encodedImage) {

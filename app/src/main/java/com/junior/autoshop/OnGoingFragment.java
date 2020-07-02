@@ -1,7 +1,6 @@
 package com.junior.autoshop;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -24,11 +23,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.junior.autoshop.adapter.OnGoingAdapter;
-import com.junior.autoshop.adapter.VehicleCustomerAdapter;
 import com.junior.autoshop.models.Customer;
-import com.junior.autoshop.models.TransOngoing;
-import com.junior.autoshop.models.Vehicle;
-import com.junior.autoshop.models.VehicleCustomer;
+import com.junior.autoshop.models.Trans;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +32,11 @@ import org.json.JSONObject;
 
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.net.ssl.HostnameVerifier;
@@ -53,8 +53,9 @@ public class OnGoingFragment extends Fragment {
     private Customer customer;
     private ProgressDialog loading;
     private UserPreference mUserPreference;
-    private ArrayList<TransOngoing> listOnGoing = new ArrayList<>();
-    private ArrayList<TransOngoing> listOnGoingToAdapter = new ArrayList<>();
+    private ArrayList<Trans> listOnGoing = new ArrayList<>();
+    private ArrayList<Trans> listOnGoingToAdapter = new ArrayList<>();
+    private ArrayList<Trans> listOutdated = new ArrayList<>();
     public OnGoingFragment() {
     }
 
@@ -80,11 +81,11 @@ public class OnGoingFragment extends Fragment {
 
     }
 
-    private void getTransOnGoing() {
+    private void getTrans() {
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, phpConf.URL_GET_ONGOING_TRANS, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_GET_ONGOING_TRANS, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -98,18 +99,33 @@ public class OnGoingFragment extends Fragment {
 
                     loading.dismiss();
                     listOnGoing.clear();
+                    listOutdated.clear();
                     if (response.equals("1")) {
                         JSONArray transData = jo.getJSONArray("DATA");
                         for (int i = 0; i < transData.length(); i++) {
                             JSONObject object = transData.getJSONObject(i);
-                            TransOngoing transOngoing = new TransOngoing(object);
-                            listOnGoing.add(transOngoing);
+                            Trans trans = new Trans(object);
+
+                            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                            try {
+                                Date startDate = format.parse(trans.getStartDate());
+                                Date currentDate = new Date(System.currentTimeMillis() - 86400000);
+
+                                if (trans.getStatus().equals("ON QUEUE")){
+                                    if(currentDate.compareTo(startDate)<=0){
+                                        listOnGoing.add(trans);
+                                    }else
+                                        listOutdated.add(trans);
+                                } else listOnGoing.add(trans);
+                            } catch (ParseException e) {
+                            }
                         }
                     } else {
                         String message = jo.getString("message");
                         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                     }
                     updateAdapter(listOnGoing);
+                    if(listOutdated.size()>0) changeStatusOutdated();
 
                 } catch (JSONException e) {
                     loading.dismiss();
@@ -135,17 +151,59 @@ public class OnGoingFragment extends Fragment {
         mRequestQueue.add(mStringRequest);
     }
 
-    private void updateAdapter(ArrayList<TransOngoing> list) {
+    private void updateAdapter(ArrayList<Trans> list) {
         listOnGoingToAdapter.clear();
         listOnGoingToAdapter.addAll(list);
         onGoingAdapter.notifyDataSetChanged();
     }
 
+    private void changeStatusOutdated() {
+        RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
+
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_CHANGE_STATUS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    Log.d("Json status:cancel", s);
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray data = jsonObject.getJSONArray("result");
+                    JSONObject jo = data.getJSONObject(0);
+
+                    Log.d("tagJsonObject", jo.toString());
+                    String response = jo.getString("response");
+                    String message = jo.getString("message");
+                    if(response.equals("1")){
+                        listOutdated.remove(0);
+                        if(listOutdated.size()>0) changeStatusOutdated();
+                    } else Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("tag", String.valueOf(error));
+                Toast.makeText(getContext(), getContext().getString(R.string.msg_connection_error), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected java.util.Map<String, String> getParams() {
+                java.util.Map<String, String> params = new HashMap<>();
+                params.put("TRANSACTION_ID", listOutdated.get(0).getId());
+                params.put("STATUS", "CANCELLED");
+                return params;
+            }
+        };
+        mRequestQueue.add(mStringRequest);
+    }
+
+
     @Override
     public void onResume() {
         super.onResume();
         handleSSLHandshake();
-        getTransOnGoing();
+        getTrans();
     }
 
     @SuppressLint("TrulyRandom")

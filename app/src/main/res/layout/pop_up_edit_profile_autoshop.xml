@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -47,6 +47,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
                         android:text="@string/name"
+                        android:textSize="15sp"
                         android:textColor="@color/colorWhite" />
 
                     <EditText
@@ -69,6 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
+                        android:textSize="15sp"
                         android:text="@string/username"
                         android:textColor="@color/colorWhite" />
 
@@ -93,6 +95,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
                         android:text="@string/email"
+                        android:textSize="15sp"
                         android:textColor="@color/colorWhite" />
 
                     <EditText
@@ -115,6 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
+                        android:textSize="15sp"
                         android:text="@string/picker_contact"
                         android:textColor="@color/colorWhite" />
 
@@ -138,6 +142,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
+                        android:textSize="15sp"
                         android:text="@string/admin_contact"
                         android:textColor="@color/colorWhite" />
 
@@ -162,6 +167,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
+                        android:textSize="15sp"
                         android:text="@string/address"
                         android:textColor="@color/colorWhite" />
 
@@ -184,6 +190,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
+                        android:textSize="15sp"
                         android:text="@string/latlong"
                         android:textColor="@color/colorWhite" />
 
@@ -206,6 +213,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
+                        android:textSize="15sp"
                         android:text="@string/space_amount"
                         android:textColor="@color/colorWhite" />
 
@@ -230,6 +238,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
+                        android:textSize="15sp"
                         android:text="@string/bank"
                         android:textColor="@color/colorWhite" />
 
@@ -252,6 +261,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
+                        android:textSize="15sp"
                         android:text="@string/acc_number"
                         android:textColor="@color/colorWhite" />
 
@@ -270,6 +280,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:textSize="15sp"
                     android:buttonTint="@color/colorWhite"
                     android:drawableTint="@color/colorWhite"
                     android:text="@string/_24_hours_working_hours"
@@ -285,6 +296,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
+                        android:textSize="15sp"
                         android:text="@string/open_hours"
                         android:textColor="@color/colorWhite" />
 
@@ -308,6 +320,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:textSize="15sp"
                         android:layout_weight="0.5"
                         android:text="@string/close_hours"
                         android:textColor="@color/colorWhite" />
@@ -318,6 +331,57 @@
                         android:layout_height="40dp"
                         android:layout_weight="1"
                         android:inputType="time"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="15sp"
+                        android:layout_weight="0.5"
+                        android:text="@string/delivery_fee"
+                        android:textColor="@color/colorWhite" />
+
+                    <EditText
+                        android:id="@+id/txt_delivery_fee"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="15sp"
+                        android:layout_weight="0.5"
+                        android:text="@string/overnight_fee"
+                        android:textColor="@color/colorWhite" />
+
+                    <EditText
+                        android:id="@+id/txt_overnight_fee"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:inputType="numberDecimal"
                         android:textColor="@color/colorWhite"
                         android:textSize="13sp" />
                 </LinearLayout>

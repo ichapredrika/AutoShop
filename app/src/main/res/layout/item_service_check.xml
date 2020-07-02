@@ -37,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
+                android:textSize="15sp"
                 android:textColor="@color/colorWhite"
                 tools:text="Service Name" />
 
@@ -45,6 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorWhite"
+                android:textSize="15sp"
                 tools:text="Service Detail" />
         </LinearLayout>
 

@@ -26,10 +26,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.junior.autoshop.adapter.ServiceAdapter;
-import com.junior.autoshop.adapter.ServiceAutoshopAdapter;
 import com.junior.autoshop.models.Customer;
 import com.junior.autoshop.models.Service;
-import com.junior.autoshop.models.ServiceAutoshop;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +51,7 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
     private Customer customer;
     private RecyclerView rvService;
     private ProgressDialog loading;
+    private int counter=0;
     private ArrayList<Service> listService = new ArrayList<>();
     private ArrayList<Service> listServiceToAdapter = new ArrayList<>();
     private ArrayList<Service> listSelectedService = new ArrayList<>();
@@ -83,7 +82,8 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
         rvService.setLayoutManager(new LinearLayoutManager(getContext()));
         rvService.setAdapter(serviceAdapter);
 
-        getService();
+        if (counter==0) getService();
+        counter=1;
 
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +109,7 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.GET, phpConf.URL_GET_SERVICE, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.GET, PhpConf.URL_GET_SERVICE, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -166,9 +166,10 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
         for(int i=0; i< listService.size();i++){
             if (service.getId().equals(listService.get(i).getId())){
                 listService.get(i).setNote(service.getNote());
-                listService.get(i).setSelected(service.isSelected());
+                listService.get(i).setSelected(true);
             }
         }
+        updateAdapter(listService);
         Log.d("selectedService", listSelectedService.toString());
     }
 
@@ -182,9 +183,10 @@ public class BookingFragment extends Fragment implements SelectedServiceCallback
         for(int i=0; i< listService.size();i++){
             if (service.getId().equals(listService.get(i).getId())){
                 listService.get(i).setNote(service.getNote());
-                listService.get(i).setSelected(service.isSelected());
+                listService.get(i).setSelected(false);
             }
         }
+        updateAdapter(listService);
         Log.d("selectedService", listSelectedService.toString());
     }
 

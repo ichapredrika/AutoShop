@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:text="@string/login_as"
         android:gravity="center"
+        android:textSize="15sp"
         android:textColor="@color/colorWhite"/>
     <RadioGroup
         android:id="@+id/rg_type"
@@ -72,6 +73,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColorHint="@color/colorDark3"
         android:layout_marginTop="30dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -81,6 +83,7 @@
             android:background="@drawable/border_edit_text"
             android:hint="@string/username"
             android:inputType="text"
+            android:textColorHint="@color/colorDark3"
             android:paddingStart="20dp"
             android:paddingEnd="10dp"
             android:textColor="@color/colorBlack"
@@ -95,7 +98,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="20dp"
         app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/colorPrimaryDark">
+        android:textColorHint="@color/colorDark3"
+        app:passwordToggleTint="@color/colorDark3">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txt_password"
@@ -104,6 +108,7 @@
             android:background="@drawable/border_edit_text"
             android:hint="@string/password"
             android:inputType="textPassword"
+            android:textColorHint="@color/colorDark3"
             android:paddingStart="20dp"
             android:paddingEnd="10dp"
             android:textColor="@color/colorBlack"
@@ -137,7 +142,7 @@
         android:text="@string/new_user_register_now"
         android:textAlignment="center"
         android:textColor="@color/colorGray4"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
 </LinearLayout>
