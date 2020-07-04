@@ -424,9 +424,8 @@ public class SosFragment extends Fragment implements SelectedAutoshopCallback, F
                             JSONObject object = dataAutoshop.getJSONObject(i);
                             Autoshop autoshop = new Autoshop(object);
                             boolean isAvail = false;
-
                             for(int j=0; j<listAutoshop.size();j++){
-                                if(autoshop.getId().equals(listAutoshop.get(j))){
+                                if(autoshop.getId().equals(listAutoshop.get(j).getId())){
                                     isAvail=true;
                                     break;
                                 }

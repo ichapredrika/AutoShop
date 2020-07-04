@@ -436,7 +436,7 @@ public class ChooseAutoshopFragment extends Fragment implements FavoriteAutoshop
                             boolean isAvail = false;
 
                             for(int j=0; j<listAutoshop.size();j++){
-                                if(autoshop.getId().equals(listAutoshop.get(j))){
+                                if(autoshop.getId().equals(listAutoshop.get(j).getId())){
                                     isAvail=true;
                                     break;
                                 }
