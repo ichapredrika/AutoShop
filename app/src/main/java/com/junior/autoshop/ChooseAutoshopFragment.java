@@ -287,18 +287,14 @@ public class ChooseAutoshopFragment extends Fragment implements FavoriteAutoshop
         for (int i = 0; i < autoshops.size(); i++) {
             if (autoshops.get(i).getDistance() < currentZone && currentZone == 10) {
                 listCurrent.add(autoshops.get(i));
-            } else if (autoshops.get(i).getDistance() < currentZone && autoshops.get(i).getDistance() > currentZone - 10) {
+            } else if (autoshops.get(i).getDistance() < currentZone
+                    && autoshops.get(i).getDistance() > currentZone - 10) {
                 listCurrent.add(autoshops.get(i));
             } else if (autoshops.get(i).getDistance() > currentZone) {
                 listNext.add(autoshops.get(i));
             } else {
                 listPrev.add(autoshops.get(i));
             }
-
-            /*if (i == autoshops.size() - 1 && listCurrent.size() == 0) {
-                i = 0;
-                currentZone += 10;
-            }*/
         }
         if(listPrev.size()<1){
             imgPrev.setVisibility(View.INVISIBLE);
@@ -608,7 +604,6 @@ public class ChooseAutoshopFragment extends Fragment implements FavoriteAutoshop
     }
 
     private void calculateDistance(ArrayList<Autoshop> autoshops) {
-
         Log.d("loc", userLat + ", " + userLong);
         for (int i = 0; i < autoshops.size(); i++) {
             String[] arrOfStr = autoshops.get(i).getLatlong().split(",");
@@ -623,7 +618,6 @@ public class ChooseAutoshopFragment extends Fragment implements FavoriteAutoshop
         }else{
             getFavorite(autoshops);
         }
-
     }
 
     private static double distance(double lat1, double lon1, double lat2, double lon2) {
@@ -631,7 +625,9 @@ public class ChooseAutoshopFragment extends Fragment implements FavoriteAutoshop
             return 0;
         } else {
             double theta = lon1 - lon2;
-            double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
+            double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2))
+                    + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                    * Math.cos(Math.toRadians(theta));
             dist = Math.acos(dist);
             dist = Math.toDegrees(dist);
             dist = dist * 60 * 1.1515;

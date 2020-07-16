@@ -18,9 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".MapActivity"
-            android:theme="@style/MapTheme"></activity>
+            android:theme="@style/MapTheme"/>
         <activity android:name=".MainAdminActivity" />
         <activity android:name=".HomeCustomerActivity" />
         <activity android:name=".HomeAdminActivity" />
@@ -31,7 +32,6 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

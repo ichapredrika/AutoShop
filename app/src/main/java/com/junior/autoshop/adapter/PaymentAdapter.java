@@ -80,7 +80,17 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
             if (trans.getPickupOption().equals("SELF PICKUP")){
                 holder.ll.setBackground(context.getDrawable(R.drawable.bg_green_gradient));
                 holder.btnConfirm.setText("Finish Order");
+                if(!holder.tvDate.equals("null")){
+                    holder.tvDate.setText(trans.getPickupDate());
+                    holder.tvDate.setVisibility(View.VISIBLE);
+                }
+                if(!holder.tvTime.equals("null")){
+                    holder.tvTime.setText(trans.getPickupDate());
+                    holder.tvTime.setVisibility(View.VISIBLE);
+                }
             }else{
+                holder.tvTime.setVisibility(View.GONE);
+                holder.tvDate.setVisibility(View.GONE);
                 holder.ll.setBackground(context.getDrawable(R.drawable.bg_yellow_gradient));
                 holder.btnConfirm.setText("Confirm Payment");
                 if(trans.getPaymentProof().equals("null")){
@@ -328,6 +338,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
         TextView tvPickupOption;
         TextView tvStatus;
         ImageView imgMap;
+        TextView tvDate;
+        TextView tvTime;
 
         PaymentViewHolder(View itemView) {
             super(itemView);
@@ -343,6 +355,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
             tvStatus = itemView.findViewById(R.id.txt_status);
             tvPickupOption = itemView.findViewById(R.id.txt_pickup_option);
             imgMap = itemView.findViewById(R.id.img_map);
+            tvDate = itemView.findViewById(R.id.txt_date);
+            tvTime = itemView.findViewById(R.id.txt_time);
 
         }
     }

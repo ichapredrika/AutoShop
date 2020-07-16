@@ -1,7 +1,10 @@
 package com.junior.autoshop;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -56,6 +59,8 @@ public class PaymentFragment extends Fragment implements UpdateTransCallback {
     private ProgressDialog loading;
     private UserPreference mUserPreference;
     private Autoshop autoshop;
+    private ImageView imgInfo;
+    private Dialog popUpDialog;
 
     public PaymentFragment() {
 
@@ -74,9 +79,11 @@ public class PaymentFragment extends Fragment implements UpdateTransCallback {
 
         rvPayment = view.findViewById(R.id.rv_payment);
         imgHistory = view.findViewById(R.id.img_history);
+        imgInfo = view.findViewById(R.id.img_info);
 
         mUserPreference = new UserPreference(getContext());
         autoshop = mUserPreference.getAutoshop();
+        popUpDialog = new Dialog(getContext());
 
         paymentAdapter = new PaymentAdapter(getContext(), listPaymentToAdapter, this);
         paymentAdapter.notifyDataSetChanged();
@@ -86,6 +93,13 @@ public class PaymentFragment extends Fragment implements UpdateTransCallback {
 
         handleSSLHandshake();
         getTransPayment();
+
+        imgInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popUpInfo();
+            }
+        });
 
         imgHistory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +114,24 @@ public class PaymentFragment extends Fragment implements UpdateTransCallback {
                 }
             }
         });
+    }
+
+    private void popUpInfo() {
+        popUpDialog.setContentView(R.layout.pop_up_info);
+
+        ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popUpDialog.dismiss();
+            }
+        });
+
+        if (popUpDialog.getWindow() != null) {
+            popUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            popUpDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        popUpDialog.show();
     }
 
     private void getTransPayment() {

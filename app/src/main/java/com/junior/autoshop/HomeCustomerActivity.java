@@ -16,6 +16,7 @@ public class HomeCustomerActivity extends AppCompatActivity {
     LinearLayout llOnGoing;
     LinearLayout llHistory;
     LinearLayout llProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

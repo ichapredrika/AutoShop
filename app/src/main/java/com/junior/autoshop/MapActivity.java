@@ -73,11 +73,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    public final static String EXTRA_ORIGIN = "ORIGIN";
-    public final static String EXTRA_PROFILE = "PROFILE";
-    public final static String EXTRA_PICKUP = "PICKUP";
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private UserPreference mUserPreference;
     private GoogleMap mMap;
     Location mLastLocation;
     Autoshop autoshop;
@@ -85,6 +80,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
     MarkerOptions markerOptions;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    public final static String EXTRA_ORIGIN = "ORIGIN";
+    public final static String EXTRA_PROFILE = "PROFILE";
+    public final static String EXTRA_PICKUP = "PICKUP";
+
+    private UserPreference mUserPreference;
+
     private ProgressDialog loading;
     private TextView tvFee;
     private String origin;
@@ -97,10 +100,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        mUserPreference = new UserPreference(MapActivity.this);
-        autoshop = mUserPreference.getAutoshop();
         SupportMapFragment mMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
+
+        mUserPreference = new UserPreference(MapActivity.this);
+        autoshop = mUserPreference.getAutoshop();
+
         Button btnChangeLoc = findViewById(R.id.btn_change_loc);
         ImageView imgClose = findViewById(R.id.img_close);
         tvFee = findViewById(R.id.txt_pickup_fee);
@@ -368,7 +373,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         //stop location updates
         if (mGoogleApiClient != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,
+                    (com.google.android.gms.location.LocationListener) this);
         }
     }
 
@@ -381,7 +387,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (ContextCompat.checkSelfPermission(MapActivity.this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
+                    mLocationRequest, (com.google.android.gms.location.LocationListener) this);
         }
     }
 

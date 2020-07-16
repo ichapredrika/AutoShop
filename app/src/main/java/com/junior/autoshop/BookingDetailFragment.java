@@ -187,41 +187,44 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
                     UUID uuid = UUID.randomUUID();
                     transId = uuid.toString().replace("-", "").toUpperCase();
 
-                    service=null;
-                    pricing="";
-
-                    for(int i=0; i<listSelectedService.size();i++){
-                        String sh_id = transId+"serv-"+i;
-                        if (service == null) {
-                            service="('"+ sh_id +"','"+ listSelectedService.get(i).getId() +"','"+ transId +"','"+listSelectedService.get(i).getNote()+"', NULL)";
-                        }else{
-                            service=service + "('"+ sh_id +"','"+ listSelectedService.get(i).getId() +"','"+ transId +"','"+listSelectedService.get(i).getNote()+"', NULL)";
-                        }
-                        if(i!=listSelectedService.size()-1){
-                            service=service+",";
-                        }
-                    }
-
-                    if (movement.equals(EXTRA_AUTOSHOP_PICKUP)){
-                        String pricing_id = transId + "-pickup";
-                        double priceDb;
-                        if (selectedAutoshop.getDeliveryFee().equals("") || selectedAutoshop.getDeliveryFee().equals("null")){
-                            priceDb=0;
-                        }else{
-                            priceDb = Double.parseDouble(selectedAutoshop.getDeliveryFee())* selectedAutoshop.getDistance();
-                        }
-
-                        totalPrice = priceDb;
-                        String price = Double.toString(priceDb);
-                        pricing = "('" + pricing_id + "','Pickup Fee','" + transId + "','"+ price +"')";
-                    }
-
+                    createServiceAndPricing();
                     createTrans();
                 }
             }
         });
     }
 
+    private void createServiceAndPricing(){
+        service=null;
+        pricing="";
+
+        for(int i=0; i<listSelectedService.size();i++){
+            String sh_id = transId+"serv-"+i;
+            if (service == null) {
+                service="('"+ sh_id +"','"+ listSelectedService.get(i).getId() +"','"+ transId
+                        +"','"+listSelectedService.get(i).getNote()+"', NULL)";
+            }else{
+                service=service + "('"+ sh_id +"','"+ listSelectedService.get(i).getId() +"','"
+                        + transId +"','"+listSelectedService.get(i).getNote()+"', NULL)";
+            }
+            if(i!=listSelectedService.size()-1){
+                service=service+",";
+            }
+        }
+        if (movement.equals(EXTRA_AUTOSHOP_PICKUP)){
+            String pricing_id = transId + "-pickup";
+            double priceDb;
+            if (selectedAutoshop.getDeliveryFee().equals("") || selectedAutoshop.getDeliveryFee().equals("null")){
+                priceDb=0;
+            }else{
+                priceDb = Double.parseDouble(selectedAutoshop.getDeliveryFee())* selectedAutoshop.getDistance();
+            }
+
+            totalPrice = priceDb;
+            String price = Double.toString(priceDb);
+            pricing = "('" + pricing_id + "','Pickup Fee','" + transId + "','"+ price +"')";
+        }
+    }
     private void popUpMovement() {
         popUpDialog.setContentView(R.layout.pop_up_movement);
         ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
@@ -375,24 +378,20 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
 
     private void createTrans() {
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
-
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_CREATE_TRANS, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_CREATE_TRANS,
+                new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     Log.d("Json create trans", s);
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray data = jsonObject.getJSONArray("result");
-
                     JSONObject jo = data.getJSONObject(0);
-
-                    Log.d("tagJsonObject", jo.toString());
                     String response = jo.getString("response");
                     String message = jo.getString("message");
                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
 
                     if (response.equals("1")) {
-
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_ONGOING);
                         FragmentManager mFragmentManager = getFragmentManager();

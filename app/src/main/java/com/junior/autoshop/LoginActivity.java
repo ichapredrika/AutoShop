@@ -79,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
             customer = new Customer();
         }
 
-
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,15 +133,10 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("Json Login", s);
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray data = jsonObject.getJSONArray("result");
-
                     JSONObject jo = data.getJSONObject(0);
-
-                    Log.d("tagJsonObject", jo.toString());
                     String response = jo.getString("STATUS");
                     String message = jo.getString("message");
-
                     loading.dismiss();
-
                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
 
                     if (response.equals("1")) {

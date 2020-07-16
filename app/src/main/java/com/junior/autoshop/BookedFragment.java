@@ -272,7 +272,6 @@ public class BookedFragment extends Fragment {
             if (requestCode == BARCODE_REQUEST_CODE) {
                 qrcode = intent.getStringExtra(SCAN_RESULT);
                 getOccupiedSpace();
-                //acceptBooking();
             }
         }
     }
@@ -284,7 +283,6 @@ public class BookedFragment extends Fragment {
         ArrayList<Trans> autoshopPickup = new ArrayList<>();
         ArrayList<Trans> selfDelivery = new ArrayList<>();
         ArrayList<Trans> result = new ArrayList<>();
-
         for (int i=0; i<trans.size();i++){
             if(trans.get(i).getStatus().equals("REISSUE")){
                 reissue.add(trans.get(i));
@@ -385,10 +383,11 @@ public class BookedFragment extends Fragment {
     }
 
     private void acceptBooking(final int spaceNumber) {
-        loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
+        loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...",
+                false, false);
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
-
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_ACCEPT_TRANS, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_ACCEPT_TRANS,
+                new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -396,8 +395,6 @@ public class BookedFragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray data = jsonObject.getJSONArray("result");
                     JSONObject jo = data.getJSONObject(0);
-
-                    Log.d("tagJsonObject", jo.toString());
                     String response = jo.getString("response");
                     String message = jo.getString("message");
                     loading.dismiss();

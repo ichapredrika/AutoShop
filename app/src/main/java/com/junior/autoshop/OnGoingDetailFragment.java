@@ -429,7 +429,7 @@ public class OnGoingDetailFragment extends Fragment {
                 } else if (tvTime.getText().toString().trim().length() != 8) {
                     tvDate.setError("Time Format should be 'hh:mm:ss'");
                 }else if (tvDate.getText().toString().trim().length() != 10) {
-                    tvTime.setError("Date Format should be 'yyyy:MM:dd'");
+                    tvDate.setError("Date Format should be 'yyyy:MM:dd'");
                 }
                 else {
                     if (!TextUtils.isEmpty(tvDate.getText())) {

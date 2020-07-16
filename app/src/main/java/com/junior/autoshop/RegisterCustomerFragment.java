@@ -2,11 +2,6 @@ package com.junior.autoshop;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -84,7 +83,6 @@ public class RegisterCustomerFragment extends Fragment {
                     customer.setPhone(tvPhone.getText().toString().trim());
 
                     hitRegist(customer);
-
                 }
             }
         });
@@ -107,7 +105,7 @@ public class RegisterCustomerFragment extends Fragment {
         } else if (tvPhone.getText().toString().trim().isEmpty()) {
             tvPhone.setError("Phone Number Field Can't be Empty!");
             tvPhone.requestFocus();
-        }  else if (tvPass1.getText().toString().trim().isEmpty()) {
+        } else if (tvPass1.getText().toString().trim().isEmpty()) {
             tvPass1.setError("Password Field Can't be Empty!");
             tvPass1.requestFocus();
         } else if (tvPass2.getText().toString().isEmpty()) {
@@ -123,33 +121,29 @@ public class RegisterCustomerFragment extends Fragment {
 
     private void hitRegist(final Customer customer) {
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_REGISTER_CUSTOMER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        Log.d(TAG, s);
+                        try {
+                            Log.d("Json register", s);
+                            JSONObject jsonObject = new JSONObject(s);
+                            JSONArray data = jsonObject.getJSONArray("result");
+                            JSONObject jo = data.getJSONObject(0);
+                            String response = jo.getString("STATUS");
+                            String message = jo.getString("message");
 
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_REGISTER_CUSTOMER, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                Log.d(TAG, s);
-                try {
-                    Log.d("Json register", s);
-                    JSONObject jsonObject = new JSONObject(s);
-                    JSONArray data = jsonObject.getJSONArray("result");
-
-                    JSONObject jo = data.getJSONObject(0);
-
-                    Log.d("tagJsonObject", jo.toString());
-                    String response = jo.getString("STATUS");
-                    String message = jo.getString("message");
-
-                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-
-                    if (response.equals("1")) {
-                        Intent in = new Intent(getContext(), LoginActivity.class);
-                        startActivity(in);
+                            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                            if (response.equals("1")) {
+                                Intent in = new Intent(getContext(), LoginActivity.class);
+                                startActivity(in);
+                            }
+                        } catch (JSONException e) {
+                            Toast.makeText(getContext(), getString(R.string.msg_something_wrong), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                } catch (JSONException e) {
-                    Toast.makeText(getContext(), getString(R.string.msg_something_wrong), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getContext(), getString(R.string.msg_connection_error), Toast.LENGTH_SHORT).show();
