@@ -85,7 +85,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
                     holder.tvDate.setVisibility(View.VISIBLE);
                 }
                 if(!holder.tvTime.equals("null")){
-                    holder.tvTime.setText(trans.getPickupDate());
+                    holder.tvTime.setText(trans.getPickupTime());
                     holder.tvTime.setVisibility(View.VISIBLE);
                 }
             }else{

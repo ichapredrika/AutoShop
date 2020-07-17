@@ -117,7 +117,7 @@ public class PaymentFragment extends Fragment implements UpdateTransCallback {
     }
 
     private void popUpInfo() {
-        popUpDialog.setContentView(R.layout.pop_up_info);
+        popUpDialog.setContentView(R.layout.pop_up_info_payment);
 
         ImageView imgClose = popUpDialog.findViewById(R.id.img_close);
         imgClose.setOnClickListener(new View.OnClickListener() {
