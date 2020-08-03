@@ -140,4 +140,6 @@
     <string name="sos_order">SOS Order</string>
     <string name="active_workspace">Active Workspace</string>
     <string name="reissued_order">Reissued Order</string>
+    <string name="autoshop_email">autoshopcorporation@gmail.com</string>
+    <string name="autoshop_password">kentanggoreng</string>
 </resources>

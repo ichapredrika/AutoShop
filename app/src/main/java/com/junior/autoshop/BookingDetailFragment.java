@@ -53,9 +53,11 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -392,6 +394,16 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
 
                     if (response.equals("1")) {
+                        List<String> toEmailList = new ArrayList<>();
+                        toEmailList.add(customer.getEmail());
+                        /*List<String> toEmailList = Arrays.asList(toEmails
+                                .split("\\s*,\\s*"));*/
+                        Log.i("SendMailActivity", "To List: " + toEmailList);
+                        String emailSubject = "New Booking";
+                        String emailBody = "Check Autoshop App now!";
+                        new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
+                                getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_ONGOING);
                         FragmentManager mFragmentManager = getFragmentManager();
