@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -399,6 +400,24 @@ public class BookedFragment extends Fragment {
                     String message = jo.getString("message");
                     loading.dismiss();
                     if (response.equals("1")) {
+                        Trans trans = new Trans();
+                        for(int j=0; j<listBooked.size();j++){
+                            if (qrcode.equals(listBooked.get(j).getId())){
+                                trans = listBooked.get(j);
+                            }
+                        }
+                        List<String> toEmailList = new ArrayList<>();
+                        toEmailList.add(trans.getCustomerEmail());
+                        Log.i("SendMailActivity", "To List: " + toEmailList);
+                        String emailSubject = "Order Accepted";
+                        String emailBody = "Your order has been accepted as detailed below:\n" +
+                                "Autoshop: "+trans.getAutoshopName()+"\n"+
+                                "Order Date: "+trans.getStartDate()+"\n"+
+                                "Type : " + trans.getType()+"\n\n"+
+                                "Check Autoshop App now!";
+                        new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
+                                getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+
                         Toast.makeText(getContext(), "Booking accepted", Toast.LENGTH_SHORT).show();
                         getTransBooked();
                     } else

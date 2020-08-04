@@ -1,5 +1,6 @@
 package com.junior.autoshop.adapter;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -27,6 +28,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.junior.autoshop.MainActivity;
 import com.junior.autoshop.R;
+import com.junior.autoshop.SendMailTask;
 import com.junior.autoshop.models.Trans;
 import com.junior.autoshop.PhpConf;
 
@@ -46,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>{
@@ -54,9 +57,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     private ProgressDialog loading;
     private Dialog popUpDialog;
     private DecimalFormat df = new DecimalFormat("#,###.###");
+    Activity activity ;
 
     public HistoryAdapter(Context context, ArrayList<Trans> listTrans) {
         this.context = context;
+        this.activity = (Activity) context;
         this.listTrans = listTrans;
         popUpDialog = new Dialog(context);
     }
@@ -224,6 +229,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
                     String message = jo.getString("message");
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                     if(response.equals("1")){
+                        List<String> toEmailList = new ArrayList<>();
+                        toEmailList.add(listTrans.get(position).getAutoshopEmail());
+                        Log.i("SendMailActivity", "To List: " + toEmailList);
+                        String emailSubject = "New Reissued Order";
+                        String emailBody = "There's a reissued order as detailed below:\n" +
+                                "Customer: "+listTrans.get(position).getCustomerName()+"\n"+
+                                "Movement Option: AUTOSHOP PICKUP\n"+
+                                "Type : Reissue \n\n"+
+                                "Check Autoshop App now!";
+                        new SendMailTask(activity).execute(context.getString(R.string.autoshop_email),
+                                context.getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+
                         listTrans.remove(position);
                         notifyDataSetChanged();
                     }

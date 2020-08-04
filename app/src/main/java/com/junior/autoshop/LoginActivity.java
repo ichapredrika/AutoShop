@@ -55,16 +55,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        List<String> toEmailList = new ArrayList<>();
-        toEmailList.add("gorengkentanggoreng@gmail.com");
-                        /*List<String> toEmailList = Arrays.asList(toEmails
-                                .split("\\s*,\\s*"));*/
-        Log.i("SendMailActivity", "To List: " + toEmailList);
-        String emailSubject = "New Booking";
-        String emailBody = "Check Autoshop App now!";
-        new SendMailTask(this).execute(getString(R.string.autoshop_email),
-                getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
-
         tvUsername = findViewById(R.id.txt_username);
         tvPassword = findViewById(R.id.txt_password);
         rgRole = findViewById(R.id.rg_type);

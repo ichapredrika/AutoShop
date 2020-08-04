@@ -102,6 +102,7 @@ public class HistoryFragment extends Fragment {
 
                     listHistory.clear();
                     if (response.equals("1")) {
+
                         JSONArray transData = jo.getJSONArray("DATA");
                         for (int i = 0; i < transData.length(); i++) {
                             JSONObject object = transData.getJSONObject(i);

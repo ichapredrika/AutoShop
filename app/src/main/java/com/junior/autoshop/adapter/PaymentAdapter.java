@@ -1,5 +1,6 @@
 package com.junior.autoshop.adapter;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ClipData;
@@ -34,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.junior.autoshop.MainAdminActivity;
 import com.junior.autoshop.R;
+import com.junior.autoshop.SendMailTask;
 import com.junior.autoshop.UpdateTransCallback;
 import com.junior.autoshop.models.Trans;
 import com.junior.autoshop.PhpConf;
@@ -48,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentViewHolder>{
@@ -57,10 +60,12 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
     private Dialog popUpDialog;
     private DecimalFormat df = new DecimalFormat("#,###.###");
     private UpdateTransCallback callback;
+    Activity activity ;
 
     public PaymentAdapter(Context context, ArrayList<Trans> listTrans, UpdateTransCallback callback) {
         this.context = context;
         this.listTrans = listTrans;
+        this.activity = (Activity) context;
         popUpDialog = new Dialog(context);
         this.callback = callback;
     }
@@ -289,6 +294,18 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
                     loading.dismiss();
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                     if (response.equals("1")){
+                        List<String> toEmailList = new ArrayList<>();
+                        toEmailList.add(listTrans.get(position).getCustomerEmail());
+                        Log.i("SendMailActivity", "To List: " + toEmailList);
+                        String emailSubject = "Order Finished";
+                        String emailBody = "Your order has been finished as detailed below:\n" +
+                                "Autoshop: "+listTrans.get(position).getAutoshopName()+"\n"+
+                                "Finished Date: "+listTrans.get(position).getFinishDate()+"\n"+
+                                "Type : " + listTrans.get(position).getType()+"\n\n"+
+                                "Check Autoshop App now!";
+                        new SendMailTask(activity).execute(context.getString(R.string.autoshop_email),
+                               context.getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+                        
                         listTrans.remove(position);
                         notifyDataSetChanged();
                         callback.update();

@@ -18,6 +18,7 @@ public class Trans implements Parcelable {
     private String type;
     private String totalPrice;
     private String autoshopName;
+    private String autoshopEmail;
     private String status;
     private String autoshopAddress;
     private String autoshopLatlong;
@@ -31,6 +32,7 @@ public class Trans implements Parcelable {
     private String adminContact;
     private String pickupContact;
     private String customerName;
+    private String customerEmail;
     private String customerId;
     private String customerContact;
     private String deliveryFee;
@@ -78,6 +80,8 @@ public class Trans implements Parcelable {
             this.vehicleId = object.optString("VEHICLE_ID", "");
             this.vhId = object.optString("VH_ID", "");
             this.customerId = object.optString("CUSTOMER_ID", "");
+            this.autoshopEmail = object.optString("AUTOSHOP_EMAIL", "");
+            this.customerEmail = object.optString("CUSTOMER_EMAIL", "");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -177,6 +181,14 @@ public class Trans implements Parcelable {
 
     public void setAutoshopName(String autoshopName) {
         this.autoshopName = autoshopName;
+    }
+
+    public String getAutoshopEmail() {
+        return autoshopEmail;
+    }
+
+    public void setAutoshopEmail(String autoshopEmail) {
+        this.autoshopEmail = autoshopEmail;
     }
 
     public String getStatus() {
@@ -283,6 +295,14 @@ public class Trans implements Parcelable {
         this.customerName = customerName;
     }
 
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
     public String getCustomerId() {
         return customerId;
     }
@@ -347,7 +367,6 @@ public class Trans implements Parcelable {
         this.pickupTime = pickupTime;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -367,6 +386,7 @@ public class Trans implements Parcelable {
         dest.writeString(this.type);
         dest.writeString(this.totalPrice);
         dest.writeString(this.autoshopName);
+        dest.writeString(this.autoshopEmail);
         dest.writeString(this.status);
         dest.writeString(this.autoshopAddress);
         dest.writeString(this.autoshopLatlong);
@@ -380,6 +400,7 @@ public class Trans implements Parcelable {
         dest.writeString(this.adminContact);
         dest.writeString(this.pickupContact);
         dest.writeString(this.customerName);
+        dest.writeString(this.customerEmail);
         dest.writeString(this.customerId);
         dest.writeString(this.customerContact);
         dest.writeString(this.deliveryFee);
@@ -403,6 +424,7 @@ public class Trans implements Parcelable {
         this.type = in.readString();
         this.totalPrice = in.readString();
         this.autoshopName = in.readString();
+        this.autoshopEmail = in.readString();
         this.status = in.readString();
         this.autoshopAddress = in.readString();
         this.autoshopLatlong = in.readString();
@@ -416,6 +438,7 @@ public class Trans implements Parcelable {
         this.adminContact = in.readString();
         this.pickupContact = in.readString();
         this.customerName = in.readString();
+        this.customerEmail = in.readString();
         this.customerId = in.readString();
         this.customerContact = in.readString();
         this.deliveryFee = in.readString();

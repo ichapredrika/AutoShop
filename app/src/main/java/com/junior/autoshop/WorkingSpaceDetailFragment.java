@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class WorkingSpaceDetailFragment extends Fragment implements UpdateTotalCallback{
     public static String EXTRA_TRANS_ID = "TRANSACTION_ID";
@@ -260,6 +261,18 @@ public class WorkingSpaceDetailFragment extends Fragment implements UpdateTotalC
                     Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                     loading.dismiss();
                     if(response.equals("1")){
+                        List<String> toEmailList = new ArrayList<>();
+                        toEmailList.add(trans.getCustomerEmail());
+                        Log.i("SendMailActivity", "To List: " + toEmailList);
+                        String emailSubject = "Service Finished";
+                        String emailBody = "The service for your order has been finished as detailed below:\n" +
+                                "Autoshop: "+trans.getAutoshopName()+"\n"+
+                                "Order Date: "+trans.getStartDate()+"\n"+
+                                "Type : " + trans.getType()+"\n\n"+
+                                "Check Autoshop App now!";
+                        new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
+                                getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+
                         Intent intent = new Intent(getContext(), MainAdminActivity.class);
                         intent.putExtra(MainAdminActivity.EXTRA_STATE, MainAdminActivity.STATE_WORKING_SPACE);
                         FragmentManager mFragmentManager = getFragmentManager();

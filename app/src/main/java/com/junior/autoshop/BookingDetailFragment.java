@@ -395,12 +395,15 @@ public class BookingDetailFragment extends Fragment implements SelectedVehicleCa
 
                     if (response.equals("1")) {
                         List<String> toEmailList = new ArrayList<>();
-                        toEmailList.add(customer.getEmail());
-                        /*List<String> toEmailList = Arrays.asList(toEmails
-                                .split("\\s*,\\s*"));*/
+                        toEmailList.add(selectedAutoshop.getEmail());
                         Log.i("SendMailActivity", "To List: " + toEmailList);
                         String emailSubject = "New Booking";
-                        String emailBody = "Check Autoshop App now!";
+                        String emailBody = "There's a new booking as detailed below:\n" +
+                                "Customer: "+customer.getFullname()+"\n"+
+                                "Order Date: "+startDate+"\n"+
+                                "Movement Option: "+movement+"\n"+
+                                "Type : Regular \n\n"+
+                                "Check Autoshop App now!";
                         new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
                                 getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
 

@@ -79,6 +79,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.Manifest.permission.CAMERA;
 import static android.app.Activity.RESULT_OK;
@@ -734,6 +735,19 @@ public class OnGoingDetailFragment extends Fragment {
                     loading.dismiss();
 
                     if (response.equals("1")) {
+                        List<String> toEmailList = new ArrayList<>();
+                        toEmailList.add(trans.getAutoshopEmail());
+                        Log.i("SendMailActivity", "To List: " + toEmailList);
+                        String emailSubject = "Payment Proof Received";
+                        String emailBody = "Payment has been received for order as detailed below:\n" +
+                                "Customer: "+customer.getFullname()+"\n"+
+                                "Total Price: "+trans.getTotalPrice()+"\n"+
+                                "Type : " + trans.getType()+"\n\n"+
+                                "Check Autoshop App now!";
+                        new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
+                                getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+
+
                         getDetail();
                     }
 
@@ -783,6 +797,21 @@ public class OnGoingDetailFragment extends Fragment {
                     loading.dismiss();
 
                     if (response.equals("1")) {
+                        List<String> toEmailList = new ArrayList<>();
+                        toEmailList.add(trans.getAutoshopEmail());
+                        Log.i("SendMailActivity", "To List: " + toEmailList);
+                        String emailSubject = "Pickup Option Update";
+                        String emailBody = "There's an update on pickup option for order as detailed below:\n" +
+                                "Customer: "+customer.getFullname()+"\n"+
+                                "Pickup Option: "+trans.getPickupOption()+"\n"+
+                                "Pickup Date: "+trans.getPickupDate()+"\n"+
+                                "Pickup Time: "+trans.getPickupTime()+"\n"+
+                                "Type : " + trans.getType()+"\n\n"+
+                                "Check Autoshop App now!";
+                        new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
+                                getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+
+
                         getDetail();
                     }
 
@@ -970,6 +999,21 @@ public class OnGoingDetailFragment extends Fragment {
                     loading.dismiss();
                     Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                     if (response.equals("1")) {
+                        Date c = Calendar.getInstance().getTime();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        String date = dateFormat.format(c);
+
+                        List<String> toEmailList = new ArrayList<>();
+                        toEmailList.add(trans.getAutoshopEmail());
+                        Log.i("SendMailActivity", "To List: " + toEmailList);
+                        String emailSubject = "Finished Transaction";
+                        String emailBody = "There's a new finished transaction as detailed below:\n" +
+                                "Customer: "+customer.getFullname()+"\n"+
+                                "Finished Date: "+date+"\n\n"+
+                                "Check Autoshop App now!";
+                        new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
+                                getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_HISTORY);
                         FragmentManager mFragmentManager = getFragmentManager();
@@ -1006,7 +1050,6 @@ public class OnGoingDetailFragment extends Fragment {
         };
         mRequestQueue.add(mStringRequest);
     }
-
 
     private void getDetail() {
         loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
@@ -1078,6 +1121,18 @@ public class OnGoingDetailFragment extends Fragment {
                     loading.dismiss();
 
                     if (response.equals("1")) {
+                        List<String> toEmailList = new ArrayList<>();
+                        toEmailList.add(trans.getAutoshopEmail());
+                        Log.i("SendMailActivity", "To List: " + toEmailList);
+                        String emailSubject = "Cancelled Booking";
+                        String emailBody = "There's a cancelled booking as detailed below:\n" +
+                                "Customer: "+customer.getFullname()+"\n"+
+                                "Order Date: "+trans.getStartDate()+"\n"+
+                                "Type : " + trans.getType()+"\n\n"+
+                                "Check Autoshop App now!";
+                        new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
+                                getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+
                         Toast.makeText(getContext(), "Booking cancelled", Toast.LENGTH_SHORT).show();
                         getActivity().getSupportFragmentManager().popBackStack();
                     } else

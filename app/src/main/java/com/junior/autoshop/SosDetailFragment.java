@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import static com.junior.autoshop.ChooseAutoshopFragment.EXTRA_AUTOSHOP;
@@ -261,6 +262,18 @@ public class SosDetailFragment extends Fragment implements SelectedVehicleCallba
                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
 
                     if (response.equals("1")) {
+                        List<String> toEmailList = new ArrayList<>();
+                        toEmailList.add(selectedAutoshop.getEmail());
+                        Log.i("SendMailActivity", "To List: " + toEmailList);
+                        String emailSubject = "New SOS Order";
+                        String emailBody = "There's a new order as detailed below:\n" +
+                                "Customer: "+customer.getFullname()+"\n"+
+                                "Order Date: "+startDate+"\n"+
+                                "Type : SOS \n\n"+
+                                "Check Autoshop App now!";
+                        new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
+                                getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.putExtra(MainActivity.EXTRA_STATE, MainActivity.STATE_ONGOING);
                         FragmentManager mFragmentManager = getFragmentManager();
