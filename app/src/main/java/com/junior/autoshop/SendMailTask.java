@@ -8,8 +8,6 @@ import android.util.Log;
 import java.util.List;
 
 public class SendMailTask extends AsyncTask {
-
-    private ProgressDialog statusDialog;
     private Activity sendMailActivity;
 
     public SendMailTask(Activity activity) {
@@ -18,11 +16,6 @@ public class SendMailTask extends AsyncTask {
     }
 
     protected void onPreExecute() {
-        statusDialog = new ProgressDialog(sendMailActivity);
-        statusDialog.setMessage("Getting ready...");
-        statusDialog.setIndeterminate(false);
-        statusDialog.setCancelable(false);
-        //statusDialog.show();
     }
 
     @Override
@@ -48,13 +41,10 @@ public class SendMailTask extends AsyncTask {
 
     @Override
     public void onProgressUpdate(Object... values) {
-        statusDialog.setMessage(values[0].toString());
-
     }
 
     @Override
     public void onPostExecute(Object result) {
-        //statusDialog.dismiss();
     }
 
 }

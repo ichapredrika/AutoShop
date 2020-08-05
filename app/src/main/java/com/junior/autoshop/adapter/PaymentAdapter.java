@@ -305,7 +305,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
                                 "Check Autoshop App now!";
                         new SendMailTask(activity).execute(context.getString(R.string.autoshop_email),
                                context.getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
-                        
+
                         listTrans.remove(position);
                         notifyDataSetChanged();
                         callback.update();

@@ -15,12 +15,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class GMail {
-
     final String emailPort = "587";// gmail's smtp port
     final String smtpAuth = "true";
     final String starttls = "true";
     final String emailHost = "smtp.gmail.com";
-
 
     String fromEmail;
     String fromPassword;
@@ -32,9 +30,7 @@ public class GMail {
     Session mailSession;
     MimeMessage emailMessage;
 
-    public GMail() {
-
-    }
+    public GMail() { }
 
     public GMail(String fromEmail, String fromPassword,
                  List<String> toEmailList, String emailSubject, String emailBody) {
