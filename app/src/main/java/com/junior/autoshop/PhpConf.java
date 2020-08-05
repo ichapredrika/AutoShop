@@ -1,7 +1,7 @@
 package com.junior.autoshop;
 
 public class PhpConf {
-    private final static String ip = "192.168.43.254";
+    private final static String ip = "192.168.1.8";
 
     private final static String prefix = "https://" + ip + "/autoshop/";
     public final static String URL_CONNECTION = "connection.php";
