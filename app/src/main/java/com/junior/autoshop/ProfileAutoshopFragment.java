@@ -125,10 +125,11 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         mUserPreference = new UserPreference(getContext());
         autoshop = mUserPreference.getAutoshop();
 
-        initProfile(view);
         SupportMapFragment mMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
         markerOptions = new MarkerOptions();
+
+        initProfile(view);
 
         popUpDialog = new Dialog(getContext());
         Button btnLogout = view.findViewById(R.id.btn_logout);
@@ -783,7 +784,10 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
     @Override
     public void onResume() {
         super.onResume();
+        if(mMap!=null)
+            mMap.clear();
         getProfile();
+
     }
 
 

@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -136,11 +137,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 if (origin.equals(EXTRA_PROFILE)) {
-                    LatLng position = markerOptions.getPosition();
                     String latlong = position.latitude + "," + position.longitude;
                     updateLoc(latlong);
                 } else {
-                    position = markerOptions.getPosition();
+                    //position = markerOptions.getPosition();
                     String latlong = position.latitude + "," + position.longitude;
                     updateDeliveryLoc(latlong);
                 }
@@ -341,6 +341,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                position = marker.getPosition();
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+            }
+        });
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -350,6 +366,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .addApi(LocationServices.API).build();
         mGoogleApiClient.connect();
     }
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -366,6 +383,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         markerOptions.icon(icon);
         markerOptions.anchor(0.5f, 1.0f);
         mCurrLocationMarker = mMap.addMarker(markerOptions);
+        position = markerOptions.getPosition();
 
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));

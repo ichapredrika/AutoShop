@@ -7,7 +7,7 @@ import android.util.Log;
 
 import java.util.List;
 
-public class SendMailTask extends AsyncTask {
+public class  SendMailTask extends AsyncTask {
     private Activity sendMailActivity;
 
     public SendMailTask(Activity activity) {
