@@ -337,7 +337,21 @@ public class OnGoingDetailFragment extends Fragment {
             public void onClick(View v) {
                 if (rgMovement.getCheckedRadioButtonId() == R.id.rb_self_pickup) {
                     changePickupOption(EXTRA_SELF_PICKUP);
-                } else changePickupOption(EXTRA_AUTOSHOP_DELIVERY);
+                } else {
+                    List<String> toEmailList = new ArrayList<>();
+                    toEmailList.add(trans.getAutoshopEmail());
+                    Log.i("SendMailActivity", "To List: " + toEmailList);
+                    String emailSubject = "Pickup Option Update";
+                    String emailBody = "There's an update on pickup option for order as detailed below:\n" +
+                            "Customer: "+customer.getFullname()+"\n"+
+                            "Pickup Option: "+trans.getPickupOption()+"\n"+
+                            "Type : " + trans.getType()+"\n\n"+
+                            "Check Autoshop App now!";
+                    new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
+                            getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+
+                    changePickupOption(EXTRA_AUTOSHOP_DELIVERY);
+                }
                 popUpDialog.dismiss();
             }
         });
