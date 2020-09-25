@@ -404,6 +404,14 @@
             </LinearLayout>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btn_holiday"
+            style="@style/Button.Neutral"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/holiday_notification" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -60,6 +60,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.junior.autoshop.adapter.AddServiceAutoshopAdapter;
 import com.junior.autoshop.adapter.ServiceAutoshopAdapter;
 import com.junior.autoshop.models.Autoshop;
+import com.junior.autoshop.models.Customer;
 import com.junior.autoshop.models.ServiceAutoshop;
 
 import org.json.JSONArray;
@@ -71,6 +72,7 @@ import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.Manifest.permission.CAMERA;
 import static android.app.Activity.RESULT_OK;
@@ -89,7 +91,7 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
     private ImageView imgEditProfile, imgEditService, imgAutoshop, imgAutoshopEdit;
     private TextView tvName, tvUsername, tvEmail, tvPickerContact, tvAdminContact;
     private TextView tvAddress, tvLatlong, tvSpace, tvBank, tvAccount, tvOpenHours, tvCloseHours, tvDeliveryFee, tvOvernightFee;
-
+    private Button btnHoliday;
     private String imageAutoshop;
     private Dialog popUpDialog;
 
@@ -177,6 +179,12 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
                 startActivity(intent);
             }
         });
+        btnHoliday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hitHoliday(autoshop);
+            }
+        });
     }
 
     private void initProfile(View view) {
@@ -197,6 +205,7 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         tvCloseHours = view.findViewById(R.id.txt_close_hours);
         tvDeliveryFee = view.findViewById(R.id.txt_delivery_fee);
         tvOvernightFee = view.findViewById(R.id.txt_overnight_fee);
+        btnHoliday = view.findViewById(R.id.btn_holiday);
     }
 
     void updateUi(Autoshop autoshop) {
@@ -210,8 +219,10 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
         tvBank.setText(autoshop.getBank());
         tvSpace.setText(autoshop.getSpace());
         tvAccount.setText(autoshop.getAccountNumber());
-        tvOpenHours.setText(autoshop.getOpenHours());
-        tvCloseHours.setText(autoshop.getCloseHours());
+        if(autoshop.getOpenHours().equals("25:00:00")){
+            tvOpenHours.setText("Closed");
+            tvCloseHours.setText("Closed");
+        }
 
         double overnightFee = Double.parseDouble(autoshop.getOvernightFee());
         double deliveryFee = Double.parseDouble(autoshop.getDeliveryFee());
@@ -394,6 +405,116 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
             popUpDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         popUpDialog.show();
+    }
+
+    private void hitHoliday(final Autoshop autoshop) {
+        loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
+        RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
+
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_SET_HOLIDAY, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    Log.d("Json profile", s);
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray data = jsonObject.getJSONArray("result");
+                    JSONObject jo = data.getJSONObject(0);
+
+                    Log.d("tagJsonObject", jo.toString());
+                    String response = jo.getString("response");
+
+                    loading.dismiss();
+
+                    if (response.equals("1")) {
+                        getFav(autoshop);
+
+                    } else {
+                        String message = jo.getString("message");
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    loading.dismiss();
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                Log.d("tag", String.valueOf(error));
+                Toast.makeText(getContext(), getString(R.string.msg_connection_error), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected java.util.Map<String, String> getParams() {
+                java.util.Map<String, String> params = new HashMap<>();
+                params.put("AUTOSHOP_ID", autoshop.getId());
+
+                return params;
+            }
+        };
+        mRequestQueue.add(mStringRequest);
+    }
+
+    private void getFav(final Autoshop autoshop) {
+        loading = ProgressDialog.show(getContext(), "Loading Data...", "Please Wait...", false, false);
+        RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
+
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, PhpConf.URL_GET_FAVORITE_LIST_AUTOSHOP, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    Log.d("Json fav list", s);
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray data = jsonObject.getJSONArray("result");
+                    JSONObject jo = data.getJSONObject(0);
+
+                    Log.d("tagJsonObject", jo.toString());
+                    String response = jo.getString("response");
+                    ArrayList<Customer> listFavorite = new ArrayList<>();
+
+                    loading.dismiss();
+                    if (response.equals("1")) {
+                        JSONArray dataAutoshop = jo.getJSONArray("DATA");
+                        List<String> toEmailList = new ArrayList<>();
+                        for (int i = 0; i < dataAutoshop.length(); i++) {
+                            JSONObject object = dataAutoshop.getJSONObject(i);
+                            Customer customer = new Customer(object);
+                            listFavorite.add(customer);
+                            toEmailList.add(customer.getEmail());
+                        }
+                        Log.i("SendMailActivity", "To List: " + toEmailList);
+                        String emailSubject = "Workshop Holiday";
+                        String emailBody = autoshop.getName() +"will be closed for the time being. \n" +
+                                "Check Autoshop App now!";
+                        new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
+                                getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
+
+                    }
+
+                } catch (JSONException e) {
+                    loading.dismiss();
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                Log.d("tag", String.valueOf(error));
+                Toast.makeText(getContext(), getString(R.string.msg_connection_error), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected java.util.Map<String, String> getParams() {
+                java.util.Map<String, String> params = new HashMap<>();
+                params.put("AUTOSHOP_ID", autoshop.getId());
+
+                return params;
+            }
+        };
+        mRequestQueue.add(mStringRequest);
     }
 
     private void popUpEditService() {

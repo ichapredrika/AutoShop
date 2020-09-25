@@ -1,11 +1,12 @@
 package com.junior.autoshop;
 
 public class PhpConf {
-    private final static String ip = "192.168.43.11";
+    private final static String ip = "192.168.1.7";
 
     private final static String prefix = "https://" + ip + "/autoshop/";
     public final static String URL_CONNECTION = "connection.php";
     public final static String URL_LOGIN = prefix + "login.php";
+    public final static String URL_SET_HOLIDAY = prefix + "holiday.php";
     public final static String URL_REGISTER_CUSTOMER = prefix + "register_customer.php";
     public final static String URL_REGISTER_AUTOSHOP = prefix + "register_autoshop.php";
     public final static String URL_GET_PROFILE_AUTOSHOP = prefix + "get_profile_autoshop.php";
@@ -42,6 +43,7 @@ public class PhpConf {
     public final static String URL_CANCEL_TRANS = prefix + "cancel_trans.php";
     public final static String URL_GET_FAVORITE = prefix + "get_favorite.php";
     public final static String URL_GET_FAVORITE_LIST = prefix + "get_favorite_list.php";
+    public final static String URL_GET_FAVORITE_LIST_AUTOSHOP = prefix + "get_favorite_list_autoshop.php";
     public final static String URL_GET_FAVORITE_LIST_SOS = prefix + "get_favorite_list_sos.php";
     public final static String URL_ADD_FAVORITE = prefix + "add_favorite.php";
     public final static String URL_DELETE_FAVORITE = prefix + "delete_favorite.php";
