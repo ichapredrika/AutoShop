@@ -486,7 +486,7 @@ public class ProfileAutoshopFragment extends Fragment implements OnMapReadyCallb
                         }
                         Log.i("SendMailActivity", "To List: " + toEmailList);
                         String emailSubject = "Workshop Holiday";
-                        String emailBody = autoshop.getName() +"will be closed for the time being. \n" +
+                        String emailBody = autoshop.getName() +" will be closed for the time being. \n" +
                                 "Check Autoshop App now!";
                         new SendMailTask(getActivity()).execute(getActivity().getString(R.string.autoshop_email),
                                 getActivity().getString(R.string.autoshop_password), toEmailList, emailSubject, emailBody);
